@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <totalprocessing_tpcards>
+                <active>0</active>
+                <model>TotalProcessing\TPCARDS\Model\PaymentMethod</model>
+                <title>Pay By Credit or Debit Card</title>
+                <environment>sandbox</environment>
+                <payment_methods>cards</payment_methods>
+                <card_storage_enabled>0</card_storage_enabled>
+                <card_offer_save>0</card_offer_save>
+                <card_manage>0</card_manage>
+                <payment_action>order</payment_action>
+                <order_status>pending</order_status>
+                <can_use_checkout>1</can_use_checkout>
+                <can_use_internal>1</can_use_internal>
+                <is_gateway>1</is_gateway>
+                <payment_cancelled>cancelled</payment_cancelled>
+                <tc_scheduler>0</tc_scheduler>
+                <tc_paybylink>0</tc_paybylink>
+                <iframe_enabled>1</iframe_enabled>
+                <iframe_mode>lightbox</iframe_mode>
+                <settle_mode>auto</settle_mode>
+                <otb_enabled>0</otb_enabled>
+                <fraud_mode>default</fraud_mode>
+                <dm_enabled>0</dm_enabled>
+                <payment_btn_text></payment_btn_text>
+                <card_btn_text>Update Card Details</card_btn_text>
+                <lang>EN</lang>
+                <apm_pass_shipping>0</apm_pass_shipping>
+                <apm_address_override>0</apm_address_override>
+                <tpcards_desc></tpcards_desc>
+                <debug_log>0</debug_log>
+                <dm_devicefinger_enabled>0</dm_devicefinger_enabled>
+                <require_billing_address>1</require_billing_address>
+                <place_order_url>totalprocessing_tpcards/process/frame</place_order_url>
+                <order_place_redirect_url>totalprocessing_tpcards/process/frame</order_place_redirect_url>
+                <live_payment_url><![CDATA[https://oppwa.com]]></live_payment_url>
+                <sandbox_payment_url><![CDATA[https://test.oppwa.com]]></sandbox_payment_url>
+                <live_api_url><![CDATA[https://oppwa.com]]></live_api_url>
+                <sandbox_api_url><![CDATA[https://test.oppwa.com]]></sandbox_api_url>
+            </totalprocessing_tpcards>
+        </payment>
+    </default>
+</config>

@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="totalprocessing_tpcards_section" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Total Processing Limited</label>
+                <attribute type="expanded">1</attribute>
+                <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                <group id="totalprocessing_tpcards" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Basic Settings</label>
+                    <attribute type="expanded">0</attribute>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <field id="active" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/totalprocessing_tpcards/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/totalprocessing_tpcards/title</config_path>
+                    </field>
+                    <field id="entityId" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>entityId</label>
+                        <config_path>payment/totalprocessing_tpcards/entityId</config_path>
+                    </field>
+                    <field id="accessToken" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>accessToken</label>
+                        <config_path>payment/totalprocessing_tpcards/accessToken</config_path>
+                    </field>
+                    <field id="senderId" translate="label" type="text" sortOrder="31" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>senderId</label>
+                        <config_path>payment/totalprocessing_tpcards/senderId</config_path>
+                    </field>
+                    <field id="entityId_test" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>entityId (Test)</label>
+                        <config_path>payment/totalprocessing_tpcards/entityId_test</config_path>
+                    </field>
+                    <field id="accessToken_test" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>accessToken (Test)</label>
+                        <config_path>payment/totalprocessing_tpcards/accessToken_test</config_path>
+                    </field>
+                    <field id="senderId_test" translate="label" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>senderId (Test)</label>
+                        <config_path>payment/totalprocessing_tpcards/senderId_test</config_path>
+                    </field>
+                    <field id="environment" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Environment</label>
+                        <source_model>TotalProcessing\TPCARDS\Model\Config\Source\Environment</source_model>
+                        <config_path>payment/totalprocessing_tpcards/environment</config_path>
+                    </field>
+                </group>
+                <group id="totalprocessing_tpcards_advanced" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="15">
+                    <label>Advanced Settings</label>
+                    <attribute type="expanded">0</attribute>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <field id="payment_methods" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment Methods</label>
+                        <config_path>payment/totalprocessing_tpcards/payment_methods</config_path>
+                    </field>
+                    <field id="payment_brands" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment Brands</label>
+                        <config_path>payment/totalprocessing_tpcards/payment_brands</config_path>
+                    </field>
+                    <field id="tc_paybylink" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Pay-by-link on admin order creation</label>
+                        <tooltip>Pay-by-link</tooltip>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/totalprocessing_tpcards/tc_paybylink</config_path>
+                    </field>
+                    <field id="tc_scheduler" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Scheduler Activation</label>
+                        <tooltip>Parse SKU targets</tooltip>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/totalprocessing_tpcards/tc_scheduler</config_path>
+                    </field>
+                    <field id="sku_target" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>TC Schedule SKUs (separate with comma no spacing)</label>
+                        <config_path>payment/totalprocessing_tpcards/sku_target</config_path>
+                    </field>
+                    <field id="primary_color" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Primary css colour (no hash)</label>
+                        <config_path>payment/totalprocessing_tpcards/primary_color</config_path>
+                    </field>
+                    <field id="iframe_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Iframe Enabled</label>
+                        <tooltip>Iframe is displayed on the checkout page and contains the card fields.</tooltip>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/totalprocessing_tpcards/iframe_enabled</config_path>
+                    </field>
+                    <field id="settle_mode" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Settle Mode</label>
+                        <source_model>TotalProcessing\TPCARDS\Model\Config\Source\SettleMode</source_model>
+                        <config_path>payment/totalprocessing_tpcards/settle_mode</config_path>
+                    </field>
+                    <field id="payment_btn_text" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment Button Text</label>
+                        <config_path>payment/totalprocessing_tpcards/payment_btn_text</config_path>
+                    </field>
+                    <field id="debug_log" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable debug logging</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/totalprocessing_tpcards/debug_log</config_path>
+                    </field>
+                    <field id="custom_frame_css" translate="label" type="textarea" sortOrder="135" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Custom iFrame CSS</label>
+                            <config_path>payment/totalprocessing_tpcards/custom_frame_css</config_path>
+                    </field>
+                    <field id="live_payment_url" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Production Payment URL</label>
+                            <config_path>payment/totalprocessing_tpcards/live_payment_url</config_path>
+                    </field>
+                    <field id="sandbox_payment_url" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sandbox Payment URL</label>
+                        <config_path>payment/totalprocessing_tpcards/sandbox_payment_url</config_path>
+                    </field>
+                    <field id="live_api_url" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Production Remote API URL</label>
+                        <config_path>payment/totalprocessing_tpcards/live_api_url</config_path>
+                    </field>
+                    <field id="sandbox_api_url" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sandbox Remote API URL</label>
+                        <config_path>payment/totalprocessing_tpcards/sandbox_api_url</config_path>
+                    </field>
+                    <field id="controlv2api_url" translate="label" type="text" sortOrder="151" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Total Control Remote API URL</label>
+                        <config_path>payment/totalprocessing_tpcards/controlv2api_url</config_path>
+                    </field>
+                    <field id="controlv2api_token" translate="label" type="text" sortOrder="152" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Total Control Access Token</label>
+                        <config_path>payment/totalprocessing_tpcards/controlv2api_token</config_path>
+                    </field>
+                </group>
+                <group id="totalprocessing_tpcards_country_specific" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="25">
+                    <label>Country Specific Settings</label>
+                    <attribute type="expanded">0</attribute>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <config_path>payment/totalprocessing_tpcards/allowspecific</config_path>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                        <config_path>payment/totalprocessing_tpcards/specificcountry</config_path>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

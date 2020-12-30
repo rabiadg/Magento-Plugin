@@ -1,0 +1,28 @@
+<iframe id="totalprocessing-iframe"
+        class="totalprocessing iframe"
+        scrolling="no"
+        frameborder="0"
+        border="0"
+        data-bind="attr: {src: iframeUrl()}, style: {width: iframeWidth(), height: iframeHeight()}"
+        >
+</iframe>
+<!--
+
+
+protected $_assetRepo;
+
+public function __construct(
+    ...
+    \Magento\Framework\View\Asset\Repository $assetRepo,
+    ...
+) {
+    ...
+    $this->_assetRepo = $assetRepo;
+    ...
+}
+Now, you can get image URL by
+
+echo $this->_assetRepo->getUrl("Vendor_Module::images/img.jpg");
+
+
+-->

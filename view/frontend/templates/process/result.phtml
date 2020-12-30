@@ -1,0 +1,86 @@
+<?php
+    $params = $block->getParams();
+    $redirectTop = false;
+    $jsObj = false;
+    $failUrl = false;
+    if(is_array($params) === true){
+        if(isset($params['returnUrl'])){
+            if(isset($params['result'])){
+                if((int)$params['result'] === 1){
+                    $redirectTop = $block->escapeXssInUrl($params['returnUrl']);
+                }
+            }
+            $failUrl = $block->escapeXssInUrl($params['returnUrl']);
+            if(isset($params['code']) && isset($params['description'])){
+                $jsObj = json_encode($params);
+            }
+        }
+    } else if(is_object($params) === true) {
+        if(isset($params->returnUrl)){
+            if(isset($params->result)){
+                if((int)$params->result === 1){
+                    $redirectTop = $block->escapeXssInUrl($params->returnUrl);
+                }
+            }
+            $failUrl = $block->escapeXssInUrl($params->returnUrl);
+            if(isset($params->code) && isset($params->description)){
+                $jsObj = json_encode($params);
+            }
+        }
+    }
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="profile" href="http://gmpg.org/xfn/11">
+        <meta name="robots" content="noindex,nofollow">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+        <title>Total Processing Payment Result</title>
+        <style type="text/css">
+            html, body {margin:0!important; padding:0!important; background: transparent;}
+        </style>
+    </head>
+    <body>
+        <script>
+            function postMessageToParent(obj){
+                if(typeof window.CustomEvent === "function") {
+                    var event = new CustomEvent('parentLog', {detail:obj});
+                } else {
+                    var event = document.createEvent('Event');
+                    event.initEvent('parentLog', true, true);
+                    event.detail = obj;
+                }
+                window.parent.document.dispatchEvent(event);
+            }
+            function onDOMReady(callback) {
+                if (document.readyState !== 'loading') {
+                    callback();
+                } else if (document.addEventListener) {
+                    document.addEventListener('DOMContentLoaded', callback);
+                } else { // IE <= 8
+                    document.attachEvent('onreadystatechange', function() {
+                        if (document.readyState === 'complete') {
+                            callback();
+                        }
+                    });
+                }
+            }
+            onDOMReady(function() {
+        <?php
+            if($redirectTop !== false){
+                echo 'window.top.location="' . $redirectTop . '";';
+            } else if($jsObj !== false) {
+                echo 'var jsObj = ' . $jsObj . ';';
+                //echo 'console.log(jsObj);';
+                echo 'postMessageToParent({funcs:[{"name":"leaveEmbeddedIframe","args":[jsObj]}]});';
+            } else {
+                echo 'window.top.location="' . $failUrl . '";';
+            }
+        ?>
+            });
+        </script>
+    </body>
+</html>
