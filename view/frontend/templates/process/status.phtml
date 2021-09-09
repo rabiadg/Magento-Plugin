@@ -1,0 +1,31 @@
+<?php
+/**
+ * Copyright © Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var TotalProcessing\Opp\Block\Satus $block
+ */
+?>
+<script>
+    window.onload = function () {
+        let event;
+        let data = {
+            "iframeDoc": window.document,
+            "iframeHeight": 0,
+            "isVisible": false,
+            "placeOrder": true,
+        }
+
+        if (typeof window.CustomEvent === "function") {
+            event = new CustomEvent('iframe', {detail: data});
+        } else {
+            event = document.createEvent('Event');
+            event.initEvent('iframe', true, true);
+            event.detail = data
+        }
+
+        window.parent.document.dispatchEvent(event);
+    };
+</script>

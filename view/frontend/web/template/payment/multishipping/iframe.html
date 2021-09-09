@@ -1,0 +1,31 @@
+<!--
+/**
+ * Copyright © Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div
+    data-bind="attr: {class: 'payment-method payment-method-' + getCode()}, css: {'_active': isActive()}">
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <iframe
+            id="totalprocessing_opp_iframe"
+            name="totalprocessing_opp_iframe"
+            width="100%"
+            height="0"
+            data-bind="attr: {src: getSource(), style: getStyle()}, event: {load: iframeLoaded()}, afterRender: initEventListeners()" >
+        </iframe>
+        <div class="actions-toolbar no-display" data-bind="visible: isVisible()">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="click: placePendingPaymentOrder, enable: isActive()"
+                        disabled>
+                    <span data-bind="text: $t(getButtonText())"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

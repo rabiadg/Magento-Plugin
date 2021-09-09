@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="script-src">
+            <values>
+                <value id="totalprocessing_script_live" type="host">https://oppwa.com/</value>
+                <value id="totalprocessing_script_test" type="host">*.oppwa.com/</value>
+                <value id="totalprocessing_script_gstatic" type="host">*.gstatic.com/</value>
+                <value id="totalprocessing_script_sgstatic" type="host">https://gstatic.com/</value>
+                <value id="totalprocessing_script_google" type="host">*.google.com/</value>
+                <value id="totalprocessing_script_sgoogle" type="host">https://google.com/</value>
+                <value id="totalprocessing_script_sppipe" type="host">https://ppipe.net/</value>
+                <value id="totalprocessing_script_ppipe" type="host">*.ppipe.net/</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="totalprocessing_content_live" type="host">https://oppwa.com/</value>
+                <value id="totalprocessing_content_test" type="host">*.oppwa.com/</value>
+                <value id="totalprocessing_content_sppipe" type="host">https://ppipe.net/</value>
+                <value id="totalprocessing_content_ppipe" type="host">*.ppipe.net/</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="totalprocessing_style_live" type="host">https://oppwa.com/</value>
+                <value id="totalprocessing_style_test" type="host">*.oppwa.com/</value>
+                <value id="totalprocessing_style_sppipe" type="host">https://ppipe.net/</value>
+                <value id="totalprocessing_style_ppipe" type="host">*.ppipe.net/</value>
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="totalprocessing_frame_live" type="host">https://oppwa.com/</value>
+                <value id="totalprocessing_frame_test" type="host">*.oppwa.com/</value>
+                <value id="totalprocessing_frame_sppipe" type="host">https://ppipe.net/</value>
+                <value id="totalprocessing_frame_ppipe" type="host">*.ppipe.net/</value>
+            </values>
+        </policy>
+        <policy id="object-src">
+            <values>
+                <value id="totalprocessing_object_live" type="host">https://oppwa.com/</value>
+                <value id="totalprocessing_object_test" type="host">*.oppwa.com/</value>
+                <value id="totalprocessing_object_sppipe" type="host">https://ppipe.net/</value>
+                <value id="totalprocessing_object_ppipe" type="host">*.ppipe.net/</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="totalprocessing_img_live" type="host">https://oppwa.com/</value>
+                <value id="totalprocessing_img_test" type="host">*.oppwa.com/</value>
+                <value id="totalprocessing_img_sppipe" type="host">https://ppipe.net/</value>
+                <value id="totalprocessing_img_ppipe" type="host">*.ppipe.net/</value>
+            </values>
+        </policy>
+        <policy id="form-action">
+            <values>
+                <value id="totalprocessing_form_action_live" type="host">https://oppwa.com/</value>
+                <value id="totalprocessing_form_action_test" type="host">*.oppwa.com/</value>
+                <value id="totalprocessing_form_sppipe" type="host">https://ppipe.net/</value>
+                <value id="totalprocessing_form_ppipe" type="host">*.ppipe.net/</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

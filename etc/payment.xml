@@ -1,8 +1,48 @@
-<?xml version="1.0"?>
-<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/payment.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/payment.xsd">
+    <credit_cards>
+        <type id="AMEX" order="0">
+            <label>American Express</label>
+        </type>
+        <type id="VISA" order="10">
+            <label>Visa</label>
+        </type>
+        <type id="VISADEBIT" order="20">
+            <label>Visa Debit</label>
+        </type>
+        <type id="VISAELECTRON" order="30">
+            <label>Visa Electron</label>
+        </type>
+        <type id="MASTER" order="40">
+            <label>Mastercard</label>
+        </type>
+        <type id="MASTERDEBIT" order="50">
+            <label>Mastercard Debit</label>
+        </type>
+        <type id="DISCOVER" order="60">
+            <label>Discover</label>
+        </type>
+        <type id="MAESTRO" order="70">
+            <label>Maestro</label>
+        </type>
+        <type id="JCB" order="80">
+            <label>JCB</label>
+        </type>
+        <type id="DINERS" order="90">
+            <label>Diners</label>
+        </type>
+    </credit_cards>
     <methods>
-        <method name="totalprocessing_tpcards">
+        <method name="totalprocessing_opp">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="totalprocessing_opp_applepay">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
     </methods>

@@ -1,19 +1,29 @@
 {
-	"name" : "totalprocessing/tpcards",
-	"description" : "A Magento 2 module for Total Processing Card payments",
-	"type" : "magento2-module",
-	"version" : "3.0.0",
-	"license" : "MIT",
-	"require" : {
-		"php" : "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0",
-		"ext-xmlwriter" : "*"
-	},
-	"autoload" : {
-		"files" : [
-			"registration.php"
-		],
-		"psr-4" : {
-			"TotalProcessing\\TPCARDS\\" : ""
-		}
-	}
+    "name": "total-processing/opp",
+    "description": "Total Processing Open Payment Platform Magento Module",
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": "~7.2.0||~7.3.0||~7.4.0",
+        "magento/module-checkout": "100.3.*",
+        "magento/module-payment": "100.3.*",
+        "magento/module-quote": "101.1.*",
+        "magento/module-sales": "102.0.*",
+        "veriteworks/cookiefix": "2.4.*||3.0.*"
+    },
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "TotalProcessing\\Opp\\": ""
+        }
+    },
+    "version": "1.0.8"
 }

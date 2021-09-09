@@ -1,0 +1,29 @@
+<!--
+/**
+ * Copyright © Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div
+    data-bind="attr: {class: 'payment-method payment-method-' + getCode()}, css: {'_active': isActive()}">
+    <div class="payment-method-content">
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button data-button="applepay-place"
+                        type="submit"
+                        data-bind="
+                            attr: {
+                                id: getCode() + '_place_order',
+                                title: $t(getButtonText())
+                            },
+                            enable: isButtonActive(),
+                            click: beforePlaceOrder
+                        "
+                        class="action primary checkout"
+                        >
+                    <span data-bind="text: $t(getButtonText())"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,21 +1,19 @@
 <?php
+/**
+ * Copyright Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
 
-namespace TotalProcessing\TPCARDS\Controller\Process;
+namespace TotalProcessing\Opp\Controller\Process;
 
-class Frame extends \Magento\Framework\App\Action\Action
+/**
+ * Class Frame
+ */
+class Frame extends BaseAction
 {
     /**
-     * @var \Magento\Quote\Model\Quote
-     */
-    private $_quote;
-
-    /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    private $_checkoutSession;
-
-    /**
-     * Set redirect.
+     * {@inheritdoc}
      */
     public function execute()
     {

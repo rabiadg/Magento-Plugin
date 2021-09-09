@@ -1,150 +1,487 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+<!--
+/**
+ * Copyright Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="totalprocessing_tpcards_section" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="totalprocessing_opp" type="text" sortOrder="1" showInStore="1"
+                   showInWebsite="1" showInDefault="1">
                 <label>Total Processing Limited</label>
-                <attribute type="expanded">1</attribute>
+                <attribute type="expanded">0</attribute>
                 <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
-                <group id="totalprocessing_tpcards" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Basic Settings</label>
-                    <attribute type="expanded">0</attribute>
+                <group id="totalprocessing_opp_basic" translate="label" type="text" sortOrder="100" showInStore="1"
+                       showInWebsite="1" showInDefault="1">
+                    <label>Base Settings</label>
                     <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
-                    <field id="active" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <attribute type="expanded">1</attribute>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Enabled</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/totalprocessing_tpcards/active</config_path>
+                        <config_path>payment/totalprocessing_opp/active</config_path>
                     </field>
-                    <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Title</label>
-                        <config_path>payment/totalprocessing_tpcards/title</config_path>
+                        <validate>required-entry letters-with-basic-punc</validate>
+                        <config_path>payment/totalprocessing_opp/title</config_path>
                     </field>
-                    <field id="entityId" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>entityId</label>
-                        <config_path>payment/totalprocessing_tpcards/entityId</config_path>
-                    </field>
-                    <field id="accessToken" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>accessToken</label>
-                        <config_path>payment/totalprocessing_tpcards/accessToken</config_path>
-                    </field>
-                    <field id="senderId" translate="label" type="text" sortOrder="31" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>senderId</label>
-                        <config_path>payment/totalprocessing_tpcards/senderId</config_path>
-                    </field>
-                    <field id="entityId_test" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>entityId (Test)</label>
-                        <config_path>payment/totalprocessing_tpcards/entityId_test</config_path>
-                    </field>
-                    <field id="accessToken_test" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>accessToken (Test)</label>
-                        <config_path>payment/totalprocessing_tpcards/accessToken_test</config_path>
-                    </field>
-                    <field id="senderId_test" translate="label" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>senderId (Test)</label>
-                        <config_path>payment/totalprocessing_tpcards/senderId_test</config_path>
-                    </field>
-                    <field id="environment" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="environment" translate="label" type="select" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Environment</label>
-                        <source_model>TotalProcessing\TPCARDS\Model\Config\Source\Environment</source_model>
-                        <config_path>payment/totalprocessing_tpcards/environment</config_path>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\Environment</source_model>
+                        <config_path>payment/totalprocessing_opp/environment</config_path>
                     </field>
+                    <group id="totalprocessing_opp_basic_live" translate="label" type="text" sortOrder="100"
+                           showInStore="1" showInWebsite="1" showInDefault="1">
+                        <label>Live</label>
+                        <attribute type="expanded">1</attribute>
+                        <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <depends>
+                            <field id="environment">live</field>
+                        </depends>
+                        <field id="totalprocessing_opp_basic_live_note_information" translate="label" type="label" sortOrder="1"
+                               showInStore="1" showInWebsite="1" showInDefault="1" >
+                            <label>NOTE:</label>
+                            <comment>Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).</comment>
+                        </field>
+                        <field id="live_entity_id" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Entity ID</label>
+                            <validate>required-entry no-whitespace</validate>
+                            <config_path>payment/totalprocessing_opp/live_entity_id</config_path>
+                        </field>
+                        <field id="live_access_token" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Access Token</label>
+                            <validate>required-entry no-whitespace</validate>
+                            <config_path>payment/totalprocessing_opp/live_access_token</config_path>
+                        </field>
+                        <field id="live_sender_id" translate="label" type="text" sortOrder="30" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Sender ID</label>
+                            <validate>required-entry no-whitespace</validate>
+                            <config_path>payment/totalprocessing_opp/live_sender_id</config_path>
+                        </field>
+                        <field id="live_api_url" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Production Remote API URL</label>
+                            <validate>required-entry no-whitespace validate-url</validate>
+                            <config_path>payment/totalprocessing_opp/live_api_url</config_path>
+                        </field>
+                        <field id="live_scheduler_api_url" translate="label" type="text" sortOrder="50"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Production Schedule API URL</label>
+                            <validate>required-entry no-whitespace validate-url</validate>
+                            <config_path>payment/totalprocessing_opp/live_scheduler_api_url</config_path>
+                        </field>
+                        <field id="live_scheduler_access_token" translate="label" type="text" sortOrder="60"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Schedule Access Token</label>
+                            <validate>required-entry no-whitespace</validate>
+                            <config_path>payment/totalprocessing_opp/live_scheduler_access_token</config_path>
+                        </field>
+                    </group>
+                    <group id="totalprocessing_opp_basic_sandbox" translate="label" type="text" sortOrder="200"
+                           showInStore="1" showInWebsite="1" showInDefault="1">
+                        <label>Sandbox</label>
+                        <attribute type="expanded">1</attribute>
+                        <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <depends>
+                            <field id="environment">sandbox</field>
+                        </depends>
+                        <field id="totalprocessing_opp_basic_sandbox_note_information" translate="label" type="label" sortOrder="1"
+                               showInStore="1" showInWebsite="1" showInDefault="1" >
+                            <label>NOTE:</label>
+                            <comment>Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).</comment>
+                        </field>
+                        <field id="sandbox_entity_id" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Entity ID</label>
+                            <validate>required-entry no-whitespace</validate>
+                            <config_path>payment/totalprocessing_opp/sandbox_entity_id</config_path>
+                        </field>
+                        <field id="sandbox_access_token" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Access Token</label>
+                            <validate>required-entry no-whitespace</validate>
+                            <config_path>payment/totalprocessing_opp/sandbox_access_token</config_path>
+                        </field>
+                        <field id="sandbox_sender_id" translate="label" type="text" sortOrder="30" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Sender ID</label>
+                            <validate>required-entry no-whitespace</validate>
+                            <config_path>payment/totalprocessing_opp/sandbox_sender_id</config_path>
+                        </field>
+                        <field id="sandbox_api_url" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Sandbox Remote API URL</label>
+                            <validate>required-entry no-whitespace validate-url</validate>
+                            <config_path>payment/totalprocessing_opp/sandbox_api_url</config_path>
+                        </field>
+                        <field id="sandbox_scheduler_api_url" translate="label" type="text" sortOrder="50"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Sandbox Schedule API URL</label>
+                            <validate>required-entry no-whitespace validate-url</validate>
+                            <config_path>payment/totalprocessing_opp/sandbox_scheduler_api_url</config_path>
+                        </field>
+                        <field id="sandbox_scheduler_access_token" translate="label" type="text" sortOrder="60"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Schedule Access Token</label>
+                            <validate>required-entry no-whitespace</validate>
+                            <config_path>payment/totalprocessing_opp/sandbox_scheduler_access_token</config_path>
+                        </field>
+                    </group>
                 </group>
-                <group id="totalprocessing_tpcards_advanced" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="15">
-                    <label>Advanced Settings</label>
-                    <attribute type="expanded">0</attribute>
-                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
-                    <field id="payment_methods" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Payment Methods</label>
-                        <config_path>payment/totalprocessing_tpcards/payment_methods</config_path>
-                    </field>
-                    <field id="payment_brands" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Payment Brands</label>
-                        <config_path>payment/totalprocessing_tpcards/payment_brands</config_path>
-                    </field>
-                    <field id="tc_paybylink" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Pay-by-link on admin order creation</label>
-                        <tooltip>Pay-by-link</tooltip>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/totalprocessing_tpcards/tc_paybylink</config_path>
-                    </field>
-                    <field id="tc_scheduler" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Scheduler Activation</label>
-                        <tooltip>Parse SKU targets</tooltip>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/totalprocessing_tpcards/tc_scheduler</config_path>
-                    </field>
-                    <field id="sku_target" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>TC Schedule SKUs (separate with comma no spacing)</label>
-                        <config_path>payment/totalprocessing_tpcards/sku_target</config_path>
-                    </field>
-                    <field id="primary_color" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Primary css colour (no hash)</label>
-                        <config_path>payment/totalprocessing_tpcards/primary_color</config_path>
-                    </field>
-                    <field id="iframe_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Iframe Enabled</label>
-                        <tooltip>Iframe is displayed on the checkout page and contains the card fields.</tooltip>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/totalprocessing_tpcards/iframe_enabled</config_path>
-                    </field>
-                    <field id="settle_mode" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Settle Mode</label>
-                        <source_model>TotalProcessing\TPCARDS\Model\Config\Source\SettleMode</source_model>
-                        <config_path>payment/totalprocessing_tpcards/settle_mode</config_path>
-                    </field>
-                    <field id="payment_btn_text" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Payment Button Text</label>
-                        <config_path>payment/totalprocessing_tpcards/payment_btn_text</config_path>
-                    </field>
-                    <field id="debug_log" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Enable debug logging</label>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/totalprocessing_tpcards/debug_log</config_path>
-                    </field>
-                    <field id="custom_frame_css" translate="label" type="textarea" sortOrder="135" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Custom iFrame CSS</label>
-                            <config_path>payment/totalprocessing_tpcards/custom_frame_css</config_path>
-                    </field>
-                    <field id="live_payment_url" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Production Payment URL</label>
-                            <config_path>payment/totalprocessing_tpcards/live_payment_url</config_path>
-                    </field>
-                    <field id="sandbox_payment_url" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Sandbox Payment URL</label>
-                        <config_path>payment/totalprocessing_tpcards/sandbox_payment_url</config_path>
-                    </field>
-                    <field id="live_api_url" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Production Remote API URL</label>
-                        <config_path>payment/totalprocessing_tpcards/live_api_url</config_path>
-                    </field>
-                    <field id="sandbox_api_url" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Sandbox Remote API URL</label>
-                        <config_path>payment/totalprocessing_tpcards/sandbox_api_url</config_path>
-                    </field>
-                    <field id="controlv2api_url" translate="label" type="text" sortOrder="151" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Total Control Remote API URL</label>
-                        <config_path>payment/totalprocessing_tpcards/controlv2api_url</config_path>
-                    </field>
-                    <field id="controlv2api_token" translate="label" type="text" sortOrder="152" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Total Control Access Token</label>
-                        <config_path>payment/totalprocessing_tpcards/controlv2api_token</config_path>
-                    </field>
-                </group>
-                <group id="totalprocessing_tpcards_country_specific" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="25">
+                <group id="totalprocessing_opp_country_specific" translate="label" type="text" sortOrder="200"
+                       showInStore="1" showInWebsite="1" showInDefault="1">
                     <label>Country Specific Settings</label>
                     <attribute type="expanded">0</attribute>
                     <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
-                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Payment from Applicable Countries</label>
                         <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
-                        <config_path>payment/totalprocessing_tpcards/allowspecific</config_path>
+                        <config_path>payment/totalprocessing_opp/allowspecific</config_path>
                     </field>
-                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
                         <label>Payment from Specific Countries</label>
                         <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                         <can_be_empty>1</can_be_empty>
-                        <config_path>payment/totalprocessing_tpcards/specificcountry</config_path>
+                        <config_path>payment/totalprocessing_opp/specificcountry</config_path>
+                        <validate>validate-select</validate>
                     </field>
+                </group>
+                <group id="totalprocessing_opp_brands_available" translate="label" showInDefault="1"
+                       showInWebsite="1" showInStore="1" sortOrder="300">
+                    <label>Brands Settings</label>
+                    <attribute type="expanded">0</attribute>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <field id="specificbrands" translate="label" type="multiselect" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Allowed Brands</label>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\BrandType</source_model>
+                        <can_be_empty>1</can_be_empty>
+                        <config_path>payment/totalprocessing_opp/allowed_brand_types</config_path>
+                        <comment>Brand types order is used for priority in brand types detection.</comment>
+                        <validate>validate-select</validate>
+                    </field>
+                </group>
+                <group id="totalprocessing_opp_advanced_settings" translate="label" sortOrder="400" showInDefault="1"
+                       showInWebsite="1" showInStore="1" >
+                    <label>Advanced Settings</label>
+                    <attribute type="expanded">0</attribute>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <field id="vault" translate="label" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Vault Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/totalprocessing_opp_vault/active</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Payment Action</label>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\PaymentAction</source_model>
+                        <config_path>payment/totalprocessing_opp/payment_action</config_path>
+                    </field>
+                    <field id="scheduler" translate="label" type="select" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Scheduler Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/totalprocessing_opp/scheduler</config_path>
+                    </field>
+                    <field id="scheduler_sku_target" translate="label" type="text" sortOrder="40" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <comment>Comma separated SKUs.</comment>
+                        <depends>
+                            <field id="scheduler">1</field>
+                        </depends>
+                        <label>Schedule SKUs</label>
+                        <validate>required-entry no-whitespace</validate>
+                        <config_path>payment/totalprocessing_opp/scheduler_sku_target</config_path>
+                    </field>
+<!--                    TODO:  NOT Implemented yet, but may should be -->
+<!--                    <field id="tc_paybylink" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
+<!--                        <label>Pay-by-link on admin order creation</label>-->
+<!--                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+<!--                        <config_path>payment/totalprocessing_opp/tc_paybylink</config_path>-->
+<!--                    </field>-->
+<!--                    <field id="tc_scheduler" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
+<!--                        <label>Scheduler Activation</label>-->
+<!--                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+<!--                        <config_path>payment/totalprocessing_opp/tc_scheduler</config_path>-->
+<!--                    </field>-->
+<!--                    <field id="sku_target" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
+<!--                        <label>TC Schedule SKUs (separate with comma no spacing)</label>-->
+<!--                        <config_path>payment/totalprocessing_opp/sku_target</config_path>-->
+<!--                    </field>-->
+<!--                    <field id="primary_color" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
+<!--                        <label>Primary css colour (no hash)</label>-->
+<!--                        <config_path>payment/totalprocessing_opp/primary_color</config_path>-->
+<!--                    </field>-->
+<!--                    <field id="settle_mode" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
+<!--                        <label>Settle Mode</label>-->
+<!--                        <source_model>TotalProcessing\Opp\Model\System\Config\SettleMode</source_model>-->
+<!--                        <config_path>payment/totalprocessing_opp/settle_mode</config_path>-->
+<!--                    </field>-->
+<!--                    <field id="require_cardholder" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
+<!--                        <label>Require a cardholder</label>-->
+<!--                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+<!--                        <config_path>payment/totalprocessing_opp/require_cardholder</config_path>-->
+<!--                    </field>-->
+                    <field id="default_locale" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Default Locale</label>
+                        <can_be_empty>1</can_be_empty>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\Locale</source_model>
+                        <config_path>payment/totalprocessing_opp/default_locale</config_path>
+                    </field>
+                    <field id="error_log_filepath" translate="label" type="text" sortOrder="89" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Error Log FilePath</label>
+                        <validate>no-whitespace</validate>
+                        <comment>Related to magento root.</comment>
+                        <config_path>payment/totalprocessing_opp/error_log_filepath</config_path>
+                    </field>
+                    <field id="debug" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Enable debug logging</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/totalprocessing_opp/debug</config_path>
+                    </field>
+                    <field id="debug_log_filepath" translate="label" type="text" sortOrder="91" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Debug Log FilePath</label>
+                        <validate>no-whitespace</validate>
+                        <comment>Related to magento root.</comment>
+                        <depends>
+                            <field id="debug">1</field>
+                        </depends>
+                        <config_path>payment/totalprocessing_opp/debug_log_filepath</config_path>
+                    </field>
+                </group>
+                <group id="totalprocessing_opp_layout_settings" translate="label" sortOrder="500" showInDefault="1"
+                       showInWebsite="1" showInStore="1" >
+                        <label>Layout Settings</label>
+                        <attribute type="expanded">0</attribute>
+                        <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <field id="payment_btn_text" translate="label" type="text" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Payment Button Text</label>
+                        <validate>letters-with-basic-punc no-marginal-whitespace</validate>
+                        <config_path>payment/totalprocessing_opp/payment_btn_text</config_path>
+                    </field>
+                    <field id="iframe_style" translate="label" type="textarea" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Iframe Style</label>
+                        <validate>no-marginal-whitespace</validate>
+                        <config_path>payment/totalprocessing_opp/iframe_style</config_path>
+                    </field>
+                    <field id="style_options" translate="label" type="select" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Style Options</label>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\StyleOptions</source_model>
+                        <can_be_empty>0</can_be_empty>
+                        <config_path>payment/totalprocessing_opp/style_options</config_path>
+                    </field>
+                    <field id="style_options_custom_iframe_css" translate="label" type="textarea" sortOrder="40"
+                           showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Custom iframe CSS</label>
+                        <comment>Inject CSS to the form.</comment>
+                        <validate>no-marginal-whitespace</validate>
+                        <config_path>payment/totalprocessing_opp/style_options_custom_iframe_css</config_path>
+                    </field>
+                    <field id="style_options_custom_iframe_js" translate="label" type="textarea" sortOrder="50" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Custom Iframe Script</label>
+                        <comment>Inject js to onReady method inside provided form. Example custom Field order https://totalprocessing.docs.oppwa.com/tutorials/integration-guide/advanced-options#fieldorderincardform</comment>
+                        <validate>no-marginal-whitespace</validate>
+                        <config_path>payment/totalprocessing_opp/style_options_custom_iframe_js</config_path>
+                    </field>
+                </group>
+                <group id="totalprocessing_opp_applepay" translate="label" type="text" sortOrder="600"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Apple Pay through Total Processing</label>
+                    <attribute type="expanded">0</attribute>
+                    <depends>
+                        <field id="totalprocessing_opp_basic_active">1</field>
+<!--                        <field id="payment_us/totalprocessing_opp/totalprocessing_opp_basic/active">1</field>-->
+                    </depends>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <depends>
+                            <field id="totalprocessing_opp_basic_active">1</field>
+                        </depends>
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/totalprocessing_opp_applepay/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <depends>
+                            <field id="active">1</field>
+                        </depends>
+                        <label>Title</label>
+                        <validate>required-entry letters-with-basic-punc</validate>
+                        <config_path>payment/totalprocessing_opp_applepay/title</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <depends>
+                            <field id="active">1</field>
+                        </depends>
+                        <label>Payment Action</label>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\PaymentAction</source_model>
+                        <config_path>payment/totalprocessing_opp_applepay/payment_action</config_path>
+                    </field>
+                    <field id="allowed_brand_types" translate="label" type="multiselect" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Allowed Brands</label>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\ApplePay\BrandType</source_model>
+                        <can_be_empty>0</can_be_empty>
+                        <config_path>payment/totalprocessing_opp_applepay/allowed_brand_types</config_path>
+                        <comment>Brand types order is used for priority in brand types detection.</comment>
+                        <validate>validate-select</validate>
+                    </field>
+                    <field id="environment" translate="label" type="select" sortOrder="40" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Environment</label>
+                        <depends>
+                            <field id="active">1</field>
+                        </depends>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\Environment</source_model>
+                        <config_path>payment/totalprocessing_opp_applepay/environment</config_path>
+                    </field>
+                    <group id="totalprocessing_opp_applepay_live" translate="label" type="text" sortOrder="100"
+                           showInStore="1" showInWebsite="1" showInDefault="1">
+                        <label>Live</label>
+                        <attribute type="expanded">1</attribute>
+                        <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <depends>
+                            <field id="active">1</field>
+                            <field id="environment">live</field>
+                        </depends>
+                        <field id="totalprocessing_opp_applepay_live_note_information" translate="label" type="label" sortOrder="1"
+                               showInStore="1" showInWebsite="1" showInDefault="1" >
+                            <label>NOTE:</label>
+                            <comment>Select "Use system value" on each to delete your credentials.</comment>
+                        </field>
+                        <field id="live_merchant_id_domain_association" translate="label" type="textarea" sortOrder="10"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Merchant ID Domain Association</label>
+                            <comment>The content of apple-developer-merchantid-domain-association file.</comment>
+                            <config_path>payment/totalprocessing_opp_applepay/live_merchant_id_domain_association</config_path>
+                            <validate>required-entry no-whitespace</validate>
+                        </field>
+                        <field id="live_domain_names" translate="label" type="text" sortOrder="20"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Domain Names</label>
+                            <config_path>payment/totalprocessing_opp_applepay/live_domain_names</config_path>
+                            <validate>required-entry no-whitespace validate-url</validate>
+                        </field>
+                        <field id="live_display_name" translate="label" type="text" sortOrder="30"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Display Name</label>
+                            <config_path>payment/totalprocessing_opp_applepay/live_display_name</config_path>
+                            <validate>required-entry no-marginal-whitespace validate-alphanum-with-spaces</validate>
+                        </field>
+                        <field id="live_api_url" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>API URL</label>
+                            <config_path>payment/totalprocessing_opp_applepay/live_api_url</config_path>
+                            <validate>required-entry no-whitespace validate-url</validate>
+                        </field>
+                        <field id="live_register_url" translate="label" type="text" sortOrder="50" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Register URL</label>
+                            <config_path>payment/totalprocessing_opp_applepay/live_register_url</config_path>
+
+                            <validate>required-entry no-whitespace validate-url</validate>
+                        </field>
+                        <field id="live_shopper_endpoint" translate="label" type="text" sortOrder="60"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Shopper Endpoint</label>
+                            <config_path>payment/totalprocessing_opp_applepay/live_shopper_endpoint</config_path>
+                            <validate>required-entry no-whitespace</validate>
+                        </field>
+                        <field id="live_merchant_identifier" translate="label" type="text" sortOrder="70"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Merchant Identifier</label>
+                            <config_path>payment/totalprocessing_opp_applepay/live_merchant_identifier</config_path>
+                            <comment>Note: Deselect "Use system value" and click on registration button to generate the value.</comment>
+                            <validate>required-entry no-whitespace</validate>
+                        </field>
+                        <field id="live_register_merchant_btn" translate="label" type="button" sortOrder="80"
+                               showInDefault="1" showInWebsite="1" showInStore="1">
+                            <frontend_model>TotalProcessing\Opp\Block\System\Config\RegisterMerchantButton</frontend_model>
+                        </field>
+                    </group>
+                    <group id="totalprocessing_opp_applepay_sandbox" translate="label" type="text" sortOrder="200"
+                           showInStore="1" showInWebsite="1" showInDefault="1">
+                        <label>Sandbox</label>
+                        <attribute type="expanded">1</attribute>
+                        <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <depends>
+                            <field id="active">1</field>
+                            <field id="environment">sandbox</field>
+                        </depends>
+                        <field id="totalprocessing_opp_applepay_sandbox_note_information" translate="label" type="label" sortOrder="1"
+                               showInStore="1" showInWebsite="1" showInDefault="1" >
+                            <label>NOTE:</label>
+                            <comment>Select "Use system value" on each to delete your credentials.</comment>
+                        </field>
+                        <field id="sandbox_merchant_id_domain_association" translate="label" type="textarea" sortOrder="10"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Merchant ID Domain Association</label>
+                            <comment>The content of apple-developer-merchantid-domain-association file</comment>
+                            <config_path>payment/totalprocessing_opp_applepay/sandbox_merchant_id_domain_association</config_path>
+                            <validate>required-entry no-whitespace</validate>
+                        </field>
+                        <field id="sandbox_domain_names" translate="label" type="text" sortOrder="20"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Domain Names</label>
+                            <config_path>payment/totalprocessing_opp_applepay/sandbox_domain_names</config_path>
+                            <validate>required-entry no-whitespace validate-url</validate>
+                        </field>
+                        <field id="sandbox_display_name" translate="label" type="text" sortOrder="30"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Display Name</label>
+                            <config_path>payment/totalprocessing_opp_applepay/sandbox_display_name</config_path>
+                            <validate>required-entry no-marginal-whitespace validate-alphanum-with-spaces</validate>
+                        </field>
+                        <field id="sandbox_api_url" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>API URL</label>
+                            <config_path>payment/totalprocessing_opp_applepay/sandbox_api_url</config_path>
+                            <validate>required-entry no-whitespace validate-url</validate>
+                        </field>
+                        <field id="sandbox_register_url" translate="label" type="text" sortOrder="50" showInDefault="1"
+                               showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Register URL</label>
+                            <config_path>payment/totalprocessing_opp_applepay/sandbox_register_url</config_path>
+                            <validate>required-entry no-whitespace validate-url</validate>
+                        </field>
+                        <field id="sandbox_shopper_endpoint" translate="label" type="text" sortOrder="60"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Shopper Endpoint</label>
+                            <config_path>payment/totalprocessing_opp_applepay/sandbox_shopper_endpoint</config_path>
+                            <validate>required-entry no-whitespace</validate>
+                        </field>
+                        <field id="sandbox_merchant_identifier" translate="label" type="text" sortOrder="70"
+                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Merchant Identifier</label>
+                            <config_path>payment/totalprocessing_opp_applepay/sandbox_merchant_identifier</config_path>
+                            <comment>Note: Deselect "Use system value" and click on registration button to generate the value.</comment>
+                            <validate>required-entry no-whitespace</validate>
+                        </field>
+                        <field id="sandbox_register_merchant_btn" translate="label" type="button" sortOrder="80"
+                               showInDefault="1" showInWebsite="1" showInStore="1">
+                            <frontend_model>TotalProcessing\Opp\Block\System\Config\SandboxRegisterMerchantButton</frontend_model>
+                        </field>
+                    </group>
                 </group>
             </group>
         </section>

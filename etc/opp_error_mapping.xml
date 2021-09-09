@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/error_mapping.xsd">
+    <message_list>
+        <message code="000.100.200" translate="true">Reason not Specified</message>
+        <message code="000.100.201" translate="true">Account or Bank Details Incorrect</message>
+        <message code="000.100.202" translate="true">Account Closed</message>
+        <message code="000.100.203" translate="true">Insufficient Funds</message>
+        <message code="000.100.204" translate="true">Mandate not Valid</message>
+        <message code="000.100.205" translate="true">Mandate Cancelled</message>
+        <message code="000.100.206" translate="true">Revocation or Dispute</message>
+        <message code="000.100.207" translate="true">Cancellation in Clearing Network</message>
+        <message code="000.100.208" translate="true">Account Blocked</message>
+        <message code="000.100.209" translate="true">Account does not exist</message>
+        <message code="000.100.210" translate="true">Invalid Amount</message>
+        <message code="000.100.211" translate="true">Transaction succeeded (amount of transaction is smaller then amount of pre-authorization)</message>
+        <message code="000.100.212" translate="true">Transaction succeeded (amount of transaction is greater then amount of pre-authorization)</message>
+        <message code="000.100.220" translate="true">Fraudulent Transaction</message>
+        <message code="000.100.221" translate="true">Merchandise Not Received</message>
+        <message code="000.100.222" translate="true">Transaction Not Recognized By Cardholder</message>
+        <message code="000.100.223" translate="true">Service Not Rendered</message>
+        <message code="000.100.224" translate="true">Duplicate Processing</message>
+        <message code="000.100.225" translate="true">Credit Not Processed</message>
+        <message code="000.100.226" translate="true">Cannot be settled</message>
+        <message code="000.100.227" translate="true">Configuration Issue</message>
+        <message code="000.100.228" translate="true">Temporary Communication Error - Retry</message>
+        <message code="000.100.229" translate="true">Incorrect Instructions</message>
+        <message code="000.100.230" translate="true">Unauthorised Charge</message>
+        <message code="000.100.231" translate="true">Late Representment</message>
+        <message code="000.100.232" translate="true">Liability Shift</message>
+        <message code="000.100.233" translate="true">Authorization-Related Chargeback</message>
+        <message code="000.100.234" translate="true">Non receipt of merchandise</message>
+        <message code="000.100.299" translate="true">Unspecified (Technical)</message>
+        <message code="000.400.030" translate="true">Transaction partially failed (please reverse manually due to failed automatic reversal)</message>
+        <message code="000.400.101" translate="true">card not participating/authentication unavailable</message>
+        <message code="000.400.102" translate="true">user not enrolled</message>
+        <message code="000.400.103" translate="true">Technical Error in 3D system</message>
+        <message code="000.400.104" translate="true">Missing or malformed 3DSecure Configuration for Channel</message>
+        <message code="000.400.105" translate="true">Unsupported User Device - Authentication not possible</message>
+        <message code="000.400.106" translate="true">invalid payer authentication response(PARes) in 3DSecure Transaction</message>
+        <message code="000.400.107" translate="true">Communication Error to VISA/Mastercard Directory Server</message>
+        <message code="000.400.108" translate="true">Cardholder Not Found - card number provided is not found in the ranges of the issuer</message>
+        <message code="000.400.109" translate="true">Card is not enrolled for 3DS version 2</message>
+        <message code="000.400.200" translate="true">risk management check communication error</message>
+        <message code="100.100.100" translate="true">request contains no creditcard, bank account number or bank name</message>
+        <message code="100.100.101" translate="true">invalid creditcard, bank account number or bank name</message>
+        <message code="100.100.104" translate="true">invalid unique id / root unique id</message>
+        <message code="100.100.200" translate="true">request contains no month</message>
+        <message code="100.100.201" translate="true">invalid month</message>
+        <message code="100.100.300" translate="true">request contains no year</message>
+        <message code="100.100.301" translate="true">invalid year</message>
+        <message code="100.100.303" translate="true">card expired</message>
+        <message code="100.100.304" translate="true">card not yet valid</message>
+        <message code="100.100.305" translate="true">invalid expiration date format</message>
+        <message code="100.100.400" translate="true">request contains no cc/bank account holder</message>
+        <message code="100.100.401" translate="true">cc/bank account holder too short or too long</message>
+        <message code="100.100.402" translate="true">cc/bank account holder not valid</message>
+        <message code="100.100.500" translate="true">request contains no credit card brand</message>
+        <message code="100.100.501" translate="true">invalid credit card brand</message>
+        <message code="100.100.600" translate="true">empty CVV for VISA,MASTER, AMEX not allowed</message>
+        <message code="100.100.601" translate="true">invalid CVV/brand combination</message>
+        <message code="100.100.650" translate="true">empty CreditCardIssueNumber for MAESTRO not allowed</message>
+        <message code="100.100.651" translate="true">invalid CreditCardIssueNumber</message>
+        <message code="100.100.700" translate="true">invalid cc number/brand combination</message>
+        <message code="100.100.701" translate="true">suspecting fraud, this card may not be processed</message>
+        <message code="100.150.100" translate="true">request contains no Account data and no registration id</message>
+        <message code="100.150.101" translate="true">invalid format for specified registration id (must be uuid format)</message>
+        <message code="100.150.200" translate="true">registration does not exist</message>
+        <message code="100.150.201" translate="true">registration is not confirmed yet</message>
+        <message code="100.150.202" translate="true">registration is already deregistered</message>
+        <message code="100.150.203" translate="true">registration is not valid, probably initially rejected</message>
+        <message code="100.150.204" translate="true">account registration reference pointed to no registration transaction</message>
+        <message code="100.150.205" translate="true">referenced registration does not contain an account</message>
+        <message code="100.150.300" translate="true">payment only allowed with valid initial registration</message>
+        <message code="100.200.100" translate="true">bank account contains no or invalid country</message>
+        <message code="100.200.103" translate="true">bank account has invalid bankcode/name account number combination</message>
+        <message code="100.200.104" translate="true">bank account has invalid acccount number format</message>
+        <message code="100.200.200" translate="true">bank account needs to be registered and confirmed first. Country is mandate based.</message>
+        <message code="100.210.101" translate="true">virtual account contains no or invalid Id</message>
+        <message code="100.210.102" translate="true">virtual account contains no or invalid brand</message>
+        <message code="100.211.101" translate="true">user account contains no or invalid Id</message>
+        <message code="100.211.102" translate="true">user account contains no or invalid brand</message>
+        <message code="100.211.103" translate="true">no password defined for user account</message>
+        <message code="100.211.104" translate="true">password does not meet safety requirements (needs 8 digits at least and must contain letters and numbers)</message>
+        <message code="100.211.105" translate="true">wallet id has to be a valid email address</message>
+        <message code="100.211.106" translate="true">voucher ids have 32 digits always</message>
+        <message code="100.212.101" translate="true">wallet account registration must not have an initial balance</message>
+        <message code="100.212.102" translate="true">wallet account contains no or invalid brand</message>
+        <message code="100.212.103" translate="true">wallet account payment transaction needs to reference a registration</message>
+        <message code="100.250.100" translate="true">job contains no execution information</message>
+        <message code="100.250.105" translate="true">invalid or missing action type</message>
+        <message code="100.250.106" translate="true">invalid or missing duration unit</message>
+        <message code="100.250.107" translate="true">invalid or missing notice unit</message>
+        <message code="100.250.110" translate="true">missing job execution</message>
+        <message code="100.250.111" translate="true">missing job expression</message>
+        <message code="100.250.120" translate="true">invalid execution parameters, combination does not conform to standard</message>
+        <message code="100.250.121" translate="true">invalid execution parameters, hour must be between 0 and 23</message>
+        <message code="100.250.122" translate="true">invalid execution parameters, minute and seconds must be between 0 and 59</message>
+        <message code="100.250.123" translate="true">invalid execution parameters, Day of month must be between 1 and 31</message>
+        <message code="100.250.124" translate="true">invalid execution parameters, month must be between 1 and 12</message>
+        <message code="100.250.125" translate="true">invalid execution parameters, Day of week must be between 1 and 7</message>
+        <message code="100.250.250" translate="true">Job tag missing</message>
+        <message code="100.300.101" translate="true">invalid test mode (please use LIVE or INTEGRATOR_TEST or CONNECTOR_TEST)</message>
+        <message code="100.300.200" translate="true">transaction id too long</message>
+        <message code="100.300.300" translate="true">invalid reference id</message>
+        <message code="100.300.400" translate="true">missing or invalid channel id</message>
+        <message code="100.300.401" translate="true">missing or invalid sender id</message>
+        <message code="100.300.402" translate="true">missing or invalid version</message>
+        <message code="100.300.501" translate="true">invalid response id</message>
+        <message code="100.300.600" translate="true">invalid or missing user login</message>
+        <message code="100.300.601" translate="true">invalid or missing user pwd</message>
+        <message code="100.300.700" translate="true">invalid relevance</message>
+        <message code="100.300.701" translate="true">invalid relevance for given payment type</message>
+        <message code="100.350.100" translate="true">referenced session is REJECTED (no action possible).</message>
+        <message code="100.350.101" translate="true">referenced session is CLOSED (no action possible)</message>
+        <message code="100.350.200" translate="true">undefined session state</message>
+        <message code="100.350.201" translate="true">referencing a registration through reference id is not applicable for this payment type</message>
+        <message code="100.350.301" translate="true">confirmation (CF) must be registered (RG) first</message>
+        <message code="100.350.302" translate="true">session already confirmed (CF)</message>
+        <message code="100.350.303" translate="true">cannot deregister (DR) unregistered account and/or customer</message>
+        <message code="100.350.310" translate="true">cannot confirm (CF) session via XML</message>
+        <message code="100.350.311" translate="true">cannot confirm (CF) on a registration passthrough channel</message>
+        <message code="100.350.312" translate="true">cannot do passthrough on non-internal connector</message>
+        <message code="100.350.313" translate="true">registration of this type has to provide confirmation url</message>
+        <message code="100.350.314" translate="true">customer could not be notified of pin to confirm registration (channel)</message>
+        <message code="100.350.315" translate="true">customer could not be notified of pin to confirm registration (sending failed)</message>
+        <message code="100.350.400" translate="true">no or invalid PIN (email/SMS/MicroDeposit authentication) entered</message>
+        <message code="100.350.500" translate="true">unable to obtain personal (virtual) account - most likely no more accounts available</message>
+        <message code="100.350.601" translate="true">registration is not allowed to reference another transaction</message>
+        <message code="100.350.602" translate="true">Registration is not allowed for recurring payment migration</message>
+        <message code="100.360.201" translate="true">unknown schedule type</message>
+        <message code="100.360.300" translate="true">cannot schedule(SD) unscheduled job</message>
+        <message code="100.360.303" translate="true">cannot deschedule(DS) unscheduled job</message>
+        <message code="100.360.400" translate="true">schedule module not configured for LIVE transaction mode</message>
+        <message code="100.370.100" translate="true">transaction declined</message>
+        <message code="100.370.101" translate="true">responseUrl not set in Transaction/Frontend</message>
+        <message code="100.370.102" translate="true">malformed responseUrl in Transaction/Frontend</message>
+        <message code="100.370.110" translate="true">transaction must be executed for German address</message>
+        <message code="100.370.111" translate="true">system error( possible incorrect/missing input data)</message>
+        <message code="100.370.121" translate="true">no or unknown ECI Type defined in Authentication</message>
+        <message code="100.370.122" translate="true">parameter with null key provided in 3DSecure Authentication</message>
+        <message code="100.370.123" translate="true">no or unknown verification type defined in 3DSecure Authentication</message>
+        <message code="100.370.124" translate="true">unknown parameter key in 3DSecure Authentication</message>
+        <message code="100.370.125" translate="true">Invalid 3DSecure Verification_ID. Must have Base64 encoding a Length of 28 digits</message>
+        <message code="100.370.131" translate="true">no or unknown authentication type defined in Transaction/Authentication@type</message>
+        <message code="100.370.132" translate="true">no result indicator defined Transaction/Authentication/resultIndicator</message>
+        <message code="100.380.100" translate="true">transaction declined</message>
+        <message code="100.380.101" translate="true">transaction contains no risk management part</message>
+        <message code="100.380.110" translate="true">transaction must be executed for German address</message>
+        <message code="100.380.201" translate="true">no risk management process type specified</message>
+        <message code="100.380.305" translate="true">no frontend information provided for asynchronous transaction</message>
+        <message code="100.380.306" translate="true">no authentication data provided in risk management transaction</message>
+        <message code="100.380.401" translate="true">User Authentication Failed</message>
+        <message code="100.380.501" translate="true">risk management transaction timeout</message>
+        <message code="100.380.401" translate="true">User Authentication Failed</message>
+        <message code="100.390.101" translate="true">purchase amount/currency mismatch</message>
+        <message code="100.390.102" translate="true">PARes Validation failed</message>
+        <message code="100.390.103" translate="true">PARes Validation failed - problem with signature</message>
+        <message code="100.390.104" translate="true">XID mismatch</message>
+        <message code="100.390.105" translate="true">Transaction rejected because of technical error in 3DSecure system</message>
+        <message code="100.390.106" translate="true">Transaction rejected because of error in 3DSecure configuration</message>
+        <message code="100.390.107" translate="true">Transaction rejected because cardholder authentication unavailable</message>
+        <message code="100.390.108" translate="true">Transaction rejected because merchant not participating in 3DSecure program</message>
+        <message code="100.390.109" translate="true">Transaction rejected because of VISA status 'U' or AMEX status 'N' or 'U' in 3DSecure program</message>
+        <message code="100.390.110" translate="true">Cardholder Not Found - card number provided is not found in the ranges of the issuer</message>
+        <message code="100.390.111" translate="true">Communication Error to VISA/Mastercard Directory Server</message>
+        <message code="100.390.112" translate="true">Technical Error in 3D system</message>
+        <message code="100.390.113" translate="true">Unsupported User Device - Authentication not possible</message>
+        <message code="100.390.115" translate="true">Authentication failed due to invalid message format</message>
+        <message code="100.390.116" translate="true">Access denied to the authentication system</message>
+        <message code="100.390.117" translate="true">Authentication failed due to invalid data fields</message>
+        <message code="100.390.118" translate="true">Authentication failed due to suspected fraud</message>
+        <message code="800.400.200" translate="true">Invalid Payer Authentication in 3DSecure transaction</message>
+        <message code="100.395.101" translate="true">Bank not supported for Giropay</message>
+        <message code="100.395.102" translate="true">Account not enabled for Giropay e.g. test account</message>
+        <message code="100.395.501" translate="true">Previously pending online transfer transaction timed out</message>
+        <message code="100.395.502" translate="true">Acquirer/Bank reported timeout on online transfer transaction</message>
+        <message code="100.396.101" translate="true">Cancelled by user</message>
+        <message code="100.396.102" translate="true">Not confirmed by user</message>
+        <message code="100.396.103" translate="true">Previously pending transaction timed out</message>
+        <message code="100.396.104" translate="true">Uncertain status - probably cancelled by user</message>
+        <message code="100.396.106" translate="true">User did not agree to payment method terms</message>
+        <message code="100.396.201" translate="true">Cancelled by merchant</message>
+        <message code="100.397.101" translate="true">Cancelled by user due to external update</message>
+        <message code="100.397.102" translate="true">Rejected by connector/acquirer due to external update</message>
+        <message code="100.400.000" translate="true">transaction declined (Wrong Address)</message>
+        <message code="100.400.001" translate="true">transaction declined (Wrong Identification)</message>
+        <message code="100.400.002" translate="true">transaction declined (Insufficient credibility score)</message>
+        <message code="100.400.005" translate="true">transaction must be executed for German address</message>
+        <message code="100.400.007" translate="true">System error ( possible incorrect/missing input data)</message>
+        <message code="100.400.020" translate="true">transaction declined</message>
+        <message code="100.400.021" translate="true">transaction declined for country</message>
+        <message code="100.400.030" translate="true">transaction not authorized. Please check manually</message>
+        <message code="100.400.039" translate="true">transaction declined for other error</message>
+        <message code="100.400.040" translate="true">authorization failure</message>
+        <message code="100.400.041" translate="true">transaction must be executed for German address</message>
+        <message code="100.400.042" translate="true">transaction declined by SCHUFA (Insufficient credibility score)</message>
+        <message code="100.400.043" translate="true">transaction declined because of missing obligatory parameter(s)</message>
+        <message code="100.400.044" translate="true">transaction not authorized. Please check manually</message>
+        <message code="100.400.045" translate="true">SCHUFA result not definite. Please check manually</message>
+        <message code="100.400.051" translate="true">SCHUFA system error (possible incorrect/missing input data)</message>
+        <message code="100.400.060" translate="true">authorization failure</message>
+        <message code="100.400.061" translate="true">transaction declined (Insufficient credibility score)</message>
+        <message code="100.400.063" translate="true">transaction declined because of missing obligatory parameter(s)</message>
+        <message code="100.400.064" translate="true">transaction must be executed for Austrian, German or Swiss address</message>
+        <message code="100.400.065" translate="true">result ambiguous. Please check manually</message>
+        <message code="100.400.071" translate="true">system error (possible incorrect/missing input data)</message>
+        <message code="100.400.080" translate="true">authorization failure</message>
+        <message code="100.400.081" translate="true">transaction declined</message>
+        <message code="100.400.083" translate="true">transaction declined because of missing obligatory parameter(s)</message>
+        <message code="100.400.084" translate="true">transaction can not be executed for given country</message>
+        <message code="100.400.085" translate="true">result ambiguous. Please check manually</message>
+        <message code="100.400.086" translate="true">transaction declined (Wrong Address)</message>
+        <message code="100.400.087" translate="true">transaction declined (Wrong Identification)</message>
+        <message code="100.400.091" translate="true">system error (possible incorrect/missing input data)</message>
+        <message code="100.400.100" translate="true">transaction declined - very bad rating</message>
+        <message code="100.400.120" translate="true">authorization failure</message>
+        <message code="100.400.121" translate="true">account blacklisted</message>
+        <message code="100.400.122" translate="true">transaction must be executed for valid German account</message>
+        <message code="100.400.123" translate="true">transaction declined because of missing obligatory parameter(s)</message>
+        <message code="100.400.130" translate="true">system error (possible incorrect/missing input data)</message>
+        <message code="100.400.139" translate="true">system error (possible incorrect/missing input data)</message>
+        <message code="100.400.140" translate="true">transaction declined by GateKeeper</message>
+        <message code="100.400.141" translate="true">Challenge by ReD Shield</message>
+        <message code="100.400.142" translate="true">Deny by ReD Shield</message>
+        <message code="100.400.143" translate="true">Noscore by ReD Shield</message>
+        <message code="100.400.144" translate="true">ReD Shield data error</message>
+        <message code="100.400.145" translate="true">ReD Shield connection error</message>
+        <message code="100.400.146" translate="true">Line item error by ReD Shield</message>
+        <message code="100.400.147" translate="true">Payment void and transaction denied by ReD Shield</message>
+        <message code="100.400.148" translate="true">Payment void and transaction challenged by ReD Shield</message>
+        <message code="100.400.149" translate="true">Payment void and data error by ReD Shield</message>
+        <message code="100.400.150" translate="true">Payment void and connection error by ReD Shield</message>
+        <message code="100.400.151" translate="true">Payment void and line item error by ReD Shield</message>
+        <message code="100.400.152" translate="true">Payment void and error returned by ReD Shield</message>
+        <message code="100.400.241" translate="true">Challenged by Threat Metrix</message>
+        <message code="100.400.242" translate="true">Denied by Threat Metrix</message>
+        <message code="100.400.243" translate="true">Invalid sessionId</message>
+        <message code="100.400.260" translate="true">authorization failure</message>
+        <message code="100.400.300" translate="true">abort checkout process</message>
+        <message code="100.400.301" translate="true">reenter age/birthdate</message>
+        <message code="100.400.302" translate="true">reenter address (packstation not allowed)</message>
+        <message code="100.400.303" translate="true">reenter address</message>
+        <message code="100.400.304" translate="true">invalid input data</message>
+        <message code="100.400.305" translate="true">invalid foreign address</message>
+        <message code="100.400.306" translate="true">delivery address error</message>
+        <message code="100.400.307" translate="true">offer only secure methods of payment</message>
+        <message code="100.400.308" translate="true">offer only secure methods of payment; possibly abort checkout</message>
+        <message code="100.400.309" translate="true">confirm corrected address; if not confirmed, offer secure methods of payment only</message>
+        <message code="100.400.310" translate="true">confirm bank account data; if not confirmed, offer secure methods of payment only</message>
+        <message code="100.400.311" translate="true">transaction declined (format error)</message>
+        <message code="100.400.312" translate="true">transaction declined (invalid configuration data)</message>
+        <message code="100.400.313" translate="true">currency field is invalid or missing</message>
+        <message code="100.400.314" translate="true">amount invalid or empty</message>
+        <message code="100.400.315" translate="true">invalid or missing email address (probably invalid syntax)</message>
+        <message code="100.400.316" translate="true">transaction declined (card missing)</message>
+        <message code="100.400.317" translate="true">transaction declined (invalid card)</message>
+        <message code="100.400.318" translate="true">invalid IP number</message>
+        <message code="100.400.319" translate="true">transaction declined by risk system</message>
+        <message code="100.400.320" translate="true">shopping cart data invalid or missing</message>
+        <message code="100.400.321" translate="true">payment type invalid or missing</message>
+        <message code="100.400.322" translate="true">encryption method invalid or missing</message>
+        <message code="100.400.323" translate="true">certificate invalid or missing</message>
+        <message code="100.400.324" translate="true">Error on the external risk system</message>
+        <message code="100.400.325" translate="true">External risk system not available</message>
+        <message code="100.400.326" translate="true">Risk bank account check unsuccessful</message>
+        <message code="100.400.327" translate="true">Risk report unsuccessful</message>
+        <message code="100.400.328" translate="true">Risk report unsuccessful (invalid data)</message>
+        <message code="100.400.500" translate="true">waiting for external risk</message>
+        <message code="100.500.101" translate="true">payment method invalid</message>
+        <message code="100.500.201" translate="true">payment type invalid</message>
+        <message code="100.500.301" translate="true">invalid due date</message>
+        <message code="100.500.302" translate="true">invalid mandate date of signature</message>
+        <message code="100.500.303" translate="true">invalid mandate id</message>
+        <message code="100.500.304" translate="true">invalid mandate external id</message>
+        <message code="100.550.300" translate="true">request contains no amount or too low amount</message>
+        <message code="100.550.301" translate="true">amount too large</message>
+        <message code="100.550.303" translate="true">amount format invalid (only two decimals allowed).</message>
+        <message code="100.550.310" translate="true">amount exceeds limit for the registered account.</message>
+        <message code="100.550.311" translate="true">exceeding account balance</message>
+        <message code="100.550.312" translate="true">Amount is outside allowed ticket size boundaries</message>
+        <message code="100.550.400" translate="true">request contains no currency</message>
+        <message code="100.550.401" translate="true">invalid currency</message>
+        <message code="100.550.601" translate="true">risk amount too large</message>
+        <message code="100.550.603" translate="true">risk amount format invalid (only two decimals allowed)</message>
+        <message code="100.550.605" translate="true">risk amount is smaller than amount (it must be equal or bigger then amount)</message>
+        <message code="100.550.701" translate="true">amounts not matched</message>
+        <message code="100.550.702" translate="true">currencies not matched</message>
+        <message code="100.600.500" translate="true">usage field too long</message>
+        <message code="100.700.100" translate="true">customer.surname may not be null</message>
+        <message code="100.700.101" translate="true">customer.surname length must be between 0 and 50</message>
+        <message code="100.700.200" translate="true">customer.givenName may not be null</message>
+        <message code="100.700.201" translate="true">customer.givenName length must be between 0 and 50</message>
+        <message code="100.700.300" translate="true">invalid salutation</message>
+        <message code="100.700.400" translate="true">invalid title</message>
+        <message code="100.700.500" translate="true">company name too long</message>
+        <message code="100.700.800" translate="true">identity contains no or invalid 'paper'</message>
+        <message code="100.700.801" translate="true">identity contains no or invalid identification value</message>
+        <message code="100.700.802" translate="true">identification value too long</message>
+        <message code="100.700.810" translate="true">specify at least one identity</message>
+        <message code="100.800.100" translate="true">request contains no street</message>
+        <message code="100.800.101" translate="true">The combination of street1 and street2 must not exceed 201 characters.</message>
+        <message code="100.800.102" translate="true">The combination of street1 and street2 must not contain only numbers.</message>
+        <message code="100.800.200" translate="true">request contains no zip</message>
+        <message code="100.800.201" translate="true">zip too long</message>
+        <message code="100.800.202" translate="true">invalid zip</message>
+        <message code="100.800.300" translate="true">request contains no city</message>
+        <message code="100.800.301" translate="true">city too long</message>
+        <message code="100.800.302" translate="true">invalid city</message>
+        <message code="100.800.400" translate="true">invalid state/country combination</message>
+        <message code="100.800.401" translate="true">state too long</message>
+        <message code="100.800.500" translate="true">request contains no country</message>
+        <message code="100.800.501" translate="true">invalid country</message>
+        <message code="100.900.100" translate="true">request contains no email address</message>
+        <message code="100.900.101" translate="true">invalid email address (probably invalid syntax)</message>
+        <message code="100.900.105" translate="true">email address too long (max 50 chars)</message>
+        <message code="100.900.200" translate="true">invalid phone number (has to start with a digit or a '+', at least 7 and max 25 chars long)</message>
+        <message code="100.900.300" translate="true">invalid mobile phone number (has to start with a digit or a '+', at least 7 and max 25 chars long)</message>
+        <message code="100.900.301" translate="true">mobile phone number mandatory</message>
+        <message code="100.900.400" translate="true">request contains no ip number</message>
+        <message code="100.900.401" translate="true">invalid ip number</message>
+        <message code="100.900.450" translate="true">invalid birthdate</message>
+        <message code="100.900.500" translate="true">invalid recurrence mode</message>
+        <message code="200.100.101" translate="true">invalid Request Message. No valid XML. XML must be url-encoded! maybe it contains a not encoded ampersand or something similar.</message>
+        <message code="200.100.102" translate="true">invalid Request. XML load missing (XML string must be sent within parameter 'load')</message>
+        <message code="200.100.103" translate="true">invalid Request Message. The request contains structural errors</message>
+        <message code="200.100.150" translate="true">transaction of multirequest not processed because of subsequent problems</message>
+        <message code="200.100.151" translate="true">multi-request is allowed with a maximum of 10 transactions only</message>
+        <message code="200.100.199" translate="true">Wrong Web Interface / URL used. Please check out the Tech Quick Start Doc Chapter 3.</message>
+        <message code="200.100.201" translate="true">invalid Request/Transaction tag (not present or [partially] empty)</message>
+        <message code="200.100.300" translate="true">invalid Request/Transaction/Payment tag (no or invalid code specified)</message>
+        <message code="200.100.301" translate="true">invalid Request/Transaction/Payment tag (not present or [partially] empty)</message>
+        <message code="200.100.302" translate="true">invalid Request/Transaction/Payment/Presentation tag (not present or [partially] empty)</message>
+        <message code="200.100.401" translate="true">invalid Request/Transaction/Account tag (not present or [partially] empty)</message>
+        <message code="200.100.402" translate="true">invalid Request/Transaction/Account(Customer, Relevance) tag (one of Account/Customer/Relevance must be present)</message>
+        <message code="200.100.403" translate="true">invalid Request/Transaction/Analysis tag (Criterions must have a name and value)</message>
+        <message code="200.100.404" translate="true">invalid Request/Transaction/Account (must not be present)</message>
+        <message code="200.100.501" translate="true">invalid or missing customer</message>
+        <message code="200.100.502" translate="true">invalid Request/Transaction/Customer/Name tag (not present or [partially] empty)</message>
+        <message code="200.100.503" translate="true">invalid Request/Transaction/Customer/Contact tag (not present or [partially] empty)</message>
+        <message code="200.100.504" translate="true">invalid Request/Transaction/Customer/Address tag (not present or [partially] empty)</message>
+        <message code="200.100.601" translate="true">invalid Request/Transaction/(ApplePay|GooglePay) tag (not present or [partially] empty)</message>
+        <message code="200.100.602" translate="true">invalid Request/Transaction/(ApplePay|GooglePay)/PaymentToken tag (not present or [partially] empty)</message>
+        <message code="200.100.603" translate="true">invalid Request/Transaction/(ApplePay|GooglePay)/PaymentToken tag (decryption error)</message>
+        <message code="200.200.106" translate="true">duplicate transaction. Please verify that the UUID is unique</message>
+        <message code="200.300.403" translate="true">Invalid HTTP method</message>
+        <message code="200.300.404" translate="true">invalid or missing parameter</message>
+        <message code="200.300.405" translate="true">Duplicate entity</message>
+        <message code="200.300.406" translate="true">Entity not found</message>
+        <message code="200.300.407" translate="true">Entity not specific enough</message>
+        <message code="500.100.201" translate="true">Channel/Merchant is disabled (no processing possible)</message>
+        <message code="500.100.202" translate="true">Channel/Merchant is new (no processing possible yet)</message>
+        <message code="500.100.203" translate="true">Channel/Merchant is closed (no processing possible)</message>
+        <message code="500.100.301" translate="true">Merchant-Connector is disabled (no processing possible)</message>
+        <message code="500.100.302" translate="true">Merchant-Connector is new (no processing possible yet)</message>
+        <message code="500.100.303" translate="true">Merchant-Connector is closed (no processing possible)</message>
+        <message code="500.100.304" translate="true">Merchant-Connector is disabled at gateway (no processing possible)</message>
+        <message code="500.100.401" translate="true">Connector is unavailable (no processing possible)</message>
+        <message code="500.100.402" translate="true">Connector is new (no processing possible yet)</message>
+        <message code="500.100.403" translate="true">Connector is unavailable (no processing possible)</message>
+        <message code="500.200.101" translate="true">No target account configured for DD transaction</message>
+        <message code="600.100.100" translate="true">Unexpected Integrator Error (Request could not be processed)</message>
+        <message code="600.200.100" translate="true">invalid Payment Method</message>
+        <message code="600.200.200" translate="true">Unsupported Payment Method</message>
+        <message code="600.200.201" translate="true">Channel/Merchant not configured for this payment method</message>
+        <message code="600.200.202" translate="true">Channel/Merchant not configured for this payment type</message>
+        <message code="600.200.300" translate="true">invalid Payment Type</message>
+        <message code="600.200.310" translate="true">invalid Payment Type for given Payment Method</message>
+        <message code="600.200.400" translate="true">Unsupported Payment Type</message>
+        <message code="600.200.500" translate="true">Invalid payment data. You are not configured for this currency or sub type (country or brand)</message>
+        <message code="600.200.501" translate="true">Invalid payment data for Recurring transaction. Merchant or transaction data has wrong recurring configuration.</message>
+        <message code="600.200.600" translate="true">invalid payment code (type or method)</message>
+        <message code="600.200.700" translate="true">invalid payment mode (you are not configured for the requested transaction mode)</message>
+        <message code="600.200.800" translate="true">invalid brand for given payment method and payment mode (you are not configured for the requested transaction mode)</message>
+        <message code="600.200.810" translate="true">invalid return code provided</message>
+        <message code="600.300.101" translate="true">Merchant key not found</message>
+        <message code="600.300.200" translate="true">merchant source IP address not whitelisted</message>
+        <message code="600.300.210" translate="true">merchant notificationUrl not whitelisted</message>
+        <message code="600.300.211" translate="true">shopperResultUrl not whitelisted</message>
+        <message code="700.100.100" translate="true">reference id not existing</message>
+        <message code="700.100.200" translate="true">non matching reference amount</message>
+        <message code="700.100.300" translate="true">invalid amount (probably too large)</message>
+        <message code="700.100.400" translate="true">referenced payment method does not match with requested payment method</message>
+        <message code="700.100.500" translate="true">referenced payment currency does not match with requested payment currency</message>
+        <message code="700.100.600" translate="true">referenced mode does not match with requested payment mode</message>
+        <message code="700.100.700" translate="true">referenced transaction is of inappropriate type</message>
+        <message code="700.100.701" translate="true">referenced a DB transaction without explicitly providing an account. Not allowed to used referenced account.</message>
+        <message code="700.100.710" translate="true">cross-linkage of two transaction-trees</message>
+        <message code="700.300.100" translate="true">referenced tx can not be refunded, captured or reversed (invalid type)</message>
+        <message code="700.300.200" translate="true">referenced tx was rejected</message>
+        <message code="700.300.300" translate="true">referenced tx can not be refunded, captured or reversed (already refunded, captured or reversed)</message>
+        <message code="700.300.400" translate="true">referenced tx can not be captured (cut off time reached)</message>
+        <message code="700.300.500" translate="true">chargeback error (multiple chargebacks)</message>
+        <message code="700.300.600" translate="true">referenced tx can not be refunded or reversed (was chargebacked)</message>
+        <message code="700.300.700" translate="true">referenced tx can not be reversed (reversal not possible anymore)</message>
+        <message code="700.300.800" translate="true">referenced tx can not be voided</message>
+        <message code="700.400.000" translate="true">serious workflow error (call support)</message>
+        <message code="700.400.100" translate="true">cannot capture (PA value exceeded, PA reverted or invalid workflow?)</message>
+        <message code="700.400.101" translate="true">cannot capture (Not supported by authorization system)</message>
+        <message code="700.400.200" translate="true">cannot refund (refund volume exceeded or tx reversed or invalid workflow?)</message>
+        <message code="700.400.300" translate="true">cannot reverse (already refunded|reversed, invalid workflow or amount exceeded)</message>
+        <message code="700.400.400" translate="true">cannot chargeback (already chargebacked or invalid workflow?)</message>
+        <message code="700.400.402" translate="true">chargeback can only be generated internally by the payment system</message>
+        <message code="700.400.410" translate="true">cannot reversal chargeback (chargeback is already reversaled or invalid workflow?)</message>
+        <message code="700.400.411" translate="true">cannot reverse chargeback or invalid workflow (second chargeback)</message>
+        <message code="700.400.420" translate="true">cannot reversal chargeback (no chargeback existing or invalid workflow?)</message>
+        <message code="700.400.510" translate="true">capture needs at least one successful transaction of type (PA)</message>
+        <message code="700.400.520" translate="true">refund needs at least one successful transaction of type (CP or DB or RB or RC)</message>
+        <message code="700.400.530" translate="true">reversal needs at least one successful transaction of type (CP or DB or RB or PA)</message>
+        <message code="700.400.540" translate="true">reconceile needs at least one successful transaction of type (CP or DB or RB)</message>
+        <message code="700.400.550" translate="true">chargeback needs at least one successful transaction of type (CP or DB or RB)</message>
+        <message code="700.400.560" translate="true">receipt needs at least one successful transaction of type (PA or CP or DB or RB)</message>
+        <message code="700.400.561" translate="true">receipt on a registration needs a successfull registration in state 'OPEN'</message>
+        <message code="700.400.562" translate="true">receipts can only be generated internally by the payment system</message>
+        <message code="700.400.565" translate="true">finalize needs at least one successful transaction of type (PA or DB)</message>
+        <message code="700.400.570" translate="true">cannot reference a waiting/pending transaction</message>
+        <message code="700.400.580" translate="true">cannot find transaction</message>
+        <message code="700.400.590" translate="true">installment needs at least one successful transaction of type (DB or PA)</message>
+        <message code="700.400.600" translate="true">finalize needs at least one successful transaction of type (IN, DB, PA or CD)</message>
+        <message code="700.400.700" translate="true">initial and referencing channel-ids do not match</message>
+        <message code="700.450.001" translate="true">cannot transfer money from one account to the same account</message>
+        <message code="700.500.001" translate="true">referenced session contains too many transactions</message>
+        <message code="700.500.002" translate="true">capture or preauthorization appears too late in referenced session</message>
+        <message code="700.500.003" translate="true">test accounts not allowed in production</message>
+        <message code="700.500.004" translate="true">cannot refer a transaction which contains deleted customer information</message>
+        <message code="800.100.100" translate="true">transaction declined for unknown reason</message>
+        <message code="800.100.150" translate="true">transaction declined (refund on gambling tx not allowed)</message>
+        <message code="800.100.151" translate="true">transaction declined (invalid card)</message>
+        <message code="800.100.152" translate="true">transaction declined by authorization system</message>
+        <message code="800.100.153" translate="true">transaction declined (invalid CVV)</message>
+        <message code="800.100.154" translate="true">transaction declined (transaction marked as invalid)</message>
+        <message code="800.100.155" translate="true">transaction declined (amount exceeds credit)</message>
+        <message code="800.100.156" translate="true">transaction declined (format error)</message>
+        <message code="800.100.157" translate="true">transaction declined (wrong expiry date)</message>
+        <message code="800.100.158" translate="true">transaction declined (suspecting manipulation)</message>
+        <message code="800.100.159" translate="true">transaction declined (stolen card)</message>
+        <message code="800.100.160" translate="true">transaction declined (card blocked)</message>
+        <message code="800.100.161" translate="true">transaction declined (too many invalid tries)</message>
+        <message code="800.100.162" translate="true">transaction declined (limit exceeded)</message>
+        <message code="800.100.163" translate="true">transaction declined (maximum transaction frequency exceeded)</message>
+        <message code="800.100.164" translate="true">transaction declined (merchants limit exceeded)</message>
+        <message code="800.100.165" translate="true">transaction declined (card lost)</message>
+        <message code="800.100.166" translate="true">transaction declined (Incorrect personal identification number)</message>
+        <message code="800.100.167" translate="true">transaction declined (referencing transaction does not match)</message>
+        <message code="800.100.168" translate="true">transaction declined (restricted card)</message>
+        <message code="800.100.169" translate="true">transaction declined (card type is not processed by the authorization center)</message>
+        <message code="800.100.170" translate="true">transaction declined (transaction not permitted)</message>
+        <message code="800.100.171" translate="true">transaction declined (pick up card)</message>
+        <message code="800.100.172" translate="true">transaction declined (account blocked)</message>
+        <message code="800.100.173" translate="true">transaction declined (invalid currency, not processed by authorization center)</message>
+        <message code="800.100.174" translate="true">transaction declined (invalid amount)</message>
+        <message code="800.100.175" translate="true">transaction declined (invalid brand)</message>
+        <message code="800.100.176" translate="true">transaction declined (account temporarily not available. Please try again later)</message>
+        <message code="800.100.177" translate="true">transaction declined (amount field should not be empty)</message>
+        <message code="800.100.178" translate="true">transaction declined (PIN entered incorrectly too often)</message>
+        <message code="800.100.179" translate="true">transaction declined (exceeds withdrawal count limit)</message>
+        <message code="800.100.190" translate="true">transaction declined (invalid configuration data)</message>
+        <message code="800.100.191" translate="true">transaction declined (transaction in wrong state on aquirer side)</message>
+        <message code="800.100.192" translate="true">transaction declined (invalid CVV, Amount has still been reserved on the customer's card and will be released in a few business days. Please ensure the CVV code is accurate before retrying the transaction)</message>
+        <message code="800.100.195" translate="true">transaction declined (UserAccount Number/ID unknown)</message>
+        <message code="800.100.196" translate="true">transaction declined (registration error)</message>
+        <message code="800.100.197" translate="true">transaction declined (registration cancelled externally)</message>
+        <message code="800.100.198" translate="true">transaction declined (invalid holder)</message>
+        <message code="800.100.199" translate="true">transaction declined (invalid tax number)</message>
+        <message code="800.100.200" translate="true">Refer to Payer due to reason not specified</message>
+        <message code="800.100.201" translate="true">Account or Bank Details Incorrect</message>
+        <message code="800.100.202" translate="true">Account Closed</message>
+        <message code="800.100.203" translate="true">Insufficient Funds</message>
+        <message code="800.100.204" translate="true">Mandate Expired</message>
+        <message code="800.100.205" translate="true">Mandate Discarded</message>
+        <message code="800.100.206" translate="true">Refund of an authorized payment requested by the customer</message>
+        <message code="800.100.207" translate="true">Refund requested</message>
+        <message code="800.100.208" translate="true">Direct debit not enabled for the specified account or bank</message>
+        <message code="800.100.402" translate="true">cc/bank account holder not valid</message>
+        <message code="800.100.403" translate="true">transaction declined (revocation of authorisation order)</message>
+        <message code="800.100.500" translate="true">Card holder has advised his bank to stop this recurring payment</message>
+        <message code="800.100.501" translate="true">Card holder has advised his bank to stop all recurring payments for this merchant</message>
+        <message code="800.110.100" translate="true">duplicate transaction</message>
+        <message code="800.120.100" translate="true">Rejected by Throttling.</message>
+        <message code="800.120.101" translate="true">maximum number of transactions per account already exceeded</message>
+        <message code="800.120.102" translate="true">maximum number of transactions per ip already exceeded</message>
+        <message code="800.120.103" translate="true">maximum number of transactions per email already exceeded</message>
+        <message code="800.120.200" translate="true">maximum total volume of transactions already exceeded</message>
+        <message code="800.120.201" translate="true">maximum total volume of transactions per account already exceeded</message>
+        <message code="800.120.202" translate="true">maximum total volume of transactions per ip already exceeded</message>
+        <message code="800.120.203" translate="true">maximum total volume of transactions per email already exceeded</message>
+        <message code="800.120.300" translate="true">chargeback rate per bin exceeded</message>
+        <message code="800.121.100" translate="true">Channel not configured for given source type. Please contact your account manager.</message>
+        <message code="800.121.200" translate="true">Secure Query is not enabled for this entity. Please contact your account manager.</message>
+        <message code="800.120.401" translate="true">maximum number of transactions or total volume for configured MIDs or CIs exceeded</message>
+        <message code="800.130.100" translate="true">Transaction with same TransactionId already exists</message>
+        <message code="800.140.100" translate="true">maximum number of registrations per mobile number exceeded</message>
+        <message code="800.140.101" translate="true">maximum number of registrations per email address exceeded</message>
+        <message code="800.140.110" translate="true">maximum number of registrations of mobile per credit card number exceeded</message>
+        <message code="800.140.111" translate="true">maximum number of registrations of credit card number per mobile exceeded</message>
+        <message code="800.140.112" translate="true">maximum number of registrations of email per credit card number exceeded</message>
+        <message code="800.140.113" translate="true">maximum number of registrations of credit card number per email exceeded</message>
+        <message code="800.150.100" translate="true">Account Holder does not match Customer Name</message>
+        <message code="800.160.100" translate="true">Invalid payment data for configured Shopper Dispatching Type</message>
+        <message code="800.160.110" translate="true">Invalid payment data for configured Payment Dispatching Type</message>
+        <message code="800.160.120" translate="true">Invalid payment data for configured Recurring Transaction Dispatching Type</message>
+        <message code="800.160.130" translate="true">Invalid payment data for configured TicketSize Dispatching Type</message>
+        <message code="800.200.159" translate="true">account or user is blacklisted (card stolen)</message>
+        <message code="800.200.160" translate="true">account or user is blacklisted (card blocked)</message>
+        <message code="800.200.165" translate="true">account or user is blacklisted (card lost)</message>
+        <message code="800.200.202" translate="true">account or user is blacklisted (account closed)</message>
+        <message code="800.200.208" translate="true">account or user is blacklisted (account blocked)</message>
+        <message code="800.200.220" translate="true">account or user is blacklisted (fraudulent transaction)</message>
+        <message code="800.300.101" translate="true">account or user is blacklisted</message>
+        <message code="800.300.102" translate="true">country blacklisted</message>
+        <message code="800.300.200" translate="true">email is blacklisted</message>
+        <message code="800.300.301" translate="true">ip blacklisted</message>
+        <message code="800.300.302" translate="true">ip is anonymous proxy</message>
+        <message code="800.300.401" translate="true">bin blacklisted</message>
+        <message code="800.300.500" translate="true">transaction temporary blacklisted (too many tries invalid CVV)</message>
+        <message code="800.300.501" translate="true">transaction temporary blacklisted (too many tries invalid expire date)</message>
+        <message code="800.310.200" translate="true">Account closed</message>
+        <message code="800.310.210" translate="true">Account not found</message>
+        <message code="800.310.211" translate="true">Account not found (BIN/issuer not participating)</message>
+        <message code="800.400.100" translate="true">AVS Check Failed</message>
+        <message code="800.400.101" translate="true">Mismatch of AVS street value</message>
+        <message code="800.400.102" translate="true">Mismatch of AVS street number</message>
+        <message code="800.400.103" translate="true">Mismatch of AVS PO box value fatal</message>
+        <message code="800.400.104" translate="true">Mismatch of AVS zip code value fatal</message>
+        <message code="800.400.105" translate="true">Mismatch of AVS settings (AVSkip, AVIgnore, AVSRejectPolicy) value</message>
+        <message code="800.400.110" translate="true">AVS Check Failed. Amount has still been reserved on the customer's card and will be released in a few business days. Please ensure the billing address is accurate before retrying the transaction.</message>
+        <message code="800.400.150" translate="true">Implausible address data</message>
+        <message code="800.400.151" translate="true">Implausible address state data</message>
+        <message code="800.400.500" translate="true">Waiting for confirmation of non-instant payment. Denied for now.</message>
+        <message code="800.400.501" translate="true">Waiting for confirmation of non-instant debit. Denied for now.</message>
+        <message code="800.400.502" translate="true">Waiting for confirmation of non-instant refund. Denied for now.</message>
+        <message code="800.500.100" translate="true">direct debit transaction declined for unknown reason</message>
+        <message code="800.500.110" translate="true">Unable to process transaction - ran out of terminalIds - please contact acquirer</message>
+        <message code="800.600.100" translate="true">transaction is being already processed</message>
+        <message code="800.700.100" translate="true">transaction for the same session is currently being processed, please try again later.</message>
+        <message code="800.700.101" translate="true">family name too long</message>
+        <message code="800.700.201" translate="true">given name too long</message>
+        <message code="800.700.500" translate="true">company name too long</message>
+        <message code="800.800.102" translate="true">Invalid street</message>
+        <message code="800.800.202" translate="true">Invalid zip</message>
+        <message code="800.800.302" translate="true">Invalid city</message>
+        <message code="800.800.400" translate="true">Connector/acquirer system is under maintenance</message>
+        <message code="800.800.800" translate="true">The payment system is currenty unavailable, please contact support in case this happens again.</message>
+        <message code="800.800.801" translate="true">The payment system is currenty unter maintenance. Please apologize for the inconvenience this may cause. If you were not informed of this maintenance window in advance, contact your sales representative.</message>
+        <message code="800.900.100" translate="true">sender authorization failed</message>
+        <message code="800.900.101" translate="true">invalid email address (probably invalid syntax)</message>
+        <message code="800.900.200" translate="true">invalid phone number (has to start with a digit or a '+', at least 7 and max 25 chars long)</message>
+        <message code="800.900.201" translate="true">unknown channel</message>
+        <message code="800.900.300" translate="true">invalid authentication information</message>
+        <message code="800.900.301" translate="true">user authorization failed, user has no sufficient rights to process transaction</message>
+        <message code="800.900.302" translate="true">Authorization failed</message>
+        <message code="800.900.303" translate="true">No token created</message>
+        <message code="800.900.399" translate="true">Secure Registration Problem</message>
+        <message code="800.900.401" translate="true">Invalid IP number</message>
+        <message code="800.900.450" translate="true">Invalid birthdate</message>
+        <message code="900.100.100" translate="true">unexpected communication error with connector/acquirer</message>
+        <message code="900.100.200" translate="true">error response from connector/acquirer</message>
+        <message code="900.100.201" translate="true">error on the external gateway (e.g. on the part of the bank, acquirer,...)</message>
+        <message code="900.100.202" translate="true">invalid transaction flow, the requested function is not applicable for the referenced transaction.</message>
+        <message code="900.100.203" translate="true">error on the internal gateway</message>
+        <message code="900.100.300" translate="true">timeout, uncertain result</message>
+        <message code="900.100.301" translate="true">Transaction timed out without response from connector/acquirer. It was reversed.</message>
+        <message code="900.100.310" translate="true">Transaction timed out due to internal system misconfiguration. Request to acquirer has not been sent.</message>
+        <message code="900.100.400" translate="true">timeout at connectors/acquirer side</message>
+        <message code="900.100.500" translate="true">timeout at connectors/acquirer side (try later)</message>
+        <message code="900.100.600" translate="true">connector/acquirer currently down</message>
+        <message code="900.200.100" translate="true">Message Sequence Number of Connector out of sync</message>
+        <message code="900.300.600" translate="true">user session timeout</message>
+        <message code="900.400.100" translate="true">unexpected communication error with external risk provider</message>
+        <message code="999.999.888" translate="true">UNDEFINED PLATFORM DATABASE ERROR</message>
+        <message code="999.999.999" translate="true">UNDEFINED CONNECTOR/ACQUIRER ERROR</message>
+    </message_list>
+</mapping>

@@ -1,0 +1,29 @@
+<!--
+/**
+ * Copyright © Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<script>
+    require([
+        'uiLayout',
+        'jquery'
+    ], function (layout, $) {
+        $(function () {
+            let paymentMethodData = {
+                method: 'totalprocessing_opp'
+            };
+            layout([
+                {
+                    component: 'TotalProcessing_Opp/js/view/payment/method-renderer/multishipping/iframe',
+                    name: 'payment_method_totalprocessing_opp',
+                    method: paymentMethodData.method,
+                    item: paymentMethodData
+                }
+            ]);
+
+            $('body').trigger('contentUpdated');
+        })
+    })
+</script>
+<!-- ko template: getTemplate() --><!-- /ko -->

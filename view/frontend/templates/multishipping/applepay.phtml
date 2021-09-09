@@ -1,0 +1,41 @@
+<!--
+/**
+ * Copyright © Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<script>
+    require([
+        'uiLayout',
+        'jquery'
+    ], function (layout, $) {
+        $(function () {
+            let paymentMethodData = {
+                method: 'totalprocessing_opp_applepay'
+            };
+
+            if (
+                window.checkoutConfig.payment[paymentMethodData.method].isActive
+                && window.ApplePaySession
+                && ApplePaySession.canMakePayments()
+            ) {
+                layout([
+                    {
+                        component: 'TotalProcessing_Opp/js/view/payment/method-renderer/multishipping/applepay',
+                        name: 'payment_method_totalprocessing_opp_applepay',
+                        method: paymentMethodData.method,
+                        item: paymentMethodData
+                    }
+                ]);
+            } else {
+                $(document).ready(function () {
+                    $("#p_method_" + paymentMethodData.method).parent().parent().remove();
+                });
+            }
+
+
+            $('body').trigger('contentUpdated');
+        })
+    })
+</script>
+<!-- ko template: getTemplate() --><!-- /ko -->

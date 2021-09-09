@@ -1,280 +1,105 @@
 <?php
-header('Cache-Control: no-cache, no-store, must-revalidate');
-header('Pragma: no-cache');
-header('Expires: 0');
-$mainFrame = true;
-$showModal = true;
-$paramData = $block->getUrlReqData();
-if(is_array($paramData)){
-    if(isset($paramData['checkoutId'])){
-        $responseData = $block->prepareCheckoutDataBlock($paramData['checkoutId']);
-        if($responseData){
-            echo json_encode($responseData);
-            exit;
-        }
-    } else if(isset($paramData['sqlQuote'])){
-        $storeDataResult = $block->fetchRetAllTpCardsSessionData();
-        $placeOrderResult = $block->processTpCardsOrder($storeDataResult);
-        echo json_encode(['placeOrder' => $placeOrderResult]);
-        exit;
-    } else if(isset($paramData['resourcePath'])){
-        $responseData = $block->getResultCheckoutDataBlock($paramData['resourcePath']);
-        if($responseData){
-            if(is_array($responseData) || is_object($responseData)){
-                $redirect = false;
-                $mainFrame = false;
-                $responseJson = json_encode($responseData);
-                if($responseData['status'] === true){
-                    $showModal = false;
-                    $modalResponse = '{}';
-                    $redirect = $responseData['redirect'];
-                } else {
-                    $modalResponse = json_encode([
-                        'code' => $responseData['code'],
-                        'description' => $responseData['description']
-                    ]);
-                }
-            }
-        }
-    } else if(isset($paramData['tpcomplete'])){
-        $response = $block->reportingEndPointLookupId($paramData['env'],$paramData['id']);
-        echo json_encode($response);
-        exit;
-    }
-}
-if($mainFrame === true){
-    $blockData = $block->prepareCheckoutDataBlock(false);
-    $imgStorePath = $this->getViewFileUrl('TotalProcessing_TPCARDS::images/default.svg');
-    $imgPathPieces = explode('/',$imgStorePath);
-    array_pop($imgPathPieces);
-    $imgStorePath = implode('/',$imgPathPieces);
-    $tp_primary_color = $blockData['primaryColor'];
-    $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-    $shopperResUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-}
-$tpJqPath = $this->getViewFileUrl('TotalProcessing_TPCARDS::js/jquery.min.js');
+/**
+ * Copyright © Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var TotalProcessing\Opp\Block\Frame $block
+ */
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="profile" href="http://gmpg.org/xfn/11">
-        <meta name="robots" content="noindex,nofollow">
-    	<meta name="viewport" content="width=device-width, initial-scale=1">
-    	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-        <meta http-equiv="Pragma" content="no-cache">
-        <meta http-equiv="Expires" content="0">
-        <title>Total Processing Card Payments</title>
-        <style type="text/css">
-            html, body, fieldset {margin:0!important; padding:0!important; background: transparent;}
-            body {
-                color: #707173;
-                font-family: 'Assistant','Helvetica Neue',Helvetica,Arial,sans-serif;
-                font-style: normal;
-                font-weight: 400;
-                /*line-height: 1.42857143;*/
-                font-size: 12px;
-            }
-        <?php if($mainFrame === true){ ?>
-            #wpwlDynBrand {width: 50px;height: 16px; padding: 7px; position: absolute; right: 0; top: 27px;}
-            #wpwlDynBrandImg {border-radius: unset; height: -webkit-fill-available; margin:0!important; float: right; max-height:16px; max-width: 50px;}
-            .wpwl-form{max-width: 100%!important; margin: 0!important;}
-            .wpwl-group{width:unset!important; position:unset!important;}
-            .wpwl-label {width:100%!important;}
-            .wpwl-wrapper, .wpwl-control, .wpwl-sup-wrapper {width:100%!important; float:none!important;}
-            .wpwl-group-brand, .wpwl-group-billing {display:none;}
-            .wpwl-wrapper-billing {width: 75%;}
-            iframe.wpwl-control-iframe,input.wpwl-control-expiry {line-height:12px; color:#333!important; padding:0; margin: auto; background: transparent!important;}
-            input:not(.tpToggleVisible) {background: transparent!important; color:#333!important; border-radius: 0px; box-shadow: none; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
-            input.tp-input-tmp {width:1px!important;}
-            /*div.wpwl-hint {display:none;}*/
-            div.text-field-container {margin-bottom:0.3rem;}
-            iframe.wpwl-control-cardNumber {padding-right: 60px!important;}
-            .wpwl-wrapper-submit, .tpCenter {text-align:center;}
-            .tpHidden {display:none;}
-            .wpwl-group-cardNumber {float:left!important; width:50%!important;}
-            .wpwl-group-expiry {float:left!important; width:22%!important; margin-left:14px;}
-            .wpwl-group-cvv {float:left!important; width:22%!important; margin-left:10px;}
-            /* .wpwl-group-cardHolder {float:none!important; clear:both!important; width:50%!important; margin-top:8px;}*/ 
-            .wpwl-group-cardHolder {display:none;}
-            /* field styles...*/
-            .wpwl-control-cardNumber, .wpwl-control-expiry, .wpwl-control-cvv {
-                height: 40px!important;
-                padding: 8px!important;
-                font-size: 16px!important;
-                border-radius: 20px!important;
-            }
-            .wpwl-control-street1,.wpwl-control-street2,.wpwl-control-city,.wpwl-control-stateText,.wpwl-control-postcode {
-                height: 40px!important;
-                padding: 8px!important;
-                font-size: 16px!important;
-                border-radius: 20px!important;
-            }
-            .wpwl-control-country,.wpwl-control-stateSelect {
-                height: 40px!important;
-                padding: 8px!important;
-                font-size: 16px!important;
-                border-radius: 20px!important;
-            }
-            .wpwl-button-pay {
-                color: #fff;
-                height: 40px!important;
-                padding: 8px!important;
-                font-size: 14px!important;
-                border-radius: 20px!important;
-                background-color: #<?php echo $tp_primary_color; ?>!important;
-                border-color: #<?php echo $tp_primary_color; ?>!important;
-                width: 120px;
-                text-align: center;
-                float: none;
-            }
-            .wpwl-group-submit {clear:both;}
-            .wpwl-wrapper-submit {display:none;}
-            @media only screen and (max-width: 600px) {
-                .wpwl-group-cardNumber {float:none!important; width:100%!important;}
-                .wpwl-group-expiry {float:left!important; width:45%!important; margin:0!important;}
-                .wpwl-group-cvv {float:right!important; width:45%!important; margin:0!important;}
-                /*.wpwl-group-cardHolder {float:none!important; clear:both!important; width:100%!important; margin-top:16px!important;}*/
-                #wpwlDynBrand {width: 50px;height: 14px; padding: 7px; position: absolute; right: 0; top: 3px;}
-                .wpwl-wrapper-billing {width: 100%!important;}
-            }
-        <?php } ?>
-        </style>
-        <script src="<?php echo $tpJqPath; ?>"></script>
-    </head>
-    <body>
-    <?php if($mainFrame === true){ ?>
-        <div id="tpFormContainer"></div>
-        <?php 
-        if( $blockData['oppwaJs'] !== false ) {
-        echo '<script src="' . $blockData['oppwaJs'] . '"></script>';
+<script src="<?php echo $block->getPaymentWidgetsUrl(); ?>"></script>
+<script>
+    function postMessage(iframeDoc, iframeHeight, isPlaceOrderVisible) {
+        let event;
+        let data = {
+            "iframeDoc": iframeDoc,
+            "iframeHeight": iframeHeight,
+            "isVisible": isPlaceOrderVisible,
+            "placeOrder": false
         }
-        ?>
-        <style type="text/css">
-            <?php echo $blockData['iFrameCss']; ?> 
-        </style>
-    <?php } ?>
-        <script>
-            //iFrame communication functions
-            function postMessageToParent(obj){
-                if(typeof window.CustomEvent === "function") {
-                    var event = new CustomEvent('parentLog', {detail:obj});
-                } else {
-                    var event = document.createEvent('Event');
-                    event.initEvent('parentLog', true, true);
-                    event.detail = obj;
-                }
-                window.parent.document.dispatchEvent(event);
-            }
-            function parentWindowComms(e){
-                if(e.detail.hasOwnProperty('funcs')){
-                    for (var i = 0, len = e.detail.funcs.length; i < len; i++) {
-                        if(typeof window[e.detail.funcs[i].name] === 'function'){
-                            window[e.detail.funcs[i].name](e.detail.funcs[i].args);
-                        }
-                    }
-                }
-            }
-        
-        <?php if($mainFrame === true){ ?>
-           
-            var checkoutId = "<?php echo $blockData['checkoutId']; ?>";
-            var originDomain = "<?php echo $protocol.$_SERVER['HTTP_HOST']; ?>";
-            var tpFormEl = '<form action="<?php echo $shopperResUrl; ?>" class="paymentWidgets" data-brands="<?php echo $blockData['paymentBrands']; ?>"></form>';
-            
-            var wpwlOptions = {
-                style: "plain",
-                disableSubmitOnEnter: true,
-                showLabels: true,
-                showPlaceholders: false,
-                brandDetection: true,
-                brandDetectionType: "regex",
-                requireCvv: true,
-                showCVVHint: false,
-                autofocus: "card.number",
-                paymentTarget: "totalprocessing_tpcards_iframe",
-                shopperResultTarget: "totalprocessing_tpcards_iframe",
-                iframeStyles: {
-                    'card-number-placeholder': {
-                        'color': '#707173',
-                        'font-size': '11px',
-                        'font-family': 'Helvetica'
-                    },
-                    'cvv-placeholder': {
-                        'color': '#707173',
-                        'font-size': '11px',
-                        'font-family': 'Helvetica'
-                    }
-                },
-                onReady: function() {
-                    //console.log('wpwlReady');
-                    //console.log(checkoutId);
-                    postMessageToParent({funcs:[{"name":"setTpInAction","args":[false]}]});
-                },
-                onReadyIframeCommunication: function(){
-                    var iframeField = this.$iframe[0];
-                    if(iframeField.classList.contains('wpwl-control-cardNumber') === true){
-                        var ccNoContainer = iframeField.parentNode;
-                        var brandContainer = document.createElement('div');
-                        brandContainer.id="wpwlDynBrand";
-                        var dynBrandImg = document.createElement('img');
-                        dynBrandImg.id='wpwlDynBrandImg';
-                        dynBrandImg.src='<?php echo $imgStorePath; ?>/default.svg';
-                        brandContainer.appendChild(dynBrandImg);
-                        ccNoContainer.appendChild(brandContainer);
-                        var frameHeight = document.querySelector('form.wpwl-form-card').scrollHeight;
-                        frameHeight = Math.round(frameHeight);
-                        if(frameHeight < 180){
-                            frameHeight = 230;
-                        } else {
-                            frameHeight = frameHeight + 30;
-                        }
-                        postMessageToParent({funcs:[{"name":"tpSetFrameHeight","args":[frameHeight]}]});
-                    }
-                },
-                onDetectBrand: function(brands){
-                    var dynBrandImgSrc;
-                    if(brands.length > 0){
-                        dynBrandImgSrc = '<?php echo $imgStorePath; ?>/' + brands[0] + '.svg';
-                    } else {
-                        dynBrandImgSrc = '<?php echo $imgStorePath; ?>/' + 'default.svg';
-                    }
-                    document.getElementById('wpwlDynBrandImg').src = dynBrandImgSrc;
-                },
-                onBeforeSubmitCard: function(event){
-                    postMessageToParent({funcs:[{"name":"setTpInAction","args":[true]}]});
-                    return true;
-                },
-                onAfterSubmit: function(){
-                    postMessageToParent({funcs:[{"name":"tpSetFrameHeight","args":[580]}]});
-                    return true;
-                },
-                onError: function(error){
-                    postMessageToParent({funcs:[{"name":"leaveEmbeddedIframe","args":[{"code":"Checkout Error","description":error}]}]});
-                }
-            };
 
-            $(document).ready(function() {
-                //console.log('frame dom ready JQ.v2');
-                //console.log(<?php echo json_encode($blockData); ?>);
-                window.addEventListener('frameLog', parentWindowComms, false);
-                //window.parent.postMessage({checkoutId:checkoutId}, originDomain);
-                $("#tpFormContainer").html(tpFormEl);
+        if (typeof window.CustomEvent === "function") {
+            event = new CustomEvent('iframe', {detail: data});
+        } else {
+            event = document.createEvent('Event');
+            event.initEvent('iframe', true, true);
+            event.detail = data
+        }
+
+        window.parent.document.dispatchEvent(event);
+    }
+
+    function getHeight(isAfterSubmit = false) {
+        let height = Math.max(
+            document.body.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.clientHeight,
+            document.documentElement.scrollHeight,
+            document.documentElement.offsetHeight
+        );
+
+        if (isAfterSubmit) {
+            height = Math.round(height * 1.5);
+        }
+
+        height += 50;
+
+        return Math.round(height);
+    }
+
+    var wpwlOptions = {
+        onReady: function() {
+            // inject custom script from admin panel
+            <?php echo $block->getOnReadyCustomScript() ?>
+
+            // inject custom css from admin panel
+            $("head link[rel='stylesheet']").last().after(
+                "<style rel='stylesheet' type='text/css' media='all'>"+
+                "<?php echo $block->getStyleOptionsCustomIframeCss().' '.$block->getStyleOptionsDefault() ?>" +
+                "<\/script>"
+            );
+            let __self = this;
+
+            <?php if ($block->isVaultEnabled() && !$block->isSchedulerActive()): ?>
+            $('form.wpwl-form-card').find('.wpwl-button').before(
+                '<div class="customLabel"><?php echo __("Store payment details?")?></div>' +
+                '<div class="customInput"><input type="checkbox" name="createRegistration" value="true" /></div>'
+            );
+            <?php endif; ?>
+
+            $('button').on("click.wpwlEvent", function () {
+                setTimeout(function () { postMessage(__self.document, getHeight(), false); }, 100);
             });
 
-        <?php } else { ?>
-            //result funcs.
-            $(document).ready(function() {
-            <?php 
-                if($showModal === true){
-                    echo 'postMessageToParent({"funcs":[{"name":"leaveEmbeddedIframe","args":['.$modalResponse.']}]});';
-                } else if($redirect !== false) {
-                    echo 'window.top.location.href = "' . $redirect . '";';
-                } else if($responseData['status'] === true && $redirect === false) {
-                    echo 'postMessageToParent({"funcs":[{"name":"doCompletePayment","args":[true]}]});';
-                }
-            ?>
-            });
-        <?php } ?>
-        </script>
-    </body>
-</html>
+            $('.wpwl-container-card, .wpwl-container-registration')
+                .find('.wpwl-button-pay')
+                .html('<?php echo $block->getPaymentBtnText();?>');
+
+            postMessage(this.document, 0, false);
+        },
+        onAfterSubmit: function () {
+            postMessage(this.document, getHeight(true), false);
+        },
+        onReadyIframeCommunication: function () {
+            postMessage(this.document, getHeight(), false);
+        },
+        registrations: {
+            requireCvv: true,
+            hideInitialPaymentForms: true
+        },
+        brandDetection: true,
+        brandDetectionType: "binlist",
+        brandDetectionPriority: [<?php echo $block->getBrandsDetectionString() ?> ],
+        disableSubmitOnEnter: true,
+        locale: "<?php echo $block->getLocale(); ?>",
+        paymentTarget: "totalprocessing_opp_iframe",
+        shopperResultTarget: "totalprocessing_opp_iframe",
+        style: "<?php echo $block->getStyleOption(); ?>"
+    }
+</script>
+<form
+    class="paymentWidgets"
+    action="<?php echo $block->getRedirectUrl();?>"
+    data-brands="<?php echo $block->getBrands(); ?>">
+</form>

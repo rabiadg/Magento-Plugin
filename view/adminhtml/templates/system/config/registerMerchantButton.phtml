@@ -1,0 +1,85 @@
+<?php
+/**
+ * Copyright © Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var TotalProcessing\Opp\Block\System\Config\RegisterMerchantButton $block
+ */
+?>
+<script>
+    require(
+        [
+            'jquery',
+            'prototype'
+        ],
+        function(
+            $
+        ) {
+            $(document).ready(function () {
+                $("input[id$='_<?php echo $block->getMerchantIdentifierId();?>']").attr('readonly', true);
+            });
+
+            $("#<?php echo $block->getButtonId();?>").click(function (e) {
+                e.preventDefault();
+
+                $('body').trigger('processStart');
+
+                let env = $("select[id$='<?php echo $block->getEnvironmentId();?>']").val(),
+                    registerUrl = $("input[id$='" + env + "_" + env + "_<?php echo $block->getRegisterUrlId();?>']").val(),
+                    entityId = $("input[id$='" + env + "_" + env + "_<?php echo $block->getEntityId();?>']").val(),
+                    accessToken = $("input[id$='" + env + "_" + env + "_<?php echo $block->getAccessTokenId();?>']").val(),
+                    domainNames = $("input[id$='" + env + "_" + env + "_<?php echo $block->getDomainNamesId();?>']").val(),
+                    displayName = $("input[id$='" + env + "_" + env + "_<?php echo $block->getDisplayNamesId();?>']").val(),
+                    merchantIdentifier = $("input[id$='" + env + "_" + env + "_<?php echo $block->getMerchantIdentifierId();?>']");
+
+
+                let data = {
+                    registerUrl: registerUrl,
+                    environment: env,
+                    entityId: entityId,
+                    accessToken: accessToken,
+                    domainNames: domainNames,
+                    displayName: displayName
+                };
+
+                $("#" + merchantIdentifier.attr('id') + "-error").remove();
+                merchantIdentifier.val('');
+
+                let html = merchantIdentifier.parent().html();
+
+                $.ajax({
+                    url: "<?php echo $block->getAjaxUrl();?>",
+                    method: "POST",
+                    data: data,
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.status) {
+                            merchantIdentifier.val(result.merchantIdentifier);
+                        } else {
+                            html += '<label for="' + merchantIdentifier.attr('id') +'" generated="true" ' +
+                                'class="mage-error" id="' + merchantIdentifier.attr('id') + '-error" style="display: ' +
+                                'block;"><?php echo __("Merchant registration error");?></label>';
+                            merchantIdentifier.parent().html(html);
+                        }
+
+                        $('body').trigger('processStop');
+                    },
+                    error: function (jqXHR) {
+                        html += '<label for="' + merchantIdentifier.attr('id') +'" generated="true" ' +
+                            'class="mage-error" id="' + merchantIdentifier.attr('id') + '-error" style="display: ' +
+                            'block;"><?php echo __("Merchant registration error");?></label>';
+                        merchantIdentifier.parent().html(html);
+
+                        $('body').trigger('processStop');
+                    }
+                });
+            });
+        }
+    );
+</script>
+
+<?php
+echo $block->getButtonHtml();
+?>
