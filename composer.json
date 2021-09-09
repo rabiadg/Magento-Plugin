@@ -1,5 +1,5 @@
 {
-    "name": "total-processing/opp",
+    "name": "total-processing/magento-plugin",
     "description": "Total Processing Open Payment Platform Magento Module",
     "config": {
         "sort-packages": true
