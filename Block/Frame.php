@@ -210,6 +210,7 @@ class Frame extends Template
      */
     public function isVaultEnabled(): bool
     {
+//        return false; // removed while there is a problem with default payments
         $vaultPayment = $this->getVaultPayment();
         return $vaultPayment->isActive($this->_session->getStoreId()) && $this->customerSession->isLoggedIn();
     }

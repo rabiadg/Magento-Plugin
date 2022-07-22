@@ -9,6 +9,7 @@ namespace TotalProcessing\Opp\Gateway\Request;
 
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Helper\Formatter;
+use TotalProcessing\Opp\Gateway\Helper\QuoteHelper;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 use TotalProcessing\Opp\Model\System\Config\PaymentType;
 use TotalProcessing\Opp\Observer\DataAssignObserver;
@@ -107,6 +108,11 @@ class PaymentDataBuilder implements BuilderInterface
     const PAYMENT_METHOD_NONCE = 'paymentMethodNonce';
 
     /**
+     * @var QuoteHelper
+     */
+    private $quoteHelper;
+
+    /**
      * @var SubjectReader
      */
     private $subjectReader;
@@ -114,10 +120,14 @@ class PaymentDataBuilder implements BuilderInterface
     /**
      * BasicDataBuilder constructor.
      *
+     * @param QuoteHelper $quoteHelper;
      * @param SubjectReader $subjectReader
      */
-    public function __construct(SubjectReader $subjectReader)
-    {
+    public function __construct(
+        QuoteHelper $quoteHelper,
+        SubjectReader $subjectReader
+    ) {
+        $this->quoteHelper = $quoteHelper;
         $this->subjectReader = $subjectReader;
     }
 
@@ -131,6 +141,7 @@ class PaymentDataBuilder implements BuilderInterface
 
         $payment = $paymentDataObject->getPayment();
         $order = $paymentDataObject->getOrder();
+        $quote = $this->quoteHelper->getQuote($order, $payment);
 
         $params = [
             self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
@@ -138,7 +149,7 @@ class PaymentDataBuilder implements BuilderInterface
             self::DESCRIPTOR => null,
             self::MERCHANT_INVOICE_ID => null,
             self::MERCHANT_MEMO => null,
-            self::MERCHANT_TRANSACTION_ID => $order->getOrderIncrementId(),
+            self::MERCHANT_TRANSACTION_ID => $quote->getOppMerchantTransactionId(),
             self::PAYMENT_BRAND => null,
             self::PAYMENT_TYPE => PaymentType::PRE_AUTHORIZATION,
             self::TAX_AMOUNT => null,

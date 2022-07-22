@@ -23,22 +23,15 @@ class BrandType implements OptionSourceInterface
      */
     protected $allowedTypes = [
         "amex",
-        "discover",
-        "electron",
-        "jcb",
-        "maestro",
         "mastercard",
         "visa",
     ];
 
     protected $map = [
         "AMEX" => 'amex',
-        "DISCOVER" => 'discover',
-        "MAESTRO" => 'maestro',
         "MASTER" => 'mastercard',
         "VISA" => 'visa',
-        "VISAELECTRON" => 'electron',
-        "JCB" => 'jcb',
+        "VISAELECTRON" => 'electron'
     ];
 
     /**

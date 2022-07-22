@@ -375,7 +375,8 @@ class Config extends BaseConfig
      */
     public function getStyleOptionsCustomIframeCss($storeId = null):string
     {
-            return $this->getValue(self::KEY_STYLE_OPTIONS_CUSTOM_IFRAME_CSS, $storeId) ?? '';
+        $value = $this->getValue(self::KEY_STYLE_OPTIONS_CUSTOM_IFRAME_CSS, $storeId) ?? '';
+        return preg_replace('/\s+/', ' ', trim($value));
     }
 
     /**

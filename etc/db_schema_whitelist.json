@@ -1,0 +1,7 @@
+{
+    "quote": {
+        "column": {
+            "opp_merchant_transaction_id": true
+        }
+    }
+}

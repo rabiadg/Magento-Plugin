@@ -127,6 +127,7 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
         }
 
         $storeId = $this->checkoutSession->getQuote()->getStoreId();
+        $quote = $this->checkoutSession->getQuote();
         $quoteId = $this->checkoutSession->getQuoteId();
 
         $billingAddress = $this->checkoutSession->getQuote()->getBillingAddress();
@@ -139,6 +140,7 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
             self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
             self::CURRENCY => $currency,
             self::PAYMENT_TYPE => PaymentType::PRE_AUTHORIZATION,
+            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $quote->getOppMerchantTransactionId(),
             CardDataBuilder::CARD_HOLDER => $billingAddress->getName(),
             "customParameters[" . CustomParameterDataBuilder::PLUGIN . "]" => $version,
             "customParameters[" . CustomParameterDataBuilder::QUOTE_ID . "]" => $quoteId,

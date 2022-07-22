@@ -39,7 +39,7 @@ class ReversalDataBuilder extends BaseRequestDataBuilder
 
         $params = [
             self::PAYMENT_TYPE => PaymentType::REVERSAL,
-            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $order->getOrderIncrementId(),
+            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $payment->getAdditionalInformation(PaymentDataBuilder::MERCHANT_TRANSACTION_ID),
             "customParameters[" . CustomParameterDataBuilder::ORDER_ID . "]" => $order->getId(),
             "customParameters[" . CustomParameterDataBuilder::ORDER_INCREMENT_ID . "]" => $order->getOrderIncrementId(),
             "customParameters[" . CustomParameterDataBuilder::PLUGIN . "]" => $this->getVersion(),

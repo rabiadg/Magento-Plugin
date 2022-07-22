@@ -29,11 +29,7 @@ class BrandType implements OptionSourceInterface
         "VISA",
         "VISADEBIT",
         "VISAELECTRON",
-        "AMEX",
-        "DINERS",
-        "DISCOVER",
-        "JCB",
-        "MAESTRO",
+        "AMEX"
     ];
 
     /**

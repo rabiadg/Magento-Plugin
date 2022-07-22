@@ -8,8 +8,9 @@ namespace TotalProcessing\Opp\Logger;
 
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Monolog\Logger as BaseLogger;
 
-class Logger extends \Monolog\Logger
+class Logger extends BaseLogger
 {
     /**
      * @var Config

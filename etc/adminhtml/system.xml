@@ -190,51 +190,6 @@
                         <source_model>TotalProcessing\Opp\Model\System\Config\PaymentAction</source_model>
                         <config_path>payment/totalprocessing_opp/payment_action</config_path>
                     </field>
-                    <field id="scheduler" translate="label" type="select" sortOrder="30" showInDefault="1"
-                           showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Scheduler Enabled</label>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/totalprocessing_opp/scheduler</config_path>
-                    </field>
-                    <field id="scheduler_sku_target" translate="label" type="text" sortOrder="40" showInDefault="1"
-                           showInWebsite="1" showInStore="1" canRestore="1">
-                        <comment>Comma separated SKUs.</comment>
-                        <depends>
-                            <field id="scheduler">1</field>
-                        </depends>
-                        <label>Schedule SKUs</label>
-                        <validate>required-entry no-whitespace</validate>
-                        <config_path>payment/totalprocessing_opp/scheduler_sku_target</config_path>
-                    </field>
-<!--                    TODO:  NOT Implemented yet, but may should be -->
-<!--                    <field id="tc_paybylink" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Pay-by-link on admin order creation</label>-->
-<!--                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
-<!--                        <config_path>payment/totalprocessing_opp/tc_paybylink</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="tc_scheduler" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Scheduler Activation</label>-->
-<!--                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
-<!--                        <config_path>payment/totalprocessing_opp/tc_scheduler</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="sku_target" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>TC Schedule SKUs (separate with comma no spacing)</label>-->
-<!--                        <config_path>payment/totalprocessing_opp/sku_target</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="primary_color" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Primary css colour (no hash)</label>-->
-<!--                        <config_path>payment/totalprocessing_opp/primary_color</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="settle_mode" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Settle Mode</label>-->
-<!--                        <source_model>TotalProcessing\Opp\Model\System\Config\SettleMode</source_model>-->
-<!--                        <config_path>payment/totalprocessing_opp/settle_mode</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="require_cardholder" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Require a cardholder</label>-->
-<!--                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
-<!--                        <config_path>payment/totalprocessing_opp/require_cardholder</config_path>-->
-<!--                    </field>-->
                     <field id="default_locale" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Default Locale</label>
                         <can_be_empty>1</can_be_empty>

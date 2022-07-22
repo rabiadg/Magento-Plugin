@@ -10,6 +10,8 @@ namespace TotalProcessing\Opp\Gateway\Response;
 use Magento\Framework\Serialize\Serializer\Json as Serializer;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
+use TotalProcessing\Opp\Gateway\Helper\QuoteHelper;
+use TotalProcessing\Opp\Gateway\Request\PaymentDataBuilder;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
@@ -26,6 +28,14 @@ class CommonHandler implements HandlerInterface
     const TIMESTAMP = 'timestamp';
     const RESPONSE = 'response';
 
+    /**
+     * @var QuoteHelper
+     */
+    protected $quoteHelper;
+
+    /**
+     * @var Serializer
+     */
     private $serializer;
 
     /**
@@ -36,11 +46,16 @@ class CommonHandler implements HandlerInterface
     /**
      * Constructor
      *
+     * @param QuoteHelper $quoteHelper;
      * @param Serializer $serializer
      * @param SubjectReader $subjectReader
      */
-    public function __construct(SubjectReader $subjectReader, Serializer $serializer)
-    {
+    public function __construct(
+        QuoteHelper $quoteHelper,
+        SubjectReader $subjectReader,
+        Serializer $serializer
+    ) {
+        $this->quoteHelper = $quoteHelper;
         $this->serializer = $serializer;
         $this->subjectReader = $subjectReader;
     }
@@ -54,6 +69,16 @@ class CommonHandler implements HandlerInterface
 
         $payment = $paymentDataObject->getPayment();
         ContextHelper::assertOrderPayment($payment);
+
+        $order = $paymentDataObject->getOrder();
+        $quote = $this->quoteHelper->getQuote($order, $payment);
+
+        if (!$payment->hasAdditionalInformation(PaymentDataBuilder::MERCHANT_TRANSACTION_ID)) {
+            $payment->setAdditionalInformation(
+                PaymentDataBuilder::MERCHANT_TRANSACTION_ID,
+                $quote->getOppMerchantTransactionId()
+            );
+        }
 
         $payment->setAdditionalInformation(
             self::RESPONSE,

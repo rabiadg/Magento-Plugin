@@ -4,4 +4,8 @@
 * See COPYING.txt for license details.
 */-->
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="quote">
+        <column name="opp_merchant_transaction_id" xsi:type="varchar" length="255"
+                nullable="true" comment="Total Processing  Open Payment Platform Merchant Transaction ID"/>
+    </table>
 </schema>
