@@ -585,4 +585,10 @@
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
     </virtualType>
+    <!-- START: Fix for: payment method for specific countries is not working for logged customer -->
+    <type name="Magento\Payment\Model\Checks\CanUseForCountry\CountryProvider">
+        <plugin name="total_processing_opp_country_provider"
+                type="TotalProcessing\Opp\Plugin\Payment\Model\Checks\CanUseForCountry\CountryProvider"/>
+    </type>
+    <!-- END: Fix for: payment method for specific countries is not working for logged customer -->
 </config>
