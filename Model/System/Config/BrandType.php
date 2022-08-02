@@ -25,10 +25,7 @@ class BrandType implements OptionSourceInterface
      */
     protected $_allowedTypes = [
         "MASTER",
-        "MASTERDEBIT",
         "VISA",
-        "VISADEBIT",
-        "VISAELECTRON",
         "AMEX"
     ];
 

@@ -30,8 +30,7 @@ class BrandType implements OptionSourceInterface
     protected $map = [
         "AMEX" => 'amex',
         "MASTER" => 'mastercard',
-        "VISA" => 'visa',
-        "VISAELECTRON" => 'electron'
+        "VISA" => 'visa'
     ];
 
     /**
