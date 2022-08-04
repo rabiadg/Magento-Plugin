@@ -216,10 +216,11 @@ class AuthorizeCommand
             $paymentDataObject = $this->subjectReader->readPayment($commandSubject);
             $payment = $paymentDataObject->getPayment();
 
-            // i don't know why this is named as if it's a boolean
             $preAuthData = $payment->getAdditionalInformation(TransactionCheckHandler::IS_PRE_AUTHORIZED);
-            return in_array($preAuthData['result']['code'], SuccessCode::getSuccessfulTransactionCodes());
-
+            if (is_array($preAuthData) && isset($preAuthData['result']['code'])) {
+                return in_array($preAuthData['result']['code'], SuccessCode::getSuccessfulTransactionCodes());
+            }
+            return (bool)$preAuthData;
         } catch (\Throwable $t) {
             throw $t;
         }

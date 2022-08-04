@@ -16,6 +16,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use TotalProcessing\Opp\Model\Ui\ApplePay\ConfigProvider as ApplePayConfigProvider;
 use TotalProcessing\Opp\Model\Ui\ConfigProvider as DefaultConfigProvider;
+use Magento\Checkout\Model\Session as CheckoutSession;
 
 /**
  * Class OrderCancellation
@@ -43,21 +44,29 @@ class OrderCancellation
     private $searchCriteriaBuilder;
 
     /**
+     * @var CheckoutSession
+     */
+    private $checkoutSession;
+
+    /**
      * @param LoggerInterface $logger
      * @param OrderRepositoryInterface $orderRepository
      * @param CartRepositoryInterface $quoteRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param CheckoutSession $checkoutSession
      */
     public function __construct(
         LoggerInterface $logger,
         OrderRepositoryInterface $orderRepository,
         CartRepositoryInterface $quoteRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        CheckoutSession $checkoutSession
     ) {
         $this->logger = $logger;
         $this->orderRepository = $orderRepository;
         $this->quoteRepository = $quoteRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -87,10 +96,7 @@ class OrderCancellation
                 ApplePayConfigProvider::CODE,
             ];
             if (in_array($payment->getMethod(), $paymentCodes)) {
-                $incrementId = $quote->getReservedOrderId();
-                if ($incrementId) {
-                    $this->cancelOrder($incrementId);
-                }
+                $this->cancelOrder($cartId, $quote->getReservedOrderId());
             }
 
             throw $e;
@@ -98,15 +104,47 @@ class OrderCancellation
     }
 
     /**
+     * @param $order
+     * @return void
+     */
+    private function doCancelOrder($order): void
+    {
+        try {
+            $order->cancel();
+            $this->orderRepository->save($order);
+        } catch (\Exception $e) {
+            // omit exception
+        }
+    }
+
+    /**
      * Cancels an order and a payment transaction.
      *
-     * @param string $incrementId
+     * @param $cartId
+     * @param string|null $incrementId
      * @return bool
      */
-    public function cancelOrder(string $incrementId): bool
+    public function cancelOrder($cartId, string $incrementId = null): bool
     {
+        // by default set order filter params for search criteria
+        $filterField = OrderInterface::INCREMENT_ID;
+        $filterValue = $incrementId;
+
+        if (!$incrementId) {
+            // try to retrieve order from checkout session
+            $order = $this->checkoutSession->getLastRealOrder();
+            if ($order->getIncrementId()) {
+                $this->doCancelOrder($order);
+                return true;
+            }
+
+            // set quote filter params for search criteria
+            $filterField = OrderInterface::QUOTE_ID;
+            $filterValue = $cartId;
+        }
+
         $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(OrderInterface::INCREMENT_ID, $incrementId)
+            ->addFilter($filterField, $filterValue)
             ->create();
 
         $orders = $this->orderRepository
@@ -115,9 +153,7 @@ class OrderCancellation
 
         if (count($orders) > 1) {
             $order = array_pop($orders);
-            $order->cancel();
-            $this->orderRepository->save($order);
-
+            $this->doCancelOrder($order);
             return true;
         }
 
