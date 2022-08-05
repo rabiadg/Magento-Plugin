@@ -21,7 +21,6 @@ class AuthorizeCommand extends GatewayCommand
     public function execute(array $commandSubject)
     {
         $isPreAuthorized = $commandSubject[TransactionCheckHandler::IS_PRE_AUTHORIZED] ?? false;
-
         if (!$isPreAuthorized) {
             parent::execute($commandSubject);
         }

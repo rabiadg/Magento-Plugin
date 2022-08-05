@@ -3,5 +3,5 @@
  * See COPYING.txt for license details.
  */
 
-let config = {
+var config = {
 };
