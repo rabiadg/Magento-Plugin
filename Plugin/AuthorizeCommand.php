@@ -217,11 +217,6 @@ class AuthorizeCommand
             $payment = $paymentDataObject->getPayment();
 
             $preAuthData = $payment->getAdditionalInformation(TransactionCheckHandler::IS_PRE_AUTHORIZED);
-
-
-
-
-
             if (is_array($preAuthData) && isset($preAuthData['result']['code'])) {
                 return in_array($preAuthData['result']['code'], SuccessCode::getSuccessfulTransactionCodes());
             }
