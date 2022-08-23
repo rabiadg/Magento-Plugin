@@ -78,9 +78,6 @@ class GuestPaymentInformationManagement
         } catch (CommandException $e) {
             $this->logger->critical($e->getMessage(), ["cartId" => $cartId]);
             throw new CouldNotSaveException(__($e->getMessage()), $e);
-//            throw new CouldNotSaveException(
-//                __('An error occurred on the server. Please try to place the order again.')
-//            );
         } catch (LocalizedException $e) {
             $this->logger->critical($e->getMessage(), ["cartId" => $cartId]);
             throw new CouldNotSaveException(__($e->getMessage()), $e);

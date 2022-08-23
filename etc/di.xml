@@ -573,7 +573,7 @@
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
     </type>
-<!--    Sale Instant Purchase -->
+    <!-- Sale Instant Purchase -->
     <virtualType name="TotalProcessingVaultInstantSaleCommand" type="TotalProcessing\Opp\Gateway\Command\VaultSaleCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">TotalProcessingCaptureRequest</argument>

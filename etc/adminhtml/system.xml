@@ -238,7 +238,6 @@
                     <attribute type="expanded">0</attribute>
                     <depends>
                         <field id="totalprocessing_opp_basic_active">1</field>
-<!--                        <field id="payment_us/totalprocessing_opp/totalprocessing_opp_basic/active">1</field>-->
                     </depends>
                     <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
                     <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1"

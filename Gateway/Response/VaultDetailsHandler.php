@@ -121,8 +121,7 @@ class VaultDetailsHandler implements HandlerInterface
         }
 
         $cardDetails = $this->subjectReader->readResponse($response, CardDetailsHandler::CARD_NAMESPACE) ?? [];
-        // If have no 3d secure verification ID it is not 3d secure
-
+        // If we have no 3d secure verification ID it is not 3d secure
         $data3DSecure = $this->subjectReader->readResponse($response, ThreeDSecureHandler::THREE_D_SECURE_NAMESPACE);
         $is3DSecure = isset($data3DSecure[ThreeDSecureHandler::THREE_D_SECURE_VERIFICATION_ID]);
 
