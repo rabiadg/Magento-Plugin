@@ -70,11 +70,7 @@ class Frame extends Template
         $this->config = $config;
         $this->customerSession = $customerSession;
         $this->paymentDataHelper = $paymentDataHelper;
-
-        $this->pageConfig->addPageAsset('TotalProcessing_Opp::js/jquery.min.js');
-        $this->_logger->debug("JQuery imported! Lets Begin ... ", $data);
     }
-
 
     /**
      * Get Available Brand types defined in system/config
