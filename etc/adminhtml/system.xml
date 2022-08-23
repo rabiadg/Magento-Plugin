@@ -42,14 +42,10 @@
                         <label>Live</label>
                         <attribute type="expanded">1</attribute>
                         <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <comment><![CDATA[Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).]]></comment>
                         <depends>
                             <field id="environment">live</field>
                         </depends>
-                        <field id="totalprocessing_opp_basic_live_note_information" translate="label" type="label" sortOrder="1"
-                               showInStore="1" showInWebsite="1" showInDefault="1" >
-                            <label>NOTE:</label>
-                            <comment>Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).</comment>
-                        </field>
                         <field id="live_entity_id" translate="label" type="text" sortOrder="10" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Entity ID</label>
@@ -80,14 +76,10 @@
                         <label>Sandbox</label>
                         <attribute type="expanded">1</attribute>
                         <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <comment><![CDATA[Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).]]></comment>
                         <depends>
                             <field id="environment">sandbox</field>
                         </depends>
-                        <field id="totalprocessing_opp_basic_sandbox_note_information" translate="label" type="label" sortOrder="1"
-                               showInStore="1" showInWebsite="1" showInDefault="1" >
-                            <label>NOTE:</label>
-                            <comment>Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).</comment>
-                        </field>
                         <field id="sandbox_entity_id" translate="label" type="text" sortOrder="10" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Entity ID</label>
@@ -290,15 +282,11 @@
                         <label>Live</label>
                         <attribute type="expanded">1</attribute>
                         <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <comment><![CDATA[Select "Use system value" on each to delete your credentials.]]></comment>
                         <depends>
                             <field id="active">1</field>
                             <field id="environment">live</field>
                         </depends>
-                        <field id="totalprocessing_opp_applepay_live_note_information" translate="label" type="label" sortOrder="1"
-                               showInStore="1" showInWebsite="1" showInDefault="1" >
-                            <label>NOTE:</label>
-                            <comment>Select "Use system value" on each to delete your credentials.</comment>
-                        </field>
                         <field id="live_merchant_id_domain_association" translate="label" type="textarea" sortOrder="10"
                                showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Merchant ID Domain Association</label>
@@ -328,7 +316,6 @@
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Register URL</label>
                             <config_path>payment/totalprocessing_opp_applepay/live_register_url</config_path>
-
                             <validate>required-entry no-whitespace validate-url</validate>
                         </field>
                         <field id="live_shopper_endpoint" translate="label" type="text" sortOrder="60"
@@ -354,15 +341,11 @@
                         <label>Sandbox</label>
                         <attribute type="expanded">1</attribute>
                         <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <comment><![CDATA[Select "Use system value" on each to delete your credentials.]]></comment>
                         <depends>
                             <field id="active">1</field>
                             <field id="environment">sandbox</field>
                         </depends>
-                        <field id="totalprocessing_opp_applepay_sandbox_note_information" translate="label" type="label" sortOrder="1"
-                               showInStore="1" showInWebsite="1" showInDefault="1" >
-                            <label>NOTE:</label>
-                            <comment>Select "Use system value" on each to delete your credentials.</comment>
-                        </field>
                         <field id="sandbox_merchant_id_domain_association" translate="label" type="textarea" sortOrder="10"
                                showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Merchant ID Domain Association</label>
