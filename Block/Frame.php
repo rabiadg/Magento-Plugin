@@ -17,6 +17,15 @@ use Magento\Framework\View\Element\Template;
 class Frame extends Template
 {
     /**
+     * @return Frame
+     */
+    protected function _prepareLayout()
+    {
+        $this->pageConfig->addPageAsset('jquery/jquery.min.js');
+        return parent::_prepareLayout();
+    }
+
+    /**
      * @param $store
      * @return int
      * @throws NoSuchEntityException

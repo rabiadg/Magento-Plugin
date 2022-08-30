@@ -54,13 +54,13 @@ $storeId = $block->getStoreId();
     }
 
     var wpwlOptions = {
-        onReady: function() {
+        onReady: function () {
             // inject custom script from admin panel
             <?= $viewModel->getOnReadyCustomScript($storeId) ?>
 
             // inject custom css from admin panel
             $("head link[rel='stylesheet']").last().after(
-                "<style rel='stylesheet' type='text/css' media='all'>"+
+                "<style rel='stylesheet' type='text/css' media='all'>" +
                 "<?= $viewModel->getStyleOptionsCustomIframeCss($storeId) . ' ' . $viewModel->getStyleOptionsDefault($storeId) ?>" +
                 "<\/script>"
             );
@@ -74,7 +74,9 @@ $storeId = $block->getStoreId();
             <?php endif; ?>
 
             $('button').on("click.wpwlEvent", function () {
-                setTimeout(function () { postMessage(__self.document, getHeight(), false); }, 100);
+                setTimeout(function () {
+                    postMessage(__self.document, getHeight(), false);
+                }, 100);
             });
 
             $('.wpwl-container-card, .wpwl-container-registration')
@@ -95,7 +97,7 @@ $storeId = $block->getStoreId();
         },
         brandDetection: true,
         brandDetectionType: "binlist",
-        brandDetectionPriority: [<?= $viewModel->getBrandsDetectionString($storeId) ?> ],
+        brandDetectionPriority: [<?= $viewModel->getBrandsDetectionString($storeId) ?>],
         disableSubmitOnEnter: true,
         locale: "<?= $viewModel->getLocale($storeId); ?>",
         paymentTarget: "totalprocessing_opp_iframe",
