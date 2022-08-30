@@ -30,7 +30,10 @@ define(
                 isVisible: isVisible,
                 code: 'totalprocessing_opp',
                 isInAction: iframeService.isInAction,
-                isLightboxReady: iframeService.isLightboxReady
+                isLightboxReady: iframeService.isLightboxReady,
+                isLoading: ko.observable(false),
+                isPlainFramePlaceholderVisible: ko.observable(false),
+                isCardFramePlaceholderVisible: ko.observable(false)
             },
 
             getCode: function () {
@@ -50,7 +53,9 @@ define(
             },
 
             isActive: function () {
-                return this.getCode() === this.isChecked() && this.isCountryAvailable();
+                let isActive = this.getCode() === this.isChecked() && this.isCountryAvailable();
+                this.processingFramePlaceholder(true);
+                return isActive;
             },
 
             getSource: function () {
@@ -78,11 +83,16 @@ define(
                         fullScreenLoader.startLoader();
                         self.placeOrder();
                     }
+
+                    if (!self.isVisible()) {
+                        self.processingFramePlaceholder(false);
+                    }
                 });
             },
 
-            selectPaymentMethodClick: function () {
-                return this.selectPaymentMethod();
+            selectPaymentMethod: function () {
+                this.processingFramePlaceholder(true);
+                return this._super();
             },
 
             resizeIframe: function (height) {
@@ -106,8 +116,11 @@ define(
             getPlaceOrderDeferredObject: function () {
                 let self = this;
 
+                this.processingFramePlaceholder(true);
+
                 return this._super().fail(function () {
                     fullScreenLoader.stopLoader();
+                    self.processingFramePlaceholder(false);
                     self.isInAction(false);
                     document.removeEventListener('click', iframeService.stopEventPropagation, true);
 
@@ -126,6 +139,24 @@ define(
                 }
 
                 return false;
+            },
+
+            /**
+             * @param visibilityFlag
+             */
+            processingFramePlaceholder: function (visibilityFlag) {
+                let config = window.checkoutConfig.payment[this.getCode()], styleOptions;
+
+                if (config.hasOwnProperty('styleOptions')) {
+                    styleOptions = config.styleOptions;
+                }
+
+                if (styleOptions == 'plain') {
+                    this.isPlainFramePlaceholderVisible(visibilityFlag);
+                }
+                if (styleOptions == 'card') {
+                    this.isCardFramePlaceholderVisible(visibilityFlag);
+                }
             }
         });
     }
