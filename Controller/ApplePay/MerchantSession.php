@@ -7,58 +7,33 @@ declare(strict_types=1);
 
 namespace TotalProcessing\Opp\Controller\ApplePay;
 
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
-use TotalProcessing\Opp\Gateway\Helper\ApplePay\Merchant as MerchantHelper;
+use TotalProcessing\Opp\Controller\AbstractAction;
+use Magento\Framework\Controller\Result\Json;
+use Magento\Framework\Controller\ResultFactory;
 
 /**
- * Class Merchant
+ * Class MerchantSession
+ * @package TotalProcessing\Opp\Controller\ApplePay
  */
-class MerchantSession extends Action
+class MerchantSession extends AbstractAction
 {
-    /**
-     * @var MerchantHelper
-     */
-    private $merchantHelper;
-
-    /**
-     * @var JsonFactory
-     */
-    protected $resultJsonFactory;
-
-    /**
-     * Constructor
-     *
-     * @param MerchantHelper $merchantHelper
-     * @param Context $context
-     * @param JsonFactory $resultJsonFactory
-     */
-    public function __construct(
-        MerchantHelper $merchantHelper,
-        Context $context,
-        JsonFactory $resultJsonFactory
-    ) {
-        parent::__construct($context);
-        $this->merchantHelper = $merchantHelper;
-        $this->resultJsonFactory = $resultJsonFactory;
-    }
-
     /**
      * {@inheritdoc}
      */
     public function execute()
     {
-        $result = $this->resultJsonFactory->create();
+        /** @var Json $resultJson */
+        $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
         try {
-            $data = $this->merchantHelper->completeValidation($this->getRequest()->getParam('validationUrl'));
-
-            $result->setData($data);
+            $data = $this->applePayMerchantHelper->completeValidation(
+                $this->request->getParam('validationUrl')
+            );
+            $resultJson->setData($data);
         } catch (\Throwable $t) {
-            $result->setStatusHeader(400);
+            $resultJson->setStatusHeader(400);
         }
 
-        return $result;
+        return $resultJson;
     }
 }

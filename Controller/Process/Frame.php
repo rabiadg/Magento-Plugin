@@ -9,6 +9,7 @@ namespace TotalProcessing\Opp\Controller\Process;
 
 /**
  * Class Frame
+ * @package TotalProcessing\Opp\Controller\Process
  */
 class Frame extends BaseAction
 {

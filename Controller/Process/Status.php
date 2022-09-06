@@ -3,18 +3,20 @@
  * Copyright Total Processing. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 declare(strict_types=1);
 
 namespace TotalProcessing\Opp\Controller\Process;
 
 /**
  * Class Status
+ * @package TotalProcessing\Opp\Controller\Process
  */
 class Status extends BaseAction
 {
     /**
      * Set redirect.
+     *
+     * @return void
      */
     public function execute()
     {
