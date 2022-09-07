@@ -13,6 +13,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class AuthenticationDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class AuthenticationDataBuilder implements BuilderInterface
 {
@@ -32,9 +33,8 @@ class AuthenticationDataBuilder implements BuilderInterface
      * @var SubjectReader
      */
     private $subjectReader;
+
     /**
-     * Constructor
-     *
      * @param Config $config
      * @param SubjectReader $subjectReader
      */

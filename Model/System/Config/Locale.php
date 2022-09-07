@@ -10,7 +10,8 @@ namespace TotalProcessing\Opp\Model\System\Config;
 use Magento\Framework\Data\OptionSourceInterface;
 
 /**
- * Class Language
+ * Class Locale
+ * @package TotalProcessing\Opp\Model\System\Config
  */
 class Locale implements OptionSourceInterface
 {
@@ -49,6 +50,9 @@ class Locale implements OptionSourceInterface
     const SWEDISH = 'sv';
     const TURKISH = 'tr';
 
+    /**
+     * @var string[]
+     */
     protected $supportedLanguages = [
         self::DEFAULT => 'Default',
         self::ARABIC => 'Arabic',
@@ -86,6 +90,9 @@ class Locale implements OptionSourceInterface
         self::TURKISH => 'Turkish',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $specificLanguagesMapList = [
         'fr_BE' => self::BELGIAN,
         'zh_Hans_CN' => self::CHINESE_SIMPLIFIED,

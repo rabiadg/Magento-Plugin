@@ -15,11 +15,11 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class RiskDataHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class RiskDataHandler implements HandlerInterface
 {
     const RISK_NAMESPACE = 'risk';
-
     const RISK_SCORE = 'score';
 
     /**

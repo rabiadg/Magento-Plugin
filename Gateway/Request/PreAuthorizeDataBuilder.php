@@ -19,6 +19,7 @@ use TotalProcessing\Opp\Model\System\Config\PaymentType;
 
 /**
  * Class PreAuthorizeDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
 {
@@ -86,15 +87,13 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
     private $paymentTokenProvider;
 
     /**
-     * PreAuthorizeDataBuilder constructor.
-     *
-     * @param CheckoutSession          $checkoutSession
-     * @param CommandHelper            $commandHelper
-     * @param Config                   $config
-     * @param ResourceInterface        $moduleResource
+     * @param CheckoutSession $checkoutSession
+     * @param CommandHelper $commandHelper
+     * @param Config $config
+     * @param ResourceInterface $moduleResource
      * @param ProductMetadataInterface $productMetadata
-     * @param SubjectReader            $subjectReader
-     * @param PaymentTokenProvider     $paymentTokenProvider
+     * @param SubjectReader $subjectReader
+     * @param PaymentTokenProvider $paymentTokenProvider
      */
     public function __construct(
         CheckoutSession $checkoutSession,
@@ -133,7 +132,8 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
         $billingAddress = $this->checkoutSession->getQuote()->getBillingAddress();
 
         $version = "Magento v.{$this->productMetadata->getVersion()} "
-            . " / Module TotalProcessing OPP v." . $this->moduleResource->getDataVersion("TotalProcessing_Opp");
+            . " / Module TotalProcessing OPP v."
+            . $this->moduleResource->getDataVersion("TotalProcessing_Opp");
 
         $result = [
             self::ENTITY_ID => $this->config->getEntityId($storeId),

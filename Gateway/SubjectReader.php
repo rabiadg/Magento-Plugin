@@ -13,6 +13,7 @@ use TotalProcessing\Opp\Model\System\Config\ScheduleType;
 
 /**
  * Class SubjectReader
+ * @package TotalProcessing\Opp\Gateway
  */
 class SubjectReader
 {
@@ -29,7 +30,7 @@ class SubjectReader
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
-        $this->logger->backtrace_limit = 5;
+        $this->logger->setBacktraceLimit(5);
     }
 
     /**

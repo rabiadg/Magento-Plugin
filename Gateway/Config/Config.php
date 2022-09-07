@@ -24,6 +24,7 @@ use TotalProcessing\Opp\Model\System\Config\StyleOptions;
 
 /**
  * Class Config
+ * @package TotalProcessing\Opp\Gateway\Config
  */
 class Config extends BaseConfig
 {
@@ -98,7 +99,6 @@ class Config extends BaseConfig
     protected $logger;
 
     /**
-     * Config constructor.
      * @param ScopeConfigInterface $scopeConfig
      * @param AssetRepository $assetRepository
      * @param RequestInterface $request
@@ -108,8 +108,8 @@ class Config extends BaseConfig
      * @param BrandType $brandType
      * @param Locale $locale
      * @param LoggerInterface $logger
-     * @param null $methodCode
-     * @param string $pathPattern
+     * @param string|null $methodCode
+     * @param $pathPattern
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,

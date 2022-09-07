@@ -16,6 +16,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CommonHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class CommonHandler implements HandlerInterface
 {

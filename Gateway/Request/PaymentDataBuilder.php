@@ -16,6 +16,7 @@ use TotalProcessing\Opp\Observer\DataAssignObserver;
 
 /**
  * Class PaymentDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class PaymentDataBuilder implements BuilderInterface
 {
@@ -103,7 +104,9 @@ class PaymentDataBuilder implements BuilderInterface
     const TRANSACTION_CATEGORY = 'transactionCategory';
 
     /**
-     *
+     * The payment method nonce
+     * <br/>
+     * <strong>OPTIONAL</strong>
      */
     const PAYMENT_METHOD_NONCE = 'paymentMethodNonce';
 

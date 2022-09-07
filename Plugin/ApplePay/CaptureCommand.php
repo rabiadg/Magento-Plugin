@@ -19,8 +19,9 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CaptureCommand
- *
  * @TODO Change CommandException message with common message
+ *
+ * @package TotalProcessing\Opp\Plugin\ApplePay
  */
 class CaptureCommand
 {
@@ -56,6 +57,12 @@ class CaptureCommand
         $this->subjectReader = $subjectReader;
     }
 
+    /**
+     * @param \TotalProcessing\Opp\Gateway\Command\ApplePay\CaptureCommand $subject
+     * @param array $commandSubject
+     * @return array[]
+     * @throws CouldNotSaveException
+     */
     public function beforeExecute(
         \TotalProcessing\Opp\Gateway\Command\ApplePay\CaptureCommand $subject,
         array $commandSubject

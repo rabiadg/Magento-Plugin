@@ -17,6 +17,10 @@ use Magento\Payment\Gateway\Config\Config as BaseConfig;
 use Psr\Log\LoggerInterface;
 use TotalProcessing\Opp\Gateway\Config\Config as GatewayBaseConfig;
 
+/**
+ * Class Config
+ * @package TotalProcessing\Opp\Gateway\Config\ApplePay
+ */
 class Config extends BaseConfig
 {
     const KEY_ACTIVE = 'active';
@@ -57,15 +61,14 @@ class Config extends BaseConfig
     private $urlBuilder;
 
     /**
-     * Constructor
-     *
      * @param AssetRepository $assetRepository
      * @param GatewayBaseConfig $config
      * @param LoggerInterface $logger
+     * @param RequestInterface $request
      * @param ScopeConfigInterface $scopeConfig
      * @param UrlInterface $urlBuilder
-     * @param null $methodCode
-     * @param string $pathPattern
+     * @param string|null $methodCode
+     * @param $pathPattern
      */
     public function __construct(
         AssetRepository $assetRepository,

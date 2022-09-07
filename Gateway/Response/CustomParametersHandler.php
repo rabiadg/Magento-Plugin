@@ -13,6 +13,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CustomParametersHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class CustomParametersHandler implements HandlerInterface
 {
@@ -42,7 +43,8 @@ class CustomParametersHandler implements HandlerInterface
         $payment = $paymentDataObject->getPayment();
         ContextHelper::assertOrderPayment($payment);
 
-        $customParameters = $this->subjectReader->readResponse($response, self::CUSTOM_PARAMETERS_NAMESPACE) ?? [];
+        $customParameters = $this->subjectReader->readResponse($response, self::CUSTOM_PARAMETERS_NAMESPACE)
+            ?? [];
 
         foreach ($customParameters as $name => $value) {
             if (is_scalar($value)) {

@@ -20,6 +20,7 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 
 /**
  * Class OrderCancellation
+ * @package TotalProcessing\Opp\Plugin
  */
 class OrderCancellation
 {

@@ -21,8 +21,9 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CaptureCommand
- *
  * @TODO Change CommandException message with common message
+ *
+ * @package TotalProcessing\Opp\Plugin
  */
 class CaptureCommand
 {

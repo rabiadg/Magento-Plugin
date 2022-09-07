@@ -11,6 +11,7 @@ use Magento\Payment\Gateway\Command\GatewayCommand;
 
 /**
  * Class VaultSaleCommand
+ * @package TotalProcessing\Opp\Gateway\Command
  */
 class VaultSaleCommand extends GatewayCommand
 {

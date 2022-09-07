@@ -1,9 +1,7 @@
 <?php
 /**
- * @author andy
- * @email andyworkbase@gmail.com
- * @team MageCloud
- * @package TotalProcessing_Opp
+ * Copyright Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
  */
 namespace TotalProcessing\Opp\Helper;
 

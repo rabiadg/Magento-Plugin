@@ -24,8 +24,9 @@ use TotalProcessing\Opp\Model\System\Config\ScheduleType;
 
 /**
  * Class AuthorizeCommand
- *
  * @TODO Change CommandException message with common message
+ *
+ * @package TotalProcessing\Opp\Plugin
  */
 class AuthorizeCommand
 {
@@ -66,6 +67,7 @@ class AuthorizeCommand
      * @param Config $config
      * @param CommandManagerInterface $commandManager
      * @param LoggerInterface $logger
+     * @param ScheduleType $scheduleType
      * @param SubjectReader $subjectReader
      */
     public function __construct(

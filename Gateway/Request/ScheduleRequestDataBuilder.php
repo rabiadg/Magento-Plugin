@@ -18,6 +18,7 @@ use TotalProcessing\Opp\Model\System\Config\ScheduleType;
 
 /**
  * Class ScheduleRequestDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class ScheduleRequestDataBuilder extends BaseRequestDataBuilder
 {

@@ -11,6 +11,7 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 
 /**
  * Class CardDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class CardDataBuilder implements BuilderInterface
 {

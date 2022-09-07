@@ -13,6 +13,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class PaymentDetailsHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class PaymentDetailsHandler implements HandlerInterface
 {

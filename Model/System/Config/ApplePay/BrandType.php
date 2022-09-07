@@ -10,9 +10,9 @@ namespace TotalProcessing\Opp\Model\System\Config\ApplePay;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Payment\Model\Config as PaymentConfig;
 
-
 /**
  * Class BrandType
+ * @package TotalProcessing\Opp\Model\System\Config\ApplePay
  */
 class BrandType implements OptionSourceInterface
 {
@@ -27,6 +27,9 @@ class BrandType implements OptionSourceInterface
         "visa",
     ];
 
+    /**
+     * @var string[]
+     */
     protected $map = [
         "AMEX" => 'amex',
         "MASTER" => 'mastercard',
@@ -77,7 +80,6 @@ class BrandType implements OptionSourceInterface
     {
         $allowed = $this->getAllowedTypes();
         $options = [];
-
         foreach ($this->getBrandTypeLabelMap() as $code => $name) {
             if (array_key_exists($code, $this->map) && in_array($this->map[$code], $allowed)) {
                 $options[] = ['value' => $this->map[$code], 'label' => $name];

@@ -14,6 +14,7 @@ use TotalProcessing\Opp\Model\System\Config\PaymentType;
 
 /**
  * Class CaptureRequestDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class CaptureRequestDataBuilder extends BaseRequestDataBuilder
 {

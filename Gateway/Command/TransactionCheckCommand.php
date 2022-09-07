@@ -10,7 +10,8 @@ namespace TotalProcessing\Opp\Gateway\Command;
 use Magento\Payment\Gateway\Command\GatewayCommand;
 
 /**
- * Class PreAuthorizeCommand
+ * Class TransactionCheckCommand
+ * @package TotalProcessing\Opp\Gateway\Command
  */
 class TransactionCheckCommand extends GatewayCommand
 {

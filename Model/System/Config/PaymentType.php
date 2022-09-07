@@ -11,6 +11,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class PaymentType
+ * @package TotalProcessing\Opp\Model\System\Config
  */
 class PaymentType implements OptionSourceInterface
 {

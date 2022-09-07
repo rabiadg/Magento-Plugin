@@ -12,6 +12,7 @@ use TotalProcessing\Opp\Gateway\Response\TransactionCheckHandler;
 
 /**
  * Class AuthorizeCommand
+ * @package TotalProcessing\Opp\Gateway\Command
  */
 class AuthorizeCommand extends GatewayCommand
 {

@@ -15,6 +15,7 @@ use TotalProcessing\Opp\Gateway\Config\Config;
 
 /**
  * Class ConfigProvider
+ * @package TotalProcessing\Opp\Model\Ui
  */
 class ConfigProvider implements ConfigProviderInterface
 {
@@ -43,8 +44,6 @@ class ConfigProvider implements ConfigProviderInterface
     private $session;
 
     /**
-     * Constructor
-     *
      * @param Config $config
      * @param SessionManagerInterface $session
      * @param AssetSource $assetSource
@@ -65,12 +64,11 @@ class ConfigProvider implements ConfigProviderInterface
     public function getConfig(): array
     {
         $storeId = $this->session->getStoreId();
-        $isActive = $this->config->isActive($storeId);
 
         return [
             'payment' => [
                 self::CODE => [
-                    'isActive' => $isActive,
+                    'isActive' => $this->config->isActive($storeId),
                     'availableBrandTypes' => $this->config->getAvailableBrandTypes($storeId),
                     'icons' => $this->getIcons(),
                     'locale' => $this->config->getLocale($storeId),

@@ -9,6 +9,7 @@ namespace TotalProcessing\Opp\Gateway\Helper;
 
 /**
  * Class SuccessCode
+ * @package TotalProcessing\Opp\Gateway\Helper
  */
 class SuccessCode
 {

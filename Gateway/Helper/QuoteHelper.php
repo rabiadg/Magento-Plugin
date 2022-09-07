@@ -75,11 +75,15 @@ class QuoteHelper
      */
     public function getQuote(OrderAdapterInterface $orderAdapter, InfoInterface $payment): CartInterface
     {
-        $isInstantPurchase = filter_var($payment->getAdditionalInformation('instant-purchase'), FILTER_VALIDATE_BOOL);
+        $isInstantPurchase = filter_var(
+            $payment->getAdditionalInformation('instant-purchase'),
+            FILTER_VALIDATE_BOOL
+        );
 
         if ($isInstantPurchase) {
+            /** @var \Magento\Sales\Model\Order\Item $orderItem */
             $orderItem = current($orderAdapter->getItems());
-
+            /** @var \Magento\Quote\Model\Quote\Item $quoteItem */
             $quoteItem = $this->quoteItemFactory->create();
             $this->quoteItemResourceModel->load($quoteItem, $orderItem->getQuoteItemId());
 

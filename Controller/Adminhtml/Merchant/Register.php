@@ -9,9 +9,14 @@ namespace TotalProcessing\Opp\Controller\Adminhtml\Merchant;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
 use TotalProcessing\Opp\Gateway\Helper\ApplePay\Merchant as MerchantHelper;
 
+/**
+ * Class Register
+ * @package TotalProcessing\Opp\Controller\Adminhtml\Merchant
+ */
 class Register extends Action
 {
     /**
@@ -24,6 +29,11 @@ class Register extends Action
      */
     protected $resultJsonFactory;
 
+    /**
+     * @param Context $context
+     * @param MerchantHelper $merchantHelper
+     * @param JsonFactory $resultJsonFactory
+     */
     public function __construct(
         Context $context,
         MerchantHelper $merchantHelper,
@@ -39,7 +49,8 @@ class Register extends Action
      */
     public function execute()
     {
-        $result = $this->resultJsonFactory->create();
+        /** @var Json $resultJson */
+        $resultJson = $this->resultJsonFactory->create();
 
         try {
             $url = $this->getRequest()->getPostValue('registerUrl');
@@ -49,10 +60,10 @@ class Register extends Action
 
             $response = $this->merchantHelper->registerMerchant($environment, $url, $data);
         } catch (\Throwable $t) {
-            return $result->setData(['success' => false]);
+            return $resultJson->setData(['success' => false]);
         }
 
-        return $result->setData($response);
+        return $resultJson->setData($response);
     }
 
     /**

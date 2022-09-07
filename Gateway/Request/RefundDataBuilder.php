@@ -61,7 +61,8 @@ class RefundDataBuilder extends BaseRequestDataBuilder
             self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
             self::CURRENCY => $order->getCurrencyCode(),
             self::PAYMENT_TYPE => PaymentType::REFUND,
-            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $payment->getAdditionalInformation(PaymentDataBuilder::MERCHANT_TRANSACTION_ID),
+            PaymentDataBuilder::MERCHANT_TRANSACTION_ID =>
+                $payment->getAdditionalInformation(PaymentDataBuilder::MERCHANT_TRANSACTION_ID),
             "customParameters[" . CustomParameterDataBuilder::ORDER_ID . "]" => $order->getId(),
             "customParameters[" . CustomParameterDataBuilder::ORDER_INCREMENT_ID . "]" => $order->getOrderIncrementId(),
             "customParameters[" . CustomParameterDataBuilder::PLUGIN . "]" => $this->getVersion(),

@@ -13,6 +13,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CustomerDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class CustomerDataBuilder implements BuilderInterface
 {
@@ -63,6 +64,7 @@ class CustomerDataBuilder implements BuilderInterface
      * CustomerDataBuilder Constructor
      *
      * @param SubjectReader $subjectReader
+     * @param Session $checkoutSession
      */
     public function __construct(SubjectReader $subjectReader, Session $checkoutSession)
     {

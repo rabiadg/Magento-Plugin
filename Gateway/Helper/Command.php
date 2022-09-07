@@ -8,6 +8,8 @@ declare(strict_types=1);
 namespace TotalProcessing\Opp\Gateway\Helper;
 
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Gateway\Command\CommandManagerInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Command\CommandException;
@@ -17,6 +19,7 @@ use TotalProcessing\Opp\Gateway\Config\Config;
 
 /**
  * Class Command
+ * @package TotalProcessing\Opp\Gateway\Helper
  */
 class Command
 {
@@ -41,12 +44,10 @@ class Command
     protected $logger;
 
     /**
-     * Command constructor.
-     *
-     * @param CheckoutSession         $checkoutSession
-     * @param Config                  $config
+     * @param CheckoutSession $checkoutSession
+     * @param Config $config
      * @param CommandManagerInterface $commandManager
-     * @param LoggerInterface         $logger
+     * @param LoggerInterface $logger
      */
     public function __construct(
         CheckoutSession $checkoutSession,
@@ -64,16 +65,15 @@ class Command
      * Returns total processing checkout id
      *
      * @return string
+     * @throws \Exception
      */
     public function getCheckoutId(): string
     {
         try {
             $this->checkoutSession->unsCheckoutId();
 
-            $command = $this->commandManager->get(PreAuthorizeCommand::COMMAND_CODE);
-
             $this->logger->debug("Get Command: " . PreAuthorizeCommand::COMMAND_CODE);
-
+            $command = $this->commandManager->get(PreAuthorizeCommand::COMMAND_CODE);
             if (!$command instanceof CommandInterface) {
                 $this->logger->critical(__("Pre-Authorize command not found"), []);
                 throw new CommandException(__("Pre-Authorize command not found"));
@@ -96,24 +96,19 @@ class Command
      * Returns whether scheduler applicable
      *
      * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function isSchedulerActive(): bool
     {
         $quote = $this->checkoutSession->getQuote();
-
         $storeId = $quote->getStoreId();
-
         $scheduleSkuList = $this->config->getScheduleSkus($storeId);
-
         if (!$this->config->isSchedulerActive($storeId) || !$scheduleSkuList) {
             return false;
         }
 
-        $orderItems = $quote->getAllVisibleItems();
-
-        foreach ($orderItems as $item) {
+        foreach ($quote->getAllVisibleItems() as $item) {
             $amount = $item->getQty() * $item->getPriceInclTax() - $item->getDiscountAmount();
             if (in_array($item->getSku(), $scheduleSkuList) && $amount > 0) {
                 return true;

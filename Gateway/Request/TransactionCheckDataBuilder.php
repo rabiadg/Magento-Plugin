@@ -16,6 +16,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class TransactionCheckDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class TransactionCheckDataBuilder extends BaseRequestDataBuilder
 {
@@ -27,8 +28,6 @@ class TransactionCheckDataBuilder extends BaseRequestDataBuilder
     protected $checkoutSession;
 
     /**
-     * Constructor
-     *
      * @param CheckoutSession $checkoutSession
      * @param Config $config
      * @param ResourceInterface $moduleResource
@@ -61,7 +60,8 @@ class TransactionCheckDataBuilder extends BaseRequestDataBuilder
             PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $quote->getOppMerchantTransactionId(),
             self::REQUEST_DATA_NAMESPACE => [
                 self::REQUEST_DATA_METHOD => ZendClient::GET,
-                self::REQUEST_DATA_URL => rtrim($this->config->getApiUrl($storeId), '/') . self::TRANSACTION_PATH,
+                self::REQUEST_DATA_URL =>
+                    rtrim($this->config->getApiUrl($storeId), '/') . self::TRANSACTION_PATH,
                 self::REQUEST_DATA_HEADERS => [
                     "Authorization" => "Bearer {$this->config->getAccessToken($storeId)}",
                 ],

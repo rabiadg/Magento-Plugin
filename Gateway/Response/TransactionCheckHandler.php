@@ -26,6 +26,7 @@ use TotalProcessing\Opp\Model\System\Config\PaymentType;
 
 /**
  * Class TransactionCheckHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class TransactionCheckHandler implements HandlerInterface
 {
@@ -65,14 +66,12 @@ class TransactionCheckHandler implements HandlerInterface
     protected $subjectReader;
 
     /**
-     * Constructor
-     *
      * @param CheckoutSession $checkoutSession
      * @param CustomerTokenManagement $customerTokenManagement
      * @param OrderPaymentExtensionInterfaceFactory $paymentExtensionFactory
      * @param PaymentTokenFactoryInterface $paymentTokenFactory
-     * @param Serializer $serializer
      * @param SubjectReader $subjectReader
+     * @param Serializer $serializer
      */
     public function __construct(
         CheckoutSession $checkoutSession,
@@ -89,7 +88,6 @@ class TransactionCheckHandler implements HandlerInterface
         $this->serializer = $serializer;
         $this->subjectReader = $subjectReader;
     }
-
 
     /**
      * {@inheritdoc}
@@ -185,7 +183,6 @@ class TransactionCheckHandler implements HandlerInterface
     protected function getExtensionAttributes(InfoInterface $payment)
     {
         $extensionAttributes = $payment->getExtensionAttributes();
-
         if ($extensionAttributes === null) {
             $extensionAttributes = $this->paymentExtensionFactory->create();
             $payment->setExtensionAttributes($extensionAttributes);
@@ -235,15 +232,22 @@ class TransactionCheckHandler implements HandlerInterface
      */
     protected function getVaultPaymentToken(array $paymentData)
     {
-        $registrationId = $this->subjectReader->readResponse($paymentData, VaultDetailsHandler::REGISTRATION_ID) ?? '';
+        $registrationId = $this->subjectReader->readResponse(
+            $paymentData, VaultDetailsHandler::REGISTRATION_ID
+            ) ?? '';
 
         if (empty($registrationId) || $this->isTokenExists($registrationId)) {
             return null;
         }
 
-        $cardDetails = $this->subjectReader->readResponse($paymentData, CardDetailsHandler::CARD_NAMESPACE) ?? [];
+        $cardDetails = $this->subjectReader->readResponse(
+            $paymentData, CardDetailsHandler::CARD_NAMESPACE
+            ) ?? [];
         // If we have no 3d secure verification ID it is not 3d secure
-        $data3DSecure = $this->subjectReader->readResponse($paymentData, ThreeDSecureHandler::THREE_D_SECURE_NAMESPACE);
+        $data3DSecure = $this->subjectReader->readResponse(
+            $paymentData,
+            ThreeDSecureHandler::THREE_D_SECURE_NAMESPACE
+        );
         $is3DSecure = isset($data3DSecure[ThreeDSecureHandler::THREE_D_SECURE_VERIFICATION_ID]);
 
         $paymentToken = $this->paymentTokenFactory->create(PaymentTokenFactoryInterface::TOKEN_TYPE_CREDIT_CARD);
@@ -253,7 +257,9 @@ class TransactionCheckHandler implements HandlerInterface
             ->setExpiresAt($this->getExpirationDate($cardDetails));
 
         $jsonDetails = $this->convertDetailsToJSON([
-            'type' => $this->subjectReader->readResponse($paymentData, PaymentDetailsHandler::BASIC_PAYMENT_BRAND) ?? '',
+            'type' => $this->subjectReader->readResponse(
+                $paymentData, PaymentDetailsHandler::BASIC_PAYMENT_BRAND
+                ) ?? '',
             'maskedCC' => $cardDetails[CardDetailsHandler::CARD_LAST4_DIGITS],
             'expirationDate' => ($cardDetails[CardDetailsHandler::CARD_EXP_MONTH] ?? '')
                 . "/" . ($cardDetails[CardDetailsHandler::CARD_EXP_YEAR] ?? ''),
@@ -371,11 +377,6 @@ class TransactionCheckHandler implements HandlerInterface
                 RiskDataHandler::RISK_NAMESPACE . "_" . RiskDataHandler::RISK_SCORE,
                 $riskData[RiskDataHandler::RISK_SCORE]
             );
-
-//            if ($riskData[self::RISK_SCORE] < 0) {
-//                $payment->setIsFraudDetected(true);
-//            }
-
             $this->subjectReader->debug("Risk Data: ", $riskData);
         } else {
             $this->subjectReader->debug("Risk Data is missing");
@@ -394,7 +395,10 @@ class TransactionCheckHandler implements HandlerInterface
     protected function handleTransaction(InfoInterface $payment, array $paymentData): self
     {
         if (!$payment->getTransactionid()) {
-            $transactionId = $this->subjectReader->readResponse($paymentData, TransactionIdHandler::TRANSACTION_ID);
+            $transactionId = $this->subjectReader->readResponse(
+                $paymentData,
+                TransactionIdHandler::TRANSACTION_ID
+            );
             $payment->setTransactionId($transactionId ?? '');
         }
 
@@ -413,7 +417,10 @@ class TransactionCheckHandler implements HandlerInterface
      */
     protected function handleThreeDSecure(InfoInterface $payment, array $paymentData): self
     {
-        $threeDSecure = $this->subjectReader->readResponse($paymentData, ThreeDSecureHandler::THREE_D_SECURE_NAMESPACE);
+        $threeDSecure = $this->subjectReader->readResponse(
+            $paymentData,
+            ThreeDSecureHandler::THREE_D_SECURE_NAMESPACE
+        );
 
         if ($threeDSecure) {
             $payment->setAdditionalInformation(
@@ -452,7 +459,6 @@ class TransactionCheckHandler implements HandlerInterface
     protected function handleVault(InfoInterface $payment, array $paymentData): self
     {
         $paymentToken = $this->getVaultPaymentToken($paymentData);
-
         if (null !== $paymentToken) {
             $additionalInformation = $payment->getAdditionalInformation();
             if (!array_key_exists(VaultConfigProvider::IS_ACTIVE_CODE, $additionalInformation)) {

@@ -3,7 +3,6 @@
  * Copyright Total Processing. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 declare(strict_types=1);
 
 namespace TotalProcessing\Opp\Observer;
@@ -12,9 +11,9 @@ use Magento\Framework\DataObject\IdentityGeneratorInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
-
 /**
  * Class SetQuoteMerchantTransactionIdObserver
+ * @package TotalProcessing\Opp\Observer
  */
 class SetQuoteMerchantTransactionIdObserver implements ObserverInterface
 {

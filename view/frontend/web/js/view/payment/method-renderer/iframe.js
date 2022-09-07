@@ -36,36 +36,57 @@ define(
                 isCardFramePlaceholderVisible: ko.observable(false)
             },
 
+            /**
+             * Returning the code of the payment method.
+             *
+             * @returns {*}
+             */
             getCode: function () {
                 return this.code;
             },
 
             /**
-             * iframe style attribute value
+             * Returning the style attribute value for the iframe.
+             *
              * @returns {string}
              */
             getStyle: function () {
                 if (this.isActive()) {
                     return window.checkoutConfig.payment[this.getCode()].iframeStyles;
-                } else {
-                    return ""
                 }
+                return "";
             },
 
+            /**
+             * Checking if the payment method is active.
+             *
+             * @returns {*|boolean}
+             */
             isActive: function () {
                 let isActive = this.getCode() === this.isChecked() && this.isCountryAvailable();
                 this.processingFramePlaceholder(true);
                 return isActive;
             },
 
+            /**
+             * Returning the source of the iframe.
+             *
+             * @returns {*}
+             */
             getSource: function () {
                 return window.checkoutConfig.payment[this.getCode()].source;
             },
 
+            /**
+             * This function is called when the iframe is loaded.
+             */
             iframeLoaded: function () {
                 fullScreenLoader.stopLoader();
             },
 
+            /**
+             * This function is called when the iframe is loaded.
+             */
             initEventListeners: function () {
                 let self = this;
 
@@ -90,11 +111,21 @@ define(
                 });
             },
 
+            /**
+             * This function is called when the payment method is selected.
+             *
+             * @returns {*}
+             */
             selectPaymentMethod: function () {
                 this.processingFramePlaceholder(true);
                 return this._super();
             },
 
+            /**
+             * This function is used to resize the iframe.
+             *
+             * @param height
+             */
             resizeIframe: function (height) {
                 let iframe = document.getElementById(this.getCode() + "_iframe");
 
@@ -103,16 +134,28 @@ define(
                 }
             },
 
+            /**
+             * This function is called when the user clicks on the "Place Order" button.
+             */
             placePendingPaymentOrder: function () {
                 let iframe = document.getElementById(this.getCode() + '_iframe');
 
                 iframe.contentWindow.wpwl.executePayment('wpwl-container-card');
             },
 
+            /**
+             * This function is used to get the text of the button.
+             * @returns {*}
+             */
             getButtonText: function () {
                 return window.checkoutConfig.payment[this.getCode()].paymentBtnText;
             },
 
+            /**
+             * This function is called when the user clicks on the "Place Order" button.
+             *
+             * @returns {*}
+             */
             getPlaceOrderDeferredObject: function () {
                 let self = this;
 
@@ -130,6 +173,11 @@ define(
                 });
             },
 
+            /**
+             * This function is used to check if the country is available for the payment method.
+             *
+             * @returns {boolean|*}
+             */
             isCountryAvailable: function () {
                 let country = quote.billingAddress._latestValue.countryId;
                 let listed = window.checkoutConfig.payment[this.getCode()].availableCountries;
@@ -142,6 +190,8 @@ define(
             },
 
             /**
+             * This function is used to show the loading spinner when the iframe is loading.
+             *
              * @param visibilityFlag
              */
             processingFramePlaceholder: function (visibilityFlag) {

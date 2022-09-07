@@ -15,6 +15,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class BaseRequestDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 abstract class BaseRequestDataBuilder implements BuilderInterface
 {
@@ -46,8 +47,6 @@ abstract class BaseRequestDataBuilder implements BuilderInterface
     protected $subjectReader;
 
     /**
-     * Constructor
-     *
      * @param Config $config
      * @param ResourceInterface $moduleResource
      * @param ProductMetadataInterface $productMetadata
@@ -65,6 +64,9 @@ abstract class BaseRequestDataBuilder implements BuilderInterface
         $this->subjectReader = $subjectReader;
     }
 
+    /**
+     * @return string
+     */
     protected function getVersion(): string
     {
         return "Magento v{$this->productMetadata->getVersion()}/"

@@ -15,6 +15,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class TransactionCheckValidator
+ * @package TotalProcessing\Opp\Gateway\Validator
  */
 class TransactionCheckValidator extends AbstractValidator
 {
@@ -24,8 +25,6 @@ class TransactionCheckValidator extends AbstractValidator
     protected $subjectReader;
 
     /**
-     * Constructor
-     *
      * @param ResultInterfaceFactory $resultFactory
      * @param SubjectReader $subjectReader
      */
@@ -66,10 +65,8 @@ class TransactionCheckValidator extends AbstractValidator
      */
     protected function getStatements(array $validationSubject): array
     {
+        //@TODO - statements response doesn't take into account
         $response = $this->subjectReader->readResponse($validationSubject['response'] ?? []);
-
-        return [
-        ];
+        return [];
     }
-
 }

@@ -19,8 +19,9 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class PaymentInformationManagement
- *
  * @TODO Change CommandException message with common message
+ *
+ * @package TotalProcessing\Opp\Plugin
  */
 class PaymentInformationManagement
 {

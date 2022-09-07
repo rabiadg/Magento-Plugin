@@ -12,6 +12,7 @@ use Magento\Payment\Model\MethodInterface;
 
 /**
  * Class PaymentAction
+ * @package TotalProcessing\Opp\Model\System\Config
  */
 class PaymentAction implements OptionSourceInterface
 {

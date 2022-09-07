@@ -3,13 +3,18 @@
  * Copyright Total Processing. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 namespace TotalProcessing\Opp\Logger;
 
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Monolog\Logger as BaseLogger;
 
+/**
+ * Class Logger
+ * @package TotalProcessing\Opp\Logger
+ */
 class Logger extends BaseLogger
 {
     /**
@@ -27,20 +32,44 @@ class Logger extends BaseLogger
      *
      * @var int
      */
-    public $backtrace_limit;
+    public $backtraceLimit;
 
-    public function __construct
-    (
-        $name,
-        array $handlers = array(),
-        array $processors = array(),
+    /**
+     * @param string $name
+     * @param ConfigInterface $config
+     * @param CheckoutSession $checkoutSession
+     * @param array $handlers
+     * @param array $processors
+     */
+    public function __construct (
+        string $name,
         ConfigInterface $config,
-        CheckoutSession $checkoutSession
+        CheckoutSession $checkoutSession,
+        array $handlers = [],
+        array $processors = []
     ) {
         $this->config = $config;
         $this->session = $checkoutSession;
-        $this->backtrace_limit = 4;
+        $this->backtraceLimit = 4;
         parent::__construct($name, $handlers, $processors);
+    }
+
+    /**
+     * @return int
+     */
+    public function getBacktraceLimit(): int
+    {
+        return $this->backtraceLimit;
+    }
+
+    /**
+     * @param int $limit
+     * @return $this
+     */
+    public function setBacktraceLimit(int $limit): Logger
+    {
+        $this->backtraceLimit = $limit;
+        return $this;
     }
 
     /**
@@ -48,7 +77,7 @@ class Logger extends BaseLogger
      */
     public function addRecord($level, $message, array $context = array()): bool
     {
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->backtrace_limit);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->getBacktraceLimit());
 
         $caller = array_pop($trace);
         $trace = array_pop($trace);
@@ -64,8 +93,8 @@ class Logger extends BaseLogger
 
     /**
      * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function isDebugEnabled(): bool
     {
