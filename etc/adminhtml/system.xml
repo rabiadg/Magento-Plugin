@@ -46,21 +46,24 @@
                         <depends>
                             <field id="environment">live</field>
                         </depends>
-                        <field id="live_entity_id" translate="label" type="text" sortOrder="10" showInDefault="1"
+                        <field id="live_entity_id" translate="label" type="obscure" sortOrder="10" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Entity ID</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/live_entity_id</config_path>
                         </field>
-                        <field id="live_access_token" translate="label" type="text" sortOrder="20" showInDefault="1"
+                        <field id="live_access_token" translate="label" type="obscure" sortOrder="20" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Access Token</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/live_access_token</config_path>
                         </field>
-                        <field id="live_sender_id" translate="label" type="text" sortOrder="30" showInDefault="1"
+                        <field id="live_sender_id" translate="label" type="obscure" sortOrder="30" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sender ID</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/live_sender_id</config_path>
                         </field>
@@ -80,21 +83,24 @@
                         <depends>
                             <field id="environment">sandbox</field>
                         </depends>
-                        <field id="sandbox_entity_id" translate="label" type="text" sortOrder="10" showInDefault="1"
+                        <field id="sandbox_entity_id" translate="label" type="obscure" sortOrder="10" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Entity ID</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/sandbox_entity_id</config_path>
                         </field>
-                        <field id="sandbox_access_token" translate="label" type="text" sortOrder="20" showInDefault="1"
+                        <field id="sandbox_access_token" translate="label" type="obscure" sortOrder="20" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Access Token</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/sandbox_access_token</config_path>
                         </field>
-                        <field id="sandbox_sender_id" translate="label" type="text" sortOrder="30" showInDefault="1"
+                        <field id="sandbox_sender_id" translate="label" type="obscure" sortOrder="30" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sender ID</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/sandbox_sender_id</config_path>
                         </field>
