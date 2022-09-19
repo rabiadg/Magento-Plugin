@@ -16,6 +16,7 @@ use Magento\Quote\Api\CartManagementInterface;
 use Magento\Quote\Api\Data\AddressInterface;
 use Magento\Quote\Api\Data\PaymentInterface;
 use Psr\Log\LoggerInterface;
+use TotalProcessing\Opp\Gateway\Request\TransactionCheckDataBuilder;
 
 /**
  * Class PaymentInformationManagement
@@ -69,11 +70,20 @@ class PaymentInformationManagement
         $subject->savePaymentInformation($cartId, $paymentMethod, $billingAddress);
 
         try {
+            /**
+             * Save cart ID for TransactionCheckDataBuilder for further processing (if needed).
+             * In some cases (detected in Safari) at one of the processes during placing an order, for some reason(s),
+             * the checkout session is interrupted, which causes the loss of the necessary information like merchantTransactionId
+             * This causes a 'invalid or missing parameter' gateway error.
+             * @see \TotalProcessing\Opp\Gateway\Request\PaymentDataBuilder::MERCHANT_TRANSACTION_ID
+             */
+            TransactionCheckDataBuilder::$cartId = $cartId;
             $this->logger->debug("Place Order", ["cartId" => $cartId]);
 
             $orderId = $this->cartManagement->placeOrder($cartId);
 
             $this->logger->debug("orderId", ["orderId" => $orderId]);
+            TransactionCheckDataBuilder::$cartId = null;
         } catch (CommandException $e) {
             $this->logger->critical($e->getMessage(), ["cartId" => $cartId]);
             throw new CouldNotSaveException(__($e->getMessage()), $e);

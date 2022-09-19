@@ -9,10 +9,14 @@ namespace TotalProcessing\Opp\Gateway\Request;
 
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\ZendClient;
 use Magento\Framework\Module\ResourceInterface;
+use Magento\Quote\Api\Data\CartInterface;
 use TotalProcessing\Opp\Gateway\Config\Config;
 use TotalProcessing\Opp\Gateway\SubjectReader;
+use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class TransactionCheckDataBuilder
@@ -28,21 +32,60 @@ class TransactionCheckDataBuilder extends BaseRequestDataBuilder
     protected $checkoutSession;
 
     /**
+     * @var CartRepositoryInterface
+     */
+    private $cartRepository;
+
+    /**
+     * Cart ID related to the current order.
+     *
+     * @var null
+     */
+    public static $cartId = null;
+
+    /**
      * @param CheckoutSession $checkoutSession
      * @param Config $config
      * @param ResourceInterface $moduleResource
      * @param ProductMetadataInterface $productMetadata
      * @param SubjectReader $subjectReader
+     * @param CartRepositoryInterface $cartRepository
      */
     public function __construct(
         CheckoutSession $checkoutSession,
         Config $config,
         ResourceInterface $moduleResource,
         ProductMetadataInterface $productMetadata,
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        CartRepositoryInterface $cartRepository
     ) {
         parent::__construct($config, $moduleResource, $productMetadata, $subjectReader);
         $this->checkoutSession = $checkoutSession;
+        $this->cartRepository = $cartRepository;
+    }
+
+    /**
+     * Get quote.
+     * In some cases (detected in Safari) at one of the processes during placing an order, for some reason(s),
+     * the checkout session is interrupted, which causes the loss of the necessary information like merchantTransactionId
+     * This causes a 'invalid or missing parameter' gateway error.
+     * @see \TotalProcessing\Opp\Gateway\Request\PaymentDataBuilder::MERCHANT_TRANSACTION_ID
+     *
+     * @return CartInterface
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
+     */
+    private function getQuote()
+    {
+        $quote = $this->checkoutSession->getQuote();
+        if (!$quote->getId() && (self::$cartId !== null)) {
+            try {
+                $quote = $this->cartRepository->get(self::$cartId);
+            } catch (NoSuchEntityException $e) {
+                // omit exception
+            }
+        }
+        return $quote;
     }
 
     /**
@@ -52,7 +95,7 @@ class TransactionCheckDataBuilder extends BaseRequestDataBuilder
     {
         $this->subjectReader->debug("buildSubject Data", $buildSubject);
 
-        $quote = $this->checkoutSession->getQuote();
+        $quote = $this->getQuote();
         $storeId = $quote->getStoreId();
 
         $result = [
