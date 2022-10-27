@@ -65,8 +65,26 @@ class TransactionCheckValidator extends AbstractValidator
      */
     protected function getStatements(array $validationSubject): array
     {
-        //@TODO - statements response doesn't take into account
         $response = $this->subjectReader->readResponse($validationSubject['response'] ?? []);
-        return [];
+
+        return [
+            [
+                'statement' => array_key_exists(CommonHandler::RESULT_NAMESPACE, $response)
+                    && is_array($response[CommonHandler::RESULT_NAMESPACE]),
+                'errorCode' => VirtualErrorMessageMapper::DEFAULT_ERROR_CODE,
+            ],
+            [
+                'statement' => in_array(
+                    $response[CommonHandler::RESULT_NAMESPACE][CommonHandler::RESULT_CODE] ??
+                    [VirtualErrorMessageMapper::DEFAULT_ERROR_CODE],
+                    array_merge(
+                        SuccessCode::getSuccessfulTransactionCodes(),
+                        SuccessCode::getSuccessfulTransactionCheckCodes()
+                    )
+                ),
+                'errorCode' => $response[CommonHandler::RESULT_NAMESPACE][CommonHandler::RESULT_CODE] ??
+                    VirtualErrorMessageMapper::DEFAULT_ERROR_CODE,
+            ]
+        ];
     }
 }

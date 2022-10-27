@@ -597,4 +597,21 @@
                 type="TotalProcessing\Opp\Plugin\Payment\Model\Checks\CanUseForCountry\CountryProvider"/>
     </type>
     <!-- END: Fix for: payment method for specific countries is not working for logged customer -->
+
+    <!-- START: Fix intended to preserve session cookie after submitting POST form from payment gateway to Magento controller. -->
+    <type name="Magento\Framework\Session\SessionStartChecker">
+        <plugin name="totalprocessing_payment_session_checker" type="TotalProcessing\Opp\Plugin\PaymentSessionChecker"/>
+    </type>
+    <type name="TotalProcessing\Opp\Plugin\PaymentSessionChecker">
+        <arguments>
+            <argument name="disableSessionUrls" xsi:type="array">
+                <item name="status" xsi:type="string">opp/process/status</item>
+                <item name="checkouts" xsi:type="string">v1/checkouts</item>
+                <item name="redirect" xsi:type="string">v1/redirect</item>
+                <item name="payments" xsi:type="string">v1/payments</item>
+                <item name="query" xsi:type="string">v1/query</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- END: Fix intended to preserve session cookie after submitting POST form from payment gateway to Magento controller. -->
 </config>

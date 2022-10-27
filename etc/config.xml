@@ -75,10 +75,10 @@
 //$(".wpwl-group-expiry").after($(".wpwl-group-cardNumber"));]]></style_options_custom_iframe_js>
                 <style_options_default_css><![CDATA[.wpwl-group-cardHolder {display:none !important;}]]></style_options_default_css>
                 <title>Pay By Credit or Debit Card</title>
-                <live_api_url><![CDATA[https://oppwa.com]]></live_api_url>
-                <sandbox_api_url><![CDATA[https://test.oppwa.com]]></sandbox_api_url>
-                <live_payment_url><![CDATA[https://oppwa.com]]></live_payment_url>
-                <sandbox_payment_url><![CDATA[https://test.oppwa.com]]></sandbox_payment_url>
+                <live_api_url><![CDATA[https://eu-prod.oppwa.com]]></live_api_url>
+                <sandbox_api_url><![CDATA[https://eu-test.oppwa.com]]></sandbox_api_url>
+                <live_payment_url><![CDATA[https://eu-prod.oppwa.com]]></live_payment_url>
+                <sandbox_payment_url><![CDATA[https://eu-test.oppwa.com]]></sandbox_payment_url>
                 <payment_btn_text>Place Order</payment_btn_text>
                 <vault_enabled>0</vault_enabled>
                 <sandbox_entity_id backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
