@@ -121,9 +121,7 @@ class PaymentDataBuilder implements BuilderInterface
     private $subjectReader;
 
     /**
-     * BasicDataBuilder constructor.
-     *
-     * @param QuoteHelper $quoteHelper;
+     * @param QuoteHelper $quoteHelper
      * @param SubjectReader $subjectReader
      */
     public function __construct(

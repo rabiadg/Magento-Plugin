@@ -15,12 +15,15 @@ use TotalProcessing\Opp\Gateway\Config\Config;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
- * Class TransactionCheckDataBuilder
+ * Class PaymentStatusRequestDataBuilder
  * @package TotalProcessing\Opp\Gateway\Request
  */
-class TransactionCheckDataBuilder extends BaseRequestDataBuilder
+class PaymentStatusRequestDataBuilder extends BaseRequestDataBuilder
 {
-    const TRANSACTION_PATH = '/v1/query';
+    const STATUS_PATH = '/v1/checkouts/{checkoutId}/payment';
+
+    const CHECKOUT_ID = 'id';
+    const RESOURCE_PATH = 'resourcePath';
 
     /**
      * @var CheckoutSession
@@ -50,25 +53,33 @@ class TransactionCheckDataBuilder extends BaseRequestDataBuilder
      */
     public function build(array $buildSubject): array
     {
-        $this->subjectReader->debug("buildSubject Data", $buildSubject);
+        $this->subjectReader->debug("PAYMENT STATUS buildSubject", $buildSubject);
 
-        $quote = $this->checkoutSession->getQuote();
-        $storeId = $quote->getStoreId();
+        $checkoutId = $buildSubject[self::CHECKOUT_ID] ?? null;
+        if (null === $checkoutId) {
+            $checkoutId = $this->checkoutSession->getCheckoutId();
+        }
+
+        $resourcePath = $buildSubject[self::RESOURCE_PATH] ?? null;
+        if (null === $resourcePath) {
+            $resourcePath = str_replace('{checkoutId}', $checkoutId, self::STATUS_PATH);
+        }
+
+        $storeId = $this->checkoutSession->getQuote()->getStoreId();
+        $url = sprintf('%s%s', rtrim($this->config->getApiUrl($storeId), '/'), $resourcePath);
 
         $result = [
             AuthenticationDataBuilder::ENTITY_ID => $this->config->getEntityId($storeId),
-            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $quote->getOppMerchantTransactionId(),
             self::REQUEST_DATA_NAMESPACE => [
                 self::REQUEST_DATA_METHOD => ZendClient::GET,
-                self::REQUEST_DATA_URL =>
-                    rtrim($this->config->getApiUrl($storeId), '/') . self::TRANSACTION_PATH,
+                self::REQUEST_DATA_URL => $url,
                 self::REQUEST_DATA_HEADERS => [
                     "Authorization" => "Bearer {$this->config->getAccessToken($storeId)}",
                 ],
-            ],
+            ]
         ];
 
-        $this->subjectReader->debug("Transaction Check Request Data", $result);
+        $this->subjectReader->debug("PAYMENT STATUS request", $result);
 
         return $result;
     }

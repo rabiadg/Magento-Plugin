@@ -18,10 +18,10 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 use TotalProcessing\Opp\Model\System\Config\PaymentType;
 
 /**
- * Class PreAuthorizeDataBuilder
+ * Class DebitDataBuilder
  * @package TotalProcessing\Opp\Gateway\Request
  */
-class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
+class DebitDataBuilder extends BaseRequestDataBuilder
 {
     use Formatter;
 
@@ -122,20 +122,11 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
      */
     public function build(array $buildSubject): array
     {
-        $this->subjectReader->debug("PRE-AUTHORIZE buildSubject data", $buildSubject);
+        $this->subjectReader->debug("DEBIT buildSubject data", $buildSubject);
 
-        $currency = $buildSubject['currencyCode'] ?? null;
-        if (!$currency) {
-            $msg = 'Currency code should be provided';
-            $this->subjectReader->critical($msg, $buildSubject);
-            throw new \InvalidArgumentException($msg);
-        }
-
-        $storeId = $this->checkoutSession->getQuote()->getStoreId();
         $quote = $this->checkoutSession->getQuote();
-        $quoteId = $this->checkoutSession->getQuoteId();
-
-        $billingAddress = $this->checkoutSession->getQuote()->getBillingAddress();
+        $storeId = $quote->getStoreId();
+        $quoteId = $quote->getId();
 
         $version = "Magento v.{$this->productMetadata->getVersion()} "
             . " / Module TotalProcessing OPP v."
@@ -144,14 +135,15 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
         $result = [
             self::ENTITY_ID => $this->config->getEntityId($storeId),
             self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
-            self::CURRENCY => $currency,
-            self::PAYMENT_TYPE => PaymentType::PRE_AUTHORIZATION,
+            self::CURRENCY => $this->subjectReader->readCurrency($buildSubject),
+            self::PAYMENT_TYPE => PaymentType::DEBIT,
             PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $quote->getOppMerchantTransactionId(),
             "customParameters[" . CustomParameterDataBuilder::PLUGIN . "]" => $version,
             "customParameters[" . CustomParameterDataBuilder::QUOTE_ID . "]" => $quoteId,
             "customParameters[" . CustomParameterDataBuilder::RETURN_URL . "]" => $this->config->getSource(),
         ];
 
+        $billingAddress = $quote->getBillingAddress();
         if ($customerName = trim($billingAddress->getName())) {
             $result[CardDataBuilder::CARD_HOLDER] = $customerName;
         }
@@ -164,7 +156,7 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
             }
         }
 
-        $this->subjectReader->debug("PRE-AUTHORIZE request data", $result);
+        $this->subjectReader->debug("DEBIT request data", $result);
 
         return $result;
     }

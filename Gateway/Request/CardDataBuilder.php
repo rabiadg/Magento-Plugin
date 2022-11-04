@@ -55,12 +55,6 @@ class CardDataBuilder implements BuilderInterface
      */
     public function build(array $buildSubject): array
     {
-        $this->subjectReader->debug("buildSubject data", $buildSubject);
-
-        $params = [];
-
-        $this->subjectReader->debug("Result", $params);
-
-        return $params;
+        return [];
     }
 }

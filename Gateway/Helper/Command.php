@@ -14,8 +14,10 @@ use Magento\Payment\Gateway\Command\CommandManagerInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Command\CommandException;
 use Psr\Log\LoggerInterface;
+use TotalProcessing\Opp\Gateway\Command\DebitCommand;
 use TotalProcessing\Opp\Gateway\Command\PreAuthorizeCommand;
 use TotalProcessing\Opp\Gateway\Config\Config;
+use TotalProcessing\Opp\Model\System\Config\PaymentAction;
 
 /**
  * Class Command
@@ -72,11 +74,22 @@ class Command
         try {
             $this->checkoutSession->unsCheckoutId();
 
-            $this->logger->debug("Get Command: " . PreAuthorizeCommand::COMMAND_CODE);
-            $command = $this->commandManager->get(PreAuthorizeCommand::COMMAND_CODE);
-            if (!$command instanceof CommandInterface) {
-                $this->logger->critical(__("Pre-Authorize command not found"), []);
-                throw new CommandException(__("Pre-Authorize command not found"));
+            $storeId = $this->checkoutSession->getQuote()->getStoreId();
+            $paymentAction = $this->config->getPaymentAction($storeId);
+            if ($paymentAction == PaymentAction::DEBIT) {
+                $this->logger->debug("Get Command: " . DebitCommand::COMMAND_CODE);
+                $command = $this->commandManager->get(DebitCommand::COMMAND_CODE);
+                if (!$command instanceof CommandInterface) {
+                    $this->logger->critical(__("Debit command should be provided."), []);
+                    throw new CommandException(__("Debit command should be provided."));
+                }
+            } else {
+                $this->logger->debug("Get Command: " . PreAuthorizeCommand::COMMAND_CODE);
+                $command = $this->commandManager->get(PreAuthorizeCommand::COMMAND_CODE);
+                if (!$command instanceof CommandInterface) {
+                    $this->logger->critical(__("Pre-Authorize should be provided."), []);
+                    throw new CommandException(__("Pre-Authorize should be provided."));
+                }
             }
 
             $command->execute([
@@ -89,7 +102,7 @@ class Command
             throw new \Exception($t->getMessage());
         }
 
-        return $this->checkoutSession->getCheckoutId() ?? '';
+        return $this->checkoutSession->getCheckoutId();
     }
 
     /**

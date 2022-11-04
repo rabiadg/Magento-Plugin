@@ -166,11 +166,12 @@ class FrameViewModel extends DataObject implements ArgumentInterface
     /**
      * Returns payment widget URL
      *
+     * @param null $storeId
      * @return string
+     * @throws CommandException
      * @throws LocalizedException
      * @throws NoSuchEntityException
      * @throws NotFoundException
-     * @throws CommandException
      */
     public function getPaymentWidgetsUrl($storeId = null): string
     {

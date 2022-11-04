@@ -13,16 +13,12 @@ use Psr\Log\LoggerInterface;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
- * Class PreAuthorizeHandler
+ * Class DebitHandler
  * @package TotalProcessing\Opp\Gateway\Response
  */
-class PreAuthorizeHandler implements HandlerInterface
+class DebitHandler implements HandlerInterface
 {
     const CHECKOUT_ID = 'id';
-    const BUILD_NUMBER = 'buildNumber';
-    const NDC = 'ndc';
-    const RESULT = 'result';
-    const TIMESTAMP = 'timestamp';
 
     /**
      * @var CheckoutSession

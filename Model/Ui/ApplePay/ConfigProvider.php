@@ -90,10 +90,14 @@ class ConfigProvider implements ConfigProviderInterface
             return $this->icon;
         }
 
-        $asset = $this->config->createAsset('TotalProcessing_Opp::images/other/applepay.png');
+        $asset = $this->config->createAsset('TotalProcessing_Opp::images/other/apple-pay.png');
         $placeholder = $this->assetSource->findSource($asset);
         if ($placeholder) {
-            list($width, $height) = getimagesize($asset->getSourceFile());
+            try {
+                list($width, $height) = getimagesize($asset->getSourceFile());
+            } catch (\Exception $e) {
+                $width = $height = '60';
+            }
 
             $this->icon = [
                 'url' => $asset->getUrl(),

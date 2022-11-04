@@ -52,6 +52,24 @@ class SubjectReader
     }
 
     /**
+     * Reads currency from subject
+     *
+     * @param array $subject
+     * @return string
+     */
+    public function readCurrency(array $subject): string
+    {
+        if (!isset($subject['currencyCode']) || !is_string($subject['currencyCode'])) {
+            $msg = 'Currency code should be provided.';
+            $this->logger->critical($msg, $subject);
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->debug("Currency", ['currencyCode' => $subject['currencyCode']]);
+        return $subject['currencyCode'];
+    }
+
+    /**
      * Reads payment from subject
      *
      * @param array $subject

@@ -13,10 +13,10 @@ use TotalProcessing\Opp\Gateway\Response\CommonHandler;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
- * Class TransactionCheckValidator
+ * Class DebitValidator
  * @package TotalProcessing\Opp\Gateway\Validator
  */
-class TransactionCheckValidator extends AbstractValidator
+class DebitValidator extends AbstractValidator
 {
     /**
      * @var SubjectReader
@@ -75,11 +75,8 @@ class TransactionCheckValidator extends AbstractValidator
             [
                 'statement' => in_array(
                     $response[CommonHandler::RESULT_NAMESPACE][CommonHandler::RESULT_CODE] ??
-                    [VirtualErrorMessageMapper::DEFAULT_ERROR_CODE],
-                    array_merge(
-                        SuccessCode::getSuccessfulTransactionCodes(),
-                        SuccessCode::getSuccessfulTransactionCheckCodes()
-                    )
+                    VirtualErrorMessageMapper::DEFAULT_ERROR_CODE,
+                    SuccessCode::getCheckoutCreateCodes()
                 ),
                 'errorCode' => $response[CommonHandler::RESULT_NAMESPACE][CommonHandler::RESULT_CODE] ??
                     VirtualErrorMessageMapper::DEFAULT_ERROR_CODE,

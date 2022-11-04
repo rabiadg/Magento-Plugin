@@ -23,6 +23,7 @@ class CommonHandler implements HandlerInterface
     const BUILD_NUMBER = 'buildNumber';
     const ID = 'id';
     const NDC = 'ndc';
+    const DESCRIPTOR = 'descriptor';
     const RESULT_NAMESPACE = 'result';
     const RESULT_CODE = 'code';
     const RESULT_DESCRIPTION = 'description';

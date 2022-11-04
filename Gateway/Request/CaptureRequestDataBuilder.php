@@ -46,7 +46,8 @@ class CaptureRequestDataBuilder extends BaseRequestDataBuilder
             PaymentDataBuilder::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
             PaymentDataBuilder::CURRENCY => $order->getCurrencyCode(),
             PaymentDataBuilder::PAYMENT_TYPE => PaymentType::CAPTURE,
-            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $payment->getAdditionalInformation(PaymentDataBuilder::MERCHANT_TRANSACTION_ID),
+            PaymentDataBuilder::MERCHANT_TRANSACTION_ID =>
+                $payment->getAdditionalInformation(PaymentDataBuilder::MERCHANT_TRANSACTION_ID),
             self::REQUEST_DATA_NAMESPACE => [
                 self::REQUEST_DATA_METHOD => ZendClient::POST,
                 self::REQUEST_DATA_URL => $url,

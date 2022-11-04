@@ -24,6 +24,5 @@ class Status extends Template
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->_logger->debug("HIT", $data);
     }
 }

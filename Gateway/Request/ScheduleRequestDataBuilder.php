@@ -45,8 +45,6 @@ class ScheduleRequestDataBuilder extends BaseRequestDataBuilder
     private $serializer;
 
     /**
-     * ScheduleRequestDataBuilder constructor.
-     *
      * @param Config $config
      * @param ResourceInterface $moduleResource
      * @param ProductMetadataInterface $productMetadata
