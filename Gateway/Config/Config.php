@@ -51,7 +51,8 @@ class Config extends BaseConfig
     const KEY_SCHEDULER_SKU_TARGET = 'scheduler_sku_target';
     const KEY_SENDER_ID = 'sender_id';
     const KEY_STYLE_OPTIONS = 'style_options';
-    const KEY_STYLE_OPTIONS_CUSTOM_IFRAME_CSS = 'style_options_custom_iframe_css';
+    const KEY_CARD_STYLE_OPTIONS_CUSTOM_IFRAME_CSS = 'card_style_options_custom_iframe_css';
+    const KEY_PLAIN_STYLE_OPTIONS_CUSTOM_IFRAME_CSS = 'plain_style_options_custom_iframe_css';
     const KEY_STYLE_OPTIONS_CUSTOM_IFRAME_JS = 'style_options_custom_iframe_js';
     const KEY_STYLE_OPTIONS_DEFAULT_CSS = 'style_options_default_css';
 
@@ -385,7 +386,11 @@ class Config extends BaseConfig
      */
     public function getStyleOptionsCustomIframeCss($storeId = null):string
     {
-        $value = $this->getValue(self::KEY_STYLE_OPTIONS_CUSTOM_IFRAME_CSS, $storeId) ?? '';
+        $value = $this->getValue(self::KEY_PLAIN_STYLE_OPTIONS_CUSTOM_IFRAME_CSS, $storeId) ?? '';
+        if ($this->getStyleOptions($storeId) == StyleOptions::STYLE_OPTIONS_CARD) {
+            $value = $this->getValue(self::KEY_CARD_STYLE_OPTIONS_CUSTOM_IFRAME_CSS, $storeId) ?? '';
+        }
+
         return preg_replace('/\s+/', ' ', trim($value));
     }
 

@@ -7,16 +7,23 @@ declare(strict_types=1);
 
 namespace TotalProcessing\Opp\Gateway\Helper;
 
+use Magento\Framework\Controller\Result\RedirectFactory;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\NotFoundException;
+use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Payment\Gateway\Command\CommandManagerInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Psr\Log\LoggerInterface;
 use TotalProcessing\Opp\Gateway\Command\PaymentStatusCommand;
 use TotalProcessing\Opp\Gateway\Config\Config;
+use TotalProcessing\Opp\Model\System\Config\PaymentAction;
 use TotalProcessing\Opp\Gateway\Request\PaymentStatusRequestDataBuilder;
 use Magento\Framework\App\RequestInterface;
-use TotalProcessing\Opp\Model\System\Config\PaymentAction;
+use Magento\Store\Model\StoreManagerInterface;
+use TotalProcessing\Opp\Model\Ui\ConfigProvider;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Class PaymentStatusResolver
@@ -40,6 +47,11 @@ class PaymentStatusResolver
     private $config;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -48,29 +60,47 @@ class PaymentStatusResolver
      * @param RequestInterface $request
      * @param CommandManagerInterface $commandManager
      * @param Config $config
+     * @param StoreManagerInterface $storeManager
      * @param LoggerInterface $logger
      */
     public function __construct(
         RequestInterface $request,
         CommandManagerInterface $commandManager,
         Config $config,
+        StoreManagerInterface $storeManager,
         LoggerInterface $logger
     ) {
         $this->request = $request;
         $this->commandManager = $commandManager;
         $this->config = $config;
+        $this->storeManager = $storeManager;
         $this->logger = $logger;
     }
 
     /**
-     * @return void
-     * @throws CommandException
-     * @throws NotFoundException
+     * @param $storeId
+     * @return bool
+     * @throws NoSuchEntityException
      */
-    public function resolve(): void
+    private function isApplicable($storeId = null): bool
     {
-        if ($this->config->getPaymentAction() != PaymentAction::DEBIT) {
-            // processing only for debit payment action (DB)
+        $storeId = $storeId ?? $this->storeManager->getStore()->getId();
+        if ($this->config->getPaymentAction($storeId) == PaymentAction::DEBIT) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param $storeId
+     * @return void
+     * @throws NoSuchEntityException|LocalizedException
+     */
+    public function resolve($storeId = null): void
+    {
+        if (!$this->isApplicable($storeId)) {
             return;
         }
 
@@ -79,23 +109,19 @@ class PaymentStatusResolver
             $this->request->getParams()
         );
 
-        try {
-            $this->logger->debug("Get Command: " . PaymentStatusCommand::COMMAND_CODE);
-            $command = $this->commandManager->get(PaymentStatusCommand::COMMAND_CODE);
-            if (!$command instanceof CommandInterface) {
-                $this->logger->critical(__("Payment Status command should be provided."), []);
-                throw new CommandException(__("Payment Status command should be provided."));
-            }
-            $command->execute([
-                PaymentStatusRequestDataBuilder::CHECKOUT_ID =>
-                    $this->request->getParam(PaymentStatusRequestDataBuilder::CHECKOUT_ID),
-                PaymentStatusRequestDataBuilder::RESOURCE_PATH =>
-                    $this->request->getParam(PaymentStatusRequestDataBuilder::RESOURCE_PATH),
-            ]);
-        } catch (CommandException $e) {
-            $this->logger->critical($e->getMessage(), []);
-            throw new CommandException(__($e->getMessage()));
+        $this->logger->debug("Get Command: " . PaymentStatusCommand::COMMAND_CODE);
+        $command = $this->commandManager->get(PaymentStatusCommand::COMMAND_CODE);
+        if (!$command instanceof CommandInterface) {
+            $this->logger->critical(__("Payment Status command should be provided."), []);
+            throw new CommandException(__("Payment Status command should be provided."));
         }
+
+        $command->execute([
+            PaymentStatusRequestDataBuilder::CHECKOUT_ID =>
+                $this->request->getParam(PaymentStatusRequestDataBuilder::CHECKOUT_ID),
+            PaymentStatusRequestDataBuilder::RESOURCE_PATH =>
+                $this->request->getParam(PaymentStatusRequestDataBuilder::RESOURCE_PATH),
+        ]);
 
         $this->logger->debug("Check payment status after.");
     }

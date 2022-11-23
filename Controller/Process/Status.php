@@ -8,7 +8,8 @@ declare(strict_types=1);
 namespace TotalProcessing\Opp\Controller\Process;
 
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\Exception\NotFoundException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Session\SessionManagerInterface;
 use Magento\Payment\Gateway\Command\CommandException;
 use Psr\Log\LoggerInterface;
@@ -46,14 +47,20 @@ class Status extends BaseAction
     }
 
     /**
-     * Set redirect.
-     *
      * @return void
-     * @throws CommandException|NotFoundException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function execute()
     {
-        $this->paymentStatusResolver->resolve();
+        try {
+            $this->paymentStatusResolver->resolve();
+        } catch (CommandException $e) {
+            $message = $e->getMessage();
+            $this->logger->critical($message);
+            $this->_forward('error', null, null, ['error_message' => $message]);
+            return;
+        }
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();

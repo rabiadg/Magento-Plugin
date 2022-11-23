@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace TotalProcessing\Opp\Gateway\Command;
+namespace TotalProcessing\Opp\Gateway\Command\ApplePay;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NotFoundException;
@@ -16,11 +16,12 @@ use Magento\Sales\Model\Order;
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Magento\Sales\Model\Order\Payment;
 use Psr\Log\LoggerInterface;
+use TotalProcessing\Opp\Gateway\Command\TransactionCheckCommand;
 use TotalProcessing\Opp\Model\System\Config\PaymentAction;
 
 /**
  * Class InitializeCommand
- * @package TotalProcessing\Opp\Gateway\Command
+ * @package TotalProcessing\Opp\Gateway\Command\ApplePay
  */
 class InitializeCommand implements CommandInterface
 {
@@ -32,7 +33,7 @@ class InitializeCommand implements CommandInterface
     /**
      * @var LoggerInterface
      */
-    protected $logger;
+    private $logger;
 
     /**
      * @param CommandManagerInterface $commandManager
@@ -111,7 +112,7 @@ class InitializeCommand implements CommandInterface
      * @return void
      * @throws LocalizedException
      */
-    private function processCapture(Order $order, Payment $payment, $stateObject, string $type): void
+    private function processCapture(Order $order, Payment $payment, $stateObject, string $type)
     {
         $totalDue = $order->getTotalDue();
         $baseTotalDue = $order->getBaseTotalDue();
@@ -129,12 +130,50 @@ class InitializeCommand implements CommandInterface
     }
 
     /**
+     * @param Order $order
+     * @param array $commandSubject
+     * @return void
+     */
+    private function prepareDebitData(Order $order, array &$commandSubject): void
+    {
+        if (!isset($commandSubject['amount'])) {
+            $commandSubject['amount'] = $order->getGrandTotal();
+        }
+        if (!isset($commandSubject['currencyCode'])) {
+            $commandSubject['currencyCode'] = $order->getCurrencyCode();
+        }
+    }
+
+    /**
      * @param array $commandSubject
      * @return void
      * @throws CommandException
      * @throws NotFoundException
      */
-    private function executeTransactionCheckCommand(array $commandSubject): void
+    private function executeDebitCommand(array $commandSubject): void
+    {
+        $this->logger->debug("Before execute debit", $commandSubject);
+        try {
+            $command = $this->commandManager->get(DebitCommand::COMMAND_CODE);
+            if (!$command instanceof CommandInterface) {
+                $this->logger->critical(__("Debit command should be provided."), []);
+                throw new CommandException(__("Debit command should be provided."));
+            }
+            $command->execute($commandSubject);
+        } catch (CommandException $e) {
+            $this->logger->critical(__($e->getMessage()), []);
+            throw new CommandException(__($e->getMessage()));
+        }
+        $this->logger->debug("After execute debit", $commandSubject);
+    }
+
+    /**
+     * @param $commandSubject
+     * @return void
+     * @throws CommandException
+     * @throws NotFoundException
+     */
+    private function executeTransactionCheckCommand($commandSubject): void
     {
         $this->logger->debug("Before execute transaction check", $commandSubject);
         try {
@@ -163,6 +202,8 @@ class InitializeCommand implements CommandInterface
      */
     private function processDebit(Order $order, Payment $payment, $stateObject, array $commandSubject): void
     {
+        $this->prepareDebitData($order, $commandSubject);
+        $this->executeDebitCommand($commandSubject);
         $this->executeTransactionCheckCommand($commandSubject);
         $this->processCapture($order, $payment, $stateObject, 'debit');
     }

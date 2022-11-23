@@ -201,12 +201,25 @@
                         <can_be_empty>0</can_be_empty>
                         <config_path>payment/totalprocessing_opp/style_options</config_path>
                     </field>
-                    <field id="style_options_custom_iframe_css" translate="label" type="textarea" sortOrder="40"
+                    <field id="card_style_options_custom_iframe_css" translate="label" type="textarea" sortOrder="40"
                            showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Custom iframe CSS</label>
+                        <label>Card Form Custom Iframe CSS</label>
                         <comment>Inject CSS to the form.</comment>
                         <validate>no-marginal-whitespace</validate>
-                        <config_path>payment/totalprocessing_opp/style_options_custom_iframe_css</config_path>
+                        <config_path>payment/totalprocessing_opp/card_style_options_custom_iframe_css</config_path>
+                        <depends>
+                            <field id="style_options">card</field>
+                        </depends>
+                    </field>
+                    <field id="plain_style_options_custom_iframe_css" translate="label" type="textarea" sortOrder="40"
+                           showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Plain Form Custom iframe CSS</label>
+                        <comment>Inject CSS to the form.</comment>
+                        <validate>no-marginal-whitespace</validate>
+                        <config_path>payment/totalprocessing_opp/plain_style_options_custom_iframe_css</config_path>
+                        <depends>
+                            <field id="style_options">plain</field>
+                        </depends>
                     </field>
                     <field id="style_options_custom_iframe_js" translate="label" type="textarea" sortOrder="50" showInDefault="1"
                            showInWebsite="1" showInStore="1" canRestore="1">
@@ -248,7 +261,7 @@
                             <field id="active">1</field>
                         </depends>
                         <label>Payment Action</label>
-                        <source_model>TotalProcessing\Opp\Model\System\Config\PaymentAction</source_model>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\ApplePay\PaymentAction</source_model>
                         <config_path>payment/totalprocessing_opp_applepay/payment_action</config_path>
                     </field>
                     <field id="allowed_brand_types" translate="label" type="multiselect" sortOrder="30" showInDefault="1"

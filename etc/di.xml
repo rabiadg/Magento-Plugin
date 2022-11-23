@@ -154,6 +154,17 @@
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
     </virtualType>
+    <virtualType name="TotalProcessingApplePayDebitCommand" type="TotalProcessing\Opp\Gateway\Command\ApplePay\DebitCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingApplePayDebitRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="handler" xsi:type="object">TotalProcessingApplePayAuthorizeHandler</argument>
+            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\ApplePay\AuthorizeValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
     <!-- END: gateway commands -->
 
     <!-- START: gateway request builders -->
@@ -246,6 +257,14 @@
             <argument name="builders" xsi:type="array">
                 <item name="authorize_auth" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\AuthorizeAuthDataBuilder</item>
                 <item name="payment" xsi:type="string">TotalProcessing\Opp\Gateway\Request\PaymentDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingApplePayDebitRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="authorize_auth" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\DebitAuthDataBuilder</item>
+                <item name="payment" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\DebitPaymentDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>
@@ -373,12 +392,15 @@
     <virtualType name="TotalProcessingApplePayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
+                <item name="transaction_check" xsi:type="string">TotalProcessingTransactionCheckCommand</item>
                 <item name="authorize" xsi:type="string">TotalProcessingApplePayAuthorizeCommand</item>
                 <item name="capture" xsi:type="string">TotalProcessingApplePayCaptureCommand</item>
                 <item name="void" xsi:type="string">TotalProcessingVoidCommand</item>
                 <item name="cancel" xsi:type="string">TotalProcessingCancelCommand</item>
                 <item name="deny_payment" xsi:type="string">TotalProcessingCancelCommand</item>
                 <item name="refund" xsi:type="string">TotalProcessingRefundCommand</item>
+                <item name="debit" xsi:type="string">TotalProcessingApplePayDebitCommand</item>
+                <item name="initialize" xsi:type="string">TotalProcessing\Opp\Gateway\Command\ApplePay\InitializeCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -653,6 +675,12 @@
     <type name="TotalProcessing\Opp\Gateway\Command\InitializeCommand">
         <arguments>
             <argument name="commandManager" xsi:type="object">TotalProcessingCommandManager</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="TotalProcessing\Opp\Gateway\Command\ApplePay\InitializeCommand">
+        <arguments>
+            <argument name="commandManager" xsi:type="object">TotalProcessingApplePayCommandManager</argument>
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
     </type>

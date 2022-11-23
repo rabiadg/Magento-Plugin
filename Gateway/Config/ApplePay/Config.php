@@ -26,6 +26,7 @@ class Config extends BaseConfig
     const KEY_ACTIVE = 'active';
     const KEY_API_URL = 'api_url';
     const KEY_BRAND_TYPES = 'allowed_brand_types';
+    const KEY_PAYMENT_ACTION = 'payment_action';
     const KEY_DISPLAY_NAME = 'display_name';
     const KEY_DOMAIN_NAMES = 'domain_names';
     const KEY_ENVIRONMENT = 'environment';
@@ -144,6 +145,15 @@ class Config extends BaseConfig
         $brandTypes = $this->getValue(self::KEY_BRAND_TYPES, $storeId);
 
         return !empty($brandTypes) ? explode(',', $brandTypes) : [];
+    }
+
+    /**
+     * @param $storeId
+     * @return mixed|null
+     */
+    public function getPaymentAction($storeId = null)
+    {
+        return $this->getValue(self::KEY_PAYMENT_ACTION, $storeId);
     }
 
     /**

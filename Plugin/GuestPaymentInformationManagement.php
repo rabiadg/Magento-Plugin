@@ -74,10 +74,7 @@ class GuestPaymentInformationManagement
             throw new CouldNotSaveException(__($e->getMessage()), $e);
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage(), ["cartId" => $cartId]);
-            throw new \Exception(
-                __('An error occurred on the server. Please try to place the order again.'),
-                $e
-            );
+            throw new \Exception(__($e->getMessage()));
         }
 
         return $orderId;

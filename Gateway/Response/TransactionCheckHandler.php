@@ -420,16 +420,22 @@ class TransactionCheckHandler implements HandlerInterface
     {
         $card = $this->subjectReader->readResponse($paymentData, CardDetailsHandler::CARD_NAMESPACE) ?? [];
         if ($card) {
-            $payment->setCcLast4($card[CardDetailsHandler::CARD_LAST4_DIGITS]);
-            $payment->setCcExpMonth($card[CardDetailsHandler::CARD_EXP_MONTH]);
-            $payment->setCcExpYear($card[CardDetailsHandler::CARD_EXP_YEAR]);
+            if (isset($card[CardDetailsHandler::CARD_LAST4_DIGITS])) {
+                $payment->setCcLast4($card[CardDetailsHandler::CARD_LAST4_DIGITS]);
+            }
+            if (isset($card[CardDetailsHandler::CARD_EXP_MONTH])) {
+                $payment->setCcExpMonth($card[CardDetailsHandler::CARD_EXP_MONTH]);
+            }
+            if (isset($card[CardDetailsHandler::CARD_EXP_YEAR])) {
+                $payment->setCcExpYear($card[CardDetailsHandler::CARD_EXP_YEAR]);
+            }
+            if (isset($card[CardDetailsHandler::CARD_HOLDER])) {
+                $payment->setCcOwner($card[CardDetailsHandler::CARD_HOLDER]);
+            }
+
             $payment->setCcType(
-                $this->subjectReader->readResponse(
-                    $paymentData,
-                PaymentDetailsHandler::BASIC_PAYMENT_BRAND
-                )
+                $this->subjectReader->readResponse($paymentData, PaymentDetailsHandler::BASIC_PAYMENT_BRAND)
             );
-            $payment->setCcOwner($card[CardDetailsHandler::CARD_HOLDER]);
 
             $this->processAdditionalInformation($payment, [CardDetailsHandler::CARD_NAMESPACE => $card]);
         }
