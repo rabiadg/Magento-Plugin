@@ -82,7 +82,6 @@ class DebitAuthDataBuilder extends AuthDataBuilder
 
         $order = $paymentDataObject->getOrder();
         $payment = $paymentDataObject->getPayment();
-        $billingAddress = $order->getBillingAddress();
 
         $storeId = $order->getStoreId();
         $quoteId = $this->checkoutSession->getQuoteId();
@@ -93,7 +92,6 @@ class DebitAuthDataBuilder extends AuthDataBuilder
         $url = rtrim($this->config->getApiUrl($storeId), '/') . self::SESSION_DECRYPT_PATH;
 
         $result = [
-            self::BILLING_COUNTRY => $billingAddress->getCountryId(),
             self::PAYMENT_TOKEN => $this->serializer->unserialize(
                 $payment->getAdditionalInformation(DataAssignObserver::TOKEN)
             ),

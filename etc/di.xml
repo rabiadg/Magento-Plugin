@@ -265,6 +265,8 @@
             <argument name="builders" xsi:type="array">
                 <item name="authorize_auth" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\DebitAuthDataBuilder</item>
                 <item name="payment" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\DebitPaymentDataBuilder</item>
+                <item name="customer" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\CustomerDataBuilder</item>
+                <item name="card" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\CardDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>
