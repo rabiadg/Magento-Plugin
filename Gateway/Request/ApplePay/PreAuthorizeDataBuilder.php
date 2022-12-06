@@ -9,6 +9,7 @@ namespace TotalProcessing\Opp\Gateway\Request\ApplePay;
 
 /**
  * Class PreAuthorizeDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request\ApplePay
  */
 class PreAuthorizeDataBuilder extends AbstractDataBuilder
 {

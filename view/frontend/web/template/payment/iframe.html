@@ -4,12 +4,12 @@
  * See COPYING.txt for license details.
  */
 -->
-<div data-bind="attr: {class: 'payment-method payment-method-' + getCode()}, css: {'_active': isActive() }, visible: isCountryAvailable() ">
+<div data-bind="attr: {class: 'payment-method payment-method-' + getCode()}, css: {'_active': isActive() }, visible: isCountryAvailable(), blockLoader: isLoading() ">
     <div class="payment-method-title field choice">
         <input type="radio"
                name="payment[method]"
                class="radio"
-               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethodClick, visible: isRadioButtonVisible(), afterRender: initEventListeners()" />
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible(), afterRender: initEventListeners()" />
         <label class="label" data-bind="attr: {'for': getCode()}">
             <span data-bind="text: getTitle()"></span>
         </label>
@@ -29,6 +29,7 @@
                     name="totalprocessing_opp_iframe"
                     width="100%"
                     height="0"
+                    allow="midi 'src'; geolocation 'src'; microphone 'src'; camera 'src'; display-capture 'src'; encrypted-media 'src';"
                     data-bind="attr: {src: getSource(), style: getStyle()}, event: {load: iframeLoaded()}" >
             </iframe>
         </div>

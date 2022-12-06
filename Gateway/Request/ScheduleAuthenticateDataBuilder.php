@@ -11,6 +11,7 @@ use Magento\Framework\HTTP\ZendClient;
 
 /**
  * Class ScheduleAuthenticateDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class ScheduleAuthenticateDataBuilder extends BaseRequestDataBuilder
 {

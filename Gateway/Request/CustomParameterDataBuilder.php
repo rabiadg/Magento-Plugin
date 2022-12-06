@@ -9,6 +9,7 @@ namespace TotalProcessing\Opp\Gateway\Request;
 
 /**
  * Class CustomParameterDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class CustomParameterDataBuilder extends BaseRequestDataBuilder
 {
@@ -20,6 +21,10 @@ class CustomParameterDataBuilder extends BaseRequestDataBuilder
     const RETURN_URL = "SHOPPER_returnurl";
     const TP_JSON = "SHOPPER_tpJson";
 
+    /**
+     * @param array $buildSubject
+     * @return array
+     */
     public function build(array $buildSubject)
     {
         return [];

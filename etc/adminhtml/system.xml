@@ -42,31 +42,23 @@
                         <label>Live</label>
                         <attribute type="expanded">1</attribute>
                         <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <comment><![CDATA[Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).]]></comment>
                         <depends>
                             <field id="environment">live</field>
                         </depends>
-                        <field id="totalprocessing_opp_basic_live_note_information" translate="label" type="label" sortOrder="1"
-                               showInStore="1" showInWebsite="1" showInDefault="1" >
-                            <label>NOTE:</label>
-                            <comment>Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).</comment>
-                        </field>
-                        <field id="live_entity_id" translate="label" type="text" sortOrder="10" showInDefault="1"
+                        <field id="live_entity_id" translate="label" type="obscure" sortOrder="10" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Entity ID</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/live_entity_id</config_path>
                         </field>
-                        <field id="live_access_token" translate="label" type="text" sortOrder="20" showInDefault="1"
+                        <field id="live_access_token" translate="label" type="obscure" sortOrder="20" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Access Token</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/live_access_token</config_path>
-                        </field>
-                        <field id="live_sender_id" translate="label" type="text" sortOrder="30" showInDefault="1"
-                               showInWebsite="1" showInStore="1" canRestore="1">
-                            <label>Sender ID</label>
-                            <validate>required-entry no-whitespace</validate>
-                            <config_path>payment/totalprocessing_opp/live_sender_id</config_path>
                         </field>
                         <field id="live_api_url" translate="label" type="text" sortOrder="40" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
@@ -74,67 +66,35 @@
                             <validate>required-entry no-whitespace validate-url</validate>
                             <config_path>payment/totalprocessing_opp/live_api_url</config_path>
                         </field>
-                        <field id="live_scheduler_api_url" translate="label" type="text" sortOrder="50"
-                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                            <label>Production Schedule API URL</label>
-                            <validate>required-entry no-whitespace validate-url</validate>
-                            <config_path>payment/totalprocessing_opp/live_scheduler_api_url</config_path>
-                        </field>
-                        <field id="live_scheduler_access_token" translate="label" type="text" sortOrder="60"
-                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                            <label>Schedule Access Token</label>
-                            <validate>required-entry no-whitespace</validate>
-                            <config_path>payment/totalprocessing_opp/live_scheduler_access_token</config_path>
-                        </field>
                     </group>
                     <group id="totalprocessing_opp_basic_sandbox" translate="label" type="text" sortOrder="200"
                            showInStore="1" showInWebsite="1" showInDefault="1">
                         <label>Sandbox</label>
                         <attribute type="expanded">1</attribute>
                         <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <comment><![CDATA[Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).]]></comment>
                         <depends>
                             <field id="environment">sandbox</field>
                         </depends>
-                        <field id="totalprocessing_opp_basic_sandbox_note_information" translate="label" type="label" sortOrder="1"
-                               showInStore="1" showInWebsite="1" showInDefault="1" >
-                            <label>NOTE:</label>
-                            <comment>Select "Use system value" on each to delete your credentials (Entity ID, Access Token and Sender ID).</comment>
-                        </field>
-                        <field id="sandbox_entity_id" translate="label" type="text" sortOrder="10" showInDefault="1"
+                        <field id="sandbox_entity_id" translate="label" type="obscure" sortOrder="10" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Entity ID</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/sandbox_entity_id</config_path>
                         </field>
-                        <field id="sandbox_access_token" translate="label" type="text" sortOrder="20" showInDefault="1"
+                        <field id="sandbox_access_token" translate="label" type="obscure" sortOrder="20" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Access Token</label>
+                            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                             <validate>required-entry no-whitespace</validate>
                             <config_path>payment/totalprocessing_opp/sandbox_access_token</config_path>
-                        </field>
-                        <field id="sandbox_sender_id" translate="label" type="text" sortOrder="30" showInDefault="1"
-                               showInWebsite="1" showInStore="1" canRestore="1">
-                            <label>Sender ID</label>
-                            <validate>required-entry no-whitespace</validate>
-                            <config_path>payment/totalprocessing_opp/sandbox_sender_id</config_path>
                         </field>
                         <field id="sandbox_api_url" translate="label" type="text" sortOrder="40" showInDefault="1"
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sandbox Remote API URL</label>
                             <validate>required-entry no-whitespace validate-url</validate>
                             <config_path>payment/totalprocessing_opp/sandbox_api_url</config_path>
-                        </field>
-                        <field id="sandbox_scheduler_api_url" translate="label" type="text" sortOrder="50"
-                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                            <label>Sandbox Schedule API URL</label>
-                            <validate>required-entry no-whitespace validate-url</validate>
-                            <config_path>payment/totalprocessing_opp/sandbox_scheduler_api_url</config_path>
-                        </field>
-                        <field id="sandbox_scheduler_access_token" translate="label" type="text" sortOrder="60"
-                               showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                            <label>Schedule Access Token</label>
-                            <validate>required-entry no-whitespace</validate>
-                            <config_path>payment/totalprocessing_opp/sandbox_scheduler_access_token</config_path>
                         </field>
                     </group>
                 </group>
@@ -190,51 +150,6 @@
                         <source_model>TotalProcessing\Opp\Model\System\Config\PaymentAction</source_model>
                         <config_path>payment/totalprocessing_opp/payment_action</config_path>
                     </field>
-                    <field id="scheduler" translate="label" type="select" sortOrder="30" showInDefault="1"
-                           showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Scheduler Enabled</label>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/totalprocessing_opp/scheduler</config_path>
-                    </field>
-                    <field id="scheduler_sku_target" translate="label" type="text" sortOrder="40" showInDefault="1"
-                           showInWebsite="1" showInStore="1" canRestore="1">
-                        <comment>Comma separated SKUs.</comment>
-                        <depends>
-                            <field id="scheduler">1</field>
-                        </depends>
-                        <label>Schedule SKUs</label>
-                        <validate>required-entry no-whitespace</validate>
-                        <config_path>payment/totalprocessing_opp/scheduler_sku_target</config_path>
-                    </field>
-<!--                    TODO:  NOT Implemented yet, but may should be -->
-<!--                    <field id="tc_paybylink" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Pay-by-link on admin order creation</label>-->
-<!--                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
-<!--                        <config_path>payment/totalprocessing_opp/tc_paybylink</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="tc_scheduler" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Scheduler Activation</label>-->
-<!--                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
-<!--                        <config_path>payment/totalprocessing_opp/tc_scheduler</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="sku_target" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>TC Schedule SKUs (separate with comma no spacing)</label>-->
-<!--                        <config_path>payment/totalprocessing_opp/sku_target</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="primary_color" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Primary css colour (no hash)</label>-->
-<!--                        <config_path>payment/totalprocessing_opp/primary_color</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="settle_mode" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Settle Mode</label>-->
-<!--                        <source_model>TotalProcessing\Opp\Model\System\Config\SettleMode</source_model>-->
-<!--                        <config_path>payment/totalprocessing_opp/settle_mode</config_path>-->
-<!--                    </field>-->
-<!--                    <field id="require_cardholder" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                        <label>Require a cardholder</label>-->
-<!--                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
-<!--                        <config_path>payment/totalprocessing_opp/require_cardholder</config_path>-->
-<!--                    </field>-->
                     <field id="default_locale" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Default Locale</label>
                         <can_be_empty>1</can_be_empty>
@@ -286,12 +201,25 @@
                         <can_be_empty>0</can_be_empty>
                         <config_path>payment/totalprocessing_opp/style_options</config_path>
                     </field>
-                    <field id="style_options_custom_iframe_css" translate="label" type="textarea" sortOrder="40"
+                    <field id="card_style_options_custom_iframe_css" translate="label" type="textarea" sortOrder="40"
                            showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Custom iframe CSS</label>
+                        <label>Card Form Custom Iframe CSS</label>
                         <comment>Inject CSS to the form.</comment>
                         <validate>no-marginal-whitespace</validate>
-                        <config_path>payment/totalprocessing_opp/style_options_custom_iframe_css</config_path>
+                        <config_path>payment/totalprocessing_opp/card_style_options_custom_iframe_css</config_path>
+                        <depends>
+                            <field id="style_options">card</field>
+                        </depends>
+                    </field>
+                    <field id="plain_style_options_custom_iframe_css" translate="label" type="textarea" sortOrder="40"
+                           showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Plain Form Custom iframe CSS</label>
+                        <comment>Inject CSS to the form.</comment>
+                        <validate>no-marginal-whitespace</validate>
+                        <config_path>payment/totalprocessing_opp/plain_style_options_custom_iframe_css</config_path>
+                        <depends>
+                            <field id="style_options">plain</field>
+                        </depends>
                     </field>
                     <field id="style_options_custom_iframe_js" translate="label" type="textarea" sortOrder="50" showInDefault="1"
                            showInWebsite="1" showInStore="1" canRestore="1">
@@ -307,7 +235,6 @@
                     <attribute type="expanded">0</attribute>
                     <depends>
                         <field id="totalprocessing_opp_basic_active">1</field>
-<!--                        <field id="payment_us/totalprocessing_opp/totalprocessing_opp_basic/active">1</field>-->
                     </depends>
                     <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
                     <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1"
@@ -334,7 +261,7 @@
                             <field id="active">1</field>
                         </depends>
                         <label>Payment Action</label>
-                        <source_model>TotalProcessing\Opp\Model\System\Config\PaymentAction</source_model>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\ApplePay\PaymentAction</source_model>
                         <config_path>payment/totalprocessing_opp_applepay/payment_action</config_path>
                     </field>
                     <field id="allowed_brand_types" translate="label" type="multiselect" sortOrder="30" showInDefault="1"
@@ -360,15 +287,11 @@
                         <label>Live</label>
                         <attribute type="expanded">1</attribute>
                         <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <comment><![CDATA[Select "Use system value" on each to delete your credentials.]]></comment>
                         <depends>
                             <field id="active">1</field>
                             <field id="environment">live</field>
                         </depends>
-                        <field id="totalprocessing_opp_applepay_live_note_information" translate="label" type="label" sortOrder="1"
-                               showInStore="1" showInWebsite="1" showInDefault="1" >
-                            <label>NOTE:</label>
-                            <comment>Select "Use system value" on each to delete your credentials.</comment>
-                        </field>
                         <field id="live_merchant_id_domain_association" translate="label" type="textarea" sortOrder="10"
                                showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Merchant ID Domain Association</label>
@@ -398,7 +321,6 @@
                                showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Register URL</label>
                             <config_path>payment/totalprocessing_opp_applepay/live_register_url</config_path>
-
                             <validate>required-entry no-whitespace validate-url</validate>
                         </field>
                         <field id="live_shopper_endpoint" translate="label" type="text" sortOrder="60"
@@ -424,15 +346,11 @@
                         <label>Sandbox</label>
                         <attribute type="expanded">1</attribute>
                         <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                        <comment><![CDATA[Select "Use system value" on each to delete your credentials.]]></comment>
                         <depends>
                             <field id="active">1</field>
                             <field id="environment">sandbox</field>
                         </depends>
-                        <field id="totalprocessing_opp_applepay_sandbox_note_information" translate="label" type="label" sortOrder="1"
-                               showInStore="1" showInWebsite="1" showInDefault="1" >
-                            <label>NOTE:</label>
-                            <comment>Select "Use system value" on each to delete your credentials.</comment>
-                        </field>
                         <field id="sandbox_merchant_id_domain_association" translate="label" type="textarea" sortOrder="10"
                                showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Merchant ID Domain Association</label>

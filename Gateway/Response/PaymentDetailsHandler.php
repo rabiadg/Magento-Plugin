@@ -13,11 +13,14 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class PaymentDetailsHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class PaymentDetailsHandler implements HandlerInterface
 {
     const BASIC_PAYMENT_TYPE = 'paymentType';
     const BASIC_PAYMENT_BRAND = 'paymentBrand';
+    const AMOUNT = 'amount';
+    const CURRENCY = 'currency';
 
     /**
      * @var SubjectReader

@@ -11,14 +11,18 @@ use Magento\Framework\View\Element\Template;
 
 /**
  * Class Status
+ * @package TotalProcessing\Opp\Block
  */
 class Status extends Template
 {
+    /**
+     * @param Template\Context $context
+     * @param array $data
+     */
     public function __construct(
         Template\Context $context,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->_logger->debug("HIT", $data);
     }
 }

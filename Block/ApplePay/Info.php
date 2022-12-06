@@ -12,6 +12,7 @@ use Magento\Payment\Block\ConfigurableInfo;
 
 /**
  * Class Info
+ * @package TotalProcessing\Opp\Block\ApplePay
  */
 class Info extends ConfigurableInfo
 {
@@ -19,7 +20,7 @@ class Info extends ConfigurableInfo
      * Returns label
      *
      * @param string $field
-     * @return string | Phrase
+     * @return Phrase
      */
     protected function getLabel($field)
     {

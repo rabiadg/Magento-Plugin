@@ -14,11 +14,11 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CardDetailsHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class CardDetailsHandler implements HandlerInterface
 {
     const CARD_NAMESPACE = 'card';
-
     const CARD_BIN = 'bin';
     const CARD_EXP_MONTH = 'expiryMonth';
     const CARD_EXP_YEAR = 'expiryYear';

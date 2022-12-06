@@ -9,6 +9,7 @@ namespace TotalProcessing\Opp\Block\System\Config;
 
 /**
  * Class SandboxRegisterMerchantButton
+ * @package TotalProcessing\Opp\Block\System\Config
  */
 class SandboxRegisterMerchantButton extends RegisterMerchantButton
 {

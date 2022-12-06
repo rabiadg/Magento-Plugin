@@ -14,6 +14,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class PreAuthorizeValidator
+ * @package TotalProcessing\Opp\Gateway\Validator
  */
 class PreAuthorizeValidator extends AbstractValidator
 {
@@ -23,8 +24,6 @@ class PreAuthorizeValidator extends AbstractValidator
     protected $subjectReader;
 
     /**
-     * Constructor
-     *
      * @param ResultInterfaceFactory $resultFactory
      * @param SubjectReader $subjectReader
      */

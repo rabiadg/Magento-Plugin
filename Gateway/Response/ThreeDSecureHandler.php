@@ -13,17 +13,18 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class ThreeDSecureHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class ThreeDSecureHandler implements HandlerInterface
 {
     const THREE_D_SECURE_NAMESPACE = 'threeDSecure';
-
     const THREE_D_SECURE_ECI = 'eci';
     const THREE_D_SECURE_VERIFICATION_ID = 'verificationId';
     const THREE_D_SECURE_XID = 'xid';
     const THREE_D_SECURE_ENROLLMENT_STATUS = 'enrollmentStatus';
     const THREE_D_SECURE_AUTHENTICATION_STATUS = 'authenticationStatus';
     const IS_THREE_D_SECURE = "isThreeDSecure";
+    const THREE_D_SECURE_CHALLENGE_INDICATOR = "challengeIndicator";
 
      /**
      * @var SubjectReader

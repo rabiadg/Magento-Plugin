@@ -9,7 +9,9 @@
     <body>
         <referenceContainer name="content">
             <referenceBlock name="vault.cards.list">
-                <block class="TotalProcessing\Opp\Block\Customer\CardRenderer" name="totalprocessing_opp.cards.render" template="Magento_Vault::customer_account/credit_card.phtml"/>
+                <block class="TotalProcessing\Opp\Block\Customer\CardRenderer"
+                       name="totalprocessing_opp.cards.render"
+                       template="Magento_Vault::customer_account/credit_card.phtml"/>
             </referenceBlock>
         </referenceContainer>
     </body>

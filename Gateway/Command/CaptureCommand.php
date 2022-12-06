@@ -11,6 +11,7 @@ use Magento\Payment\Gateway\Command\GatewayCommand;
 
 /**
  * Class CaptureCommand
+ * @package TotalProcessing\Opp\Gateway\Command
  */
 class CaptureCommand extends GatewayCommand
 {

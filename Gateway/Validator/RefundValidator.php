@@ -13,7 +13,8 @@ use TotalProcessing\Opp\Gateway\Response\CommonHandler;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
- * Class CaptureValidator
+ * Class RefundValidator
+ * @package TotalProcessing\Opp\Gateway\Validator
  */
 class RefundValidator extends AbstractValidator
 {
@@ -23,8 +24,6 @@ class RefundValidator extends AbstractValidator
     protected $subjectReader;
 
     /**
-     * Constructor
-     *
      * @param ResultInterfaceFactory $resultFactory
      * @param SubjectReader $subjectReader
      */

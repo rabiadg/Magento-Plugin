@@ -19,6 +19,7 @@ use TotalProcessing\Opp\Model\System\Config\PaymentType;
 
 /**
  * Class PreAuthorizeDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
 {
@@ -57,6 +58,13 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
     const PAYMENT_TYPE = 'paymentType';
 
     /**
+     * The payment brand for the request
+     * <br/>
+     * <strong>OPTIONAL</strong>
+     */
+    const PAYMENT_BRAND = 'paymentBrand';
+
+    /**
      * The identifier of the registration request
      * <br/>
      * <strong>REQUIRED</strong>
@@ -86,15 +94,13 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
     private $paymentTokenProvider;
 
     /**
-     * PreAuthorizeDataBuilder constructor.
-     *
-     * @param CheckoutSession          $checkoutSession
-     * @param CommandHelper            $commandHelper
-     * @param Config                   $config
-     * @param ResourceInterface        $moduleResource
+     * @param CheckoutSession $checkoutSession
+     * @param CommandHelper $commandHelper
+     * @param Config $config
+     * @param ResourceInterface $moduleResource
      * @param ProductMetadataInterface $productMetadata
-     * @param SubjectReader            $subjectReader
-     * @param PaymentTokenProvider     $paymentTokenProvider
+     * @param SubjectReader $subjectReader
+     * @param PaymentTokenProvider $paymentTokenProvider
      */
     public function __construct(
         CheckoutSession $checkoutSession,
@@ -116,10 +122,9 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
      */
     public function build(array $buildSubject): array
     {
-        $this->subjectReader->debug("buildSubject Data", $buildSubject);
+        $this->subjectReader->debug("PRE-AUTHORIZE buildSubject data", $buildSubject);
 
         $currency = $buildSubject['currencyCode'] ?? null;
-
         if (!$currency) {
             $msg = 'Currency code should be provided';
             $this->subjectReader->critical($msg, $buildSubject);
@@ -127,23 +132,29 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
         }
 
         $storeId = $this->checkoutSession->getQuote()->getStoreId();
+        $quote = $this->checkoutSession->getQuote();
         $quoteId = $this->checkoutSession->getQuoteId();
 
         $billingAddress = $this->checkoutSession->getQuote()->getBillingAddress();
 
         $version = "Magento v.{$this->productMetadata->getVersion()} "
-            . " / Module TotalProcessing OPP v." . $this->moduleResource->getDataVersion("TotalProcessing_Opp");
+            . " / Module TotalProcessing OPP v."
+            . $this->moduleResource->getDataVersion("TotalProcessing_Opp");
 
         $result = [
             self::ENTITY_ID => $this->config->getEntityId($storeId),
             self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
             self::CURRENCY => $currency,
             self::PAYMENT_TYPE => PaymentType::PRE_AUTHORIZATION,
-            CardDataBuilder::CARD_HOLDER => $billingAddress->getName(),
+            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $quote->getOppMerchantTransactionId(),
             "customParameters[" . CustomParameterDataBuilder::PLUGIN . "]" => $version,
             "customParameters[" . CustomParameterDataBuilder::QUOTE_ID . "]" => $quoteId,
             "customParameters[" . CustomParameterDataBuilder::RETURN_URL . "]" => $this->config->getSource(),
         ];
+
+        if ($customerName = trim($billingAddress->getName())) {
+            $result[CardDataBuilder::CARD_HOLDER] = $customerName;
+        }
 
         if (!$this->commandHelper->isSchedulerActive()) {
             $i = 0;
@@ -153,7 +164,7 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
             }
         }
 
-        $this->subjectReader->debug("Result", $result);
+        $this->subjectReader->debug("PRE-AUTHORIZE request data", $result);
 
         return $result;
     }
