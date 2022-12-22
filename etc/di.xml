@@ -641,7 +641,6 @@
                 <item name="debug" xsi:type="object">TotalProcessing\Opp\Logger\Handler\Debug</item>
             </argument>
             <argument name="config" xsi:type="object">TotalProcessing\Opp\Logger\Config</argument>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session</argument>
         </arguments>
     </type>
     <virtualType name="TotalProcessing\Opp\Logger\SubjectLogger" type="TotalProcessing\Opp\Logger\Logger">

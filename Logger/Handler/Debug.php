@@ -5,13 +5,13 @@
  */
 namespace TotalProcessing\Opp\Logger\Handler;
 
-use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Filesystem\DriverInterface;
 use Magento\Framework\Logger\Handler\Base;
 use Monolog\Logger;
 use TotalProcessing\Opp\Logger\Config;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Class Debug
@@ -36,7 +36,7 @@ class Debug extends Base
     /**
      * @param DriverInterface $filesystem
      * @param Config $config
-     * @param CheckoutSession $checkoutSession
+     * @param StoreManagerInterface $storeManager
      * @param $filePath
      * @param $fileName
      * @throws LocalizedException
@@ -45,11 +45,11 @@ class Debug extends Base
     public function __construct(
         DriverInterface $filesystem,
         Config $config,
-        CheckoutSession $checkoutSession,
+        StoreManagerInterface $storeManager,
         $filePath = null,
         $fileName = null
     ) {
-        $this->fileName = $config->getDebugLogFileName($checkoutSession->getQuote()->getStoreId());
+        $this->fileName = $config->getDebugLogFileName($storeManager->getStore()->getId());
         parent::__construct($filesystem, $filePath, $this->fileName);
     }
 }

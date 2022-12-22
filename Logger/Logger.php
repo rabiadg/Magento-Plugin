@@ -5,10 +5,9 @@
  */
 namespace TotalProcessing\Opp\Logger;
 
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Gateway\ConfigInterface;
-use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Store\Model\StoreManagerInterface;
 use Monolog\Logger as BaseLogger;
 
 /**
@@ -23,9 +22,9 @@ class Logger extends BaseLogger
     private $config;
 
     /**
-     * @var Session
+     * @var StoreManagerInterface
      */
-    private $session;
+    private $storeManager;
 
     /**
      * backtrace limit in depth
@@ -37,19 +36,19 @@ class Logger extends BaseLogger
     /**
      * @param string $name
      * @param ConfigInterface $config
-     * @param CheckoutSession $checkoutSession
+     * @param StoreManagerInterface $storeManager
      * @param array $handlers
      * @param array $processors
      */
     public function __construct (
         string $name,
         ConfigInterface $config,
-        CheckoutSession $checkoutSession,
+        StoreManagerInterface $storeManager,
         array $handlers = [],
         array $processors = []
     ) {
         $this->config = $config;
-        $this->session = $checkoutSession;
+        $this->storeManager = $storeManager;
         $this->backtraceLimit = 4;
         parent::__construct($name, $handlers, $processors);
     }
@@ -73,7 +72,11 @@ class Logger extends BaseLogger
     }
 
     /**
-     * {@inheritdoc }
+     * @param $level
+     * @param $message
+     * @param array $context
+     * @return bool
+     * @throws NoSuchEntityException
      */
     public function addRecord($level, $message, array $context = array()): bool
     {
@@ -84,7 +87,7 @@ class Logger extends BaseLogger
         $prefix = ($caller["class"]??"") . "->" . ($caller["function"]??"").
             " | " . ($trace["class"]??"") . "->" . ($trace["function"]??"") . ": ";
         // is debug mode enabled
-        if ($level == self::DEBUG && $this->isDebugEnabled() == false) {
+        if ($level == self::DEBUG && !$this->isDebugEnabled($this->storeManager->getStore()->getId())) {
             return false;
         }
 
@@ -92,12 +95,11 @@ class Logger extends BaseLogger
     }
 
     /**
+     * @param null $storeId
      * @return bool
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
-    public function isDebugEnabled(): bool
+    public function isDebugEnabled($storeId = null): bool
     {
-        return $this->config->isDebugMode($this->session->getQuote()->getStoreId());
+        return $this->config->isDebugMode($storeId);
     }
 }
