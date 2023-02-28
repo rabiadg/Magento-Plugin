@@ -70,7 +70,7 @@ class RefundDataBuilder extends BaseRequestDataBuilder
             "customParameters[" . CustomParameterDataBuilder::RETURN_URL . "]" => $returnUrl,
         ];
 
-        $this->subjectReader->debug("Reversal Data", $params);
+        $this->subjectReader->debug("Refund data", $params);
 
         return $params;
     }

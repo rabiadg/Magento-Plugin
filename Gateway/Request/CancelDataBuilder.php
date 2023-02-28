@@ -14,16 +14,17 @@ use Magento\Payment\Helper\Formatter;
 use TotalProcessing\Opp\Gateway\Config\Config;
 use TotalProcessing\Opp\Gateway\Helper\Command as CommandHelper;
 use TotalProcessing\Opp\Gateway\Helper\PaymentTokenProvider;
+use TotalProcessing\Opp\Gateway\Response\CommonHandler;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 use TotalProcessing\Opp\Model\System\Config\PaymentType;
 use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProvider;
 use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProviderFactory;
 
 /**
- * Class DebitDataBuilder
+ * Class CancelDataBuilder
  * @package TotalProcessing\Opp\Gateway\Request
  */
-class DebitDataBuilder extends BaseRequestDataBuilder
+class CancelDataBuilder extends BaseRequestDataBuilder
 {
     use Formatter;
 
@@ -62,23 +63,9 @@ class DebitDataBuilder extends BaseRequestDataBuilder
     /**
      * The payment brand for the request
      * <br/>
-     * <strong>OPTIONAL</strong>
-     */
-    const PAYMENT_BRAND = 'paymentBrand';
-
-    /**
-     * The identifier of the registration request
-     * <br/>
      * <strong>REQUIRED</strong>
      */
-    const REGISTRATIONS_ID = 'id';
-
-    /**
-     * Stored (registered) cards namespace
-     * <br/>
-     * <strong>OPTIONAL</strong>
-     */
-    const REGISTRATIONS_NAMESPACE = 'registrations';
+    const PAYMENT_BRAND = 'paymentBrand';
 
     /**
      * @var CheckoutSession
@@ -132,44 +119,22 @@ class DebitDataBuilder extends BaseRequestDataBuilder
      */
     public function build(array $buildSubject): array
     {
-        $this->subjectReader->debug("DEBIT buildSubject data", $buildSubject);
+        $this->subjectReader->debug("CANCEL buildSubject data", $buildSubject);
 
-        $quote = $this->checkoutSession->getQuote();
-        $storeId = $quote->getStoreId();
-        $quoteId = $quote->getId();
+        $paymentDataObject = $this->subjectReader->readPayment($buildSubject);
 
-        $version = "Magento v.{$this->productMetadata->getVersion()} "
-            . " / Module TotalProcessing OPP v."
-            . $this->moduleResource->getDataVersion("TotalProcessing_Opp");
-
-        /** @var MerchantTransactionIdProvider $merchantTransactionIdProvider */
-        $merchantTransactionIdProvider = $this->merchantTransactionIdProviderFactory->create();
+        $order = $paymentDataObject->getOrder();
+        $payment = $paymentDataObject->getPayment();
+        $storeId = $order->getStoreId();
 
         $result = [
             self::ENTITY_ID => $this->config->getEntityId($storeId),
-            self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
+            self::AMOUNT => $this->subjectReader->readAmount($buildSubject),
             self::CURRENCY => $this->subjectReader->readCurrency($buildSubject),
-            self::PAYMENT_TYPE => PaymentType::DEBIT,
-            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $merchantTransactionIdProvider->execute(),
-            "customParameters[" . CustomParameterDataBuilder::PLUGIN . "]" => $version,
-            "customParameters[" . CustomParameterDataBuilder::QUOTE_ID . "]" => $quoteId,
-            "customParameters[" . CustomParameterDataBuilder::RETURN_URL . "]" => $this->config->getSource(),
+            self::PAYMENT_TYPE => PaymentType::REFUND
         ];
 
-        $billingAddress = $quote->getBillingAddress();
-        if ($customerName = trim($billingAddress->getName())) {
-            $result[CardDataBuilder::CARD_HOLDER] = $customerName;
-        }
-
-        if (!$this->commandHelper->isSchedulerActive()) {
-            $i = 0;
-            foreach ($this->paymentTokenProvider->getFilteredTokens() as $token) {
-                $result[self::REGISTRATIONS_NAMESPACE . "[$i]." . self::REGISTRATIONS_ID] = $token->getGatewayToken();
-                $i++;
-            }
-        }
-
-        $this->subjectReader->debug("DEBIT request data", $result);
+        $this->subjectReader->debug("CANCEL request data", $result);
 
         return $result;
     }

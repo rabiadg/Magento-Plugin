@@ -16,6 +16,8 @@ use TotalProcessing\Opp\Gateway\Helper\Command as CommandHelper;
 use TotalProcessing\Opp\Gateway\Helper\PaymentTokenProvider;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 use TotalProcessing\Opp\Model\System\Config\PaymentType;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProvider;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProviderFactory;
 
 /**
  * Class PreAuthorizeDataBuilder
@@ -94,6 +96,11 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
     private $paymentTokenProvider;
 
     /**
+     * @var MerchantTransactionIdProviderFactory
+     */
+    private $merchantTransactionIdProviderFactory;
+
+    /**
      * @param CheckoutSession $checkoutSession
      * @param CommandHelper $commandHelper
      * @param Config $config
@@ -101,6 +108,7 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
      * @param ProductMetadataInterface $productMetadata
      * @param SubjectReader $subjectReader
      * @param PaymentTokenProvider $paymentTokenProvider
+     * @param MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
      */
     public function __construct(
         CheckoutSession $checkoutSession,
@@ -109,12 +117,14 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
         ResourceInterface $moduleResource,
         ProductMetadataInterface $productMetadata,
         SubjectReader $subjectReader,
-        PaymentTokenProvider $paymentTokenProvider
+        PaymentTokenProvider $paymentTokenProvider,
+        MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
     ) {
         parent::__construct($config, $moduleResource, $productMetadata, $subjectReader);
         $this->checkoutSession = $checkoutSession;
         $this->commandHelper = $commandHelper;
         $this->paymentTokenProvider = $paymentTokenProvider;
+        $this->merchantTransactionIdProviderFactory = $merchantTransactionIdProviderFactory;
     }
 
     /**
@@ -141,12 +151,15 @@ class PreAuthorizeDataBuilder extends BaseRequestDataBuilder
             . " / Module TotalProcessing OPP v."
             . $this->moduleResource->getDataVersion("TotalProcessing_Opp");
 
+        /** @var MerchantTransactionIdProvider $merchantTransactionIdProvider */
+        $merchantTransactionIdProvider = $this->merchantTransactionIdProviderFactory->create();
+
         $result = [
             self::ENTITY_ID => $this->config->getEntityId($storeId),
             self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
             self::CURRENCY => $currency,
             self::PAYMENT_TYPE => PaymentType::PRE_AUTHORIZATION,
-            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $quote->getOppMerchantTransactionId(),
+            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $merchantTransactionIdProvider->execute(),
             "customParameters[" . CustomParameterDataBuilder::PLUGIN . "]" => $version,
             "customParameters[" . CustomParameterDataBuilder::QUOTE_ID . "]" => $quoteId,
             "customParameters[" . CustomParameterDataBuilder::RETURN_URL . "]" => $this->config->getSource(),

@@ -5,7 +5,9 @@
 */-->
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="quote">
-        <column name="opp_merchant_transaction_id" xsi:type="varchar" length="255"
-                nullable="true" comment="Total Processing  Open Payment Platform Merchant Transaction ID"/>
+        <column name="opp_merchant_transaction_id" xsi:type="varchar" length="255" nullable="true"
+                comment="Total Processing  Open Payment Platform Merchant Transaction ID"/>
+        <column name="tp_payment_id" xsi:type="varchar" length="255" nullable="true"
+                comment="Total Processing Open Payment Platform Payment ID"/>
     </table>
 </schema>

@@ -23,6 +23,8 @@ use TotalProcessing\Opp\Gateway\Request\PaymentDataBuilder;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 use TotalProcessing\Opp\Model\System\Config\PaymentType;
 use Magento\Sales\Model\Order\Payment\Transaction;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProvider;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProviderFactory;
 
 /**
  * Class TransactionCheckHandler
@@ -69,9 +71,9 @@ class TransactionCheckHandler implements HandlerInterface
     protected $subjectReader;
 
     /**
-     * @var InfoInterface|null
+     * @var MerchantTransactionIdProviderFactory
      */
-    private $payment = null;
+    private $merchantTransactionIdProviderFactory;
 
     /**
      * @param CheckoutSession $checkoutSession
@@ -80,6 +82,7 @@ class TransactionCheckHandler implements HandlerInterface
      * @param PaymentTokenFactoryInterface $paymentTokenFactory
      * @param SubjectReader $subjectReader
      * @param Serializer $serializer
+     * @param MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
      */
     public function __construct(
         CheckoutSession $checkoutSession,
@@ -87,7 +90,8 @@ class TransactionCheckHandler implements HandlerInterface
         OrderPaymentExtensionInterfaceFactory $paymentExtensionFactory,
         PaymentTokenFactoryInterface $paymentTokenFactory,
         SubjectReader $subjectReader,
-        Serializer $serializer
+        Serializer $serializer,
+        MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->customerTokenManagement = $customerTokenManagement;
@@ -95,6 +99,7 @@ class TransactionCheckHandler implements HandlerInterface
         $this->paymentTokenFactory = $paymentTokenFactory;
         $this->serializer = $serializer;
         $this->subjectReader = $subjectReader;
+        $this->merchantTransactionIdProviderFactory = $merchantTransactionIdProviderFactory;
     }
 
     /**
@@ -110,9 +115,12 @@ class TransactionCheckHandler implements HandlerInterface
             $quote = $this->checkoutSession->getQuote();
             ContextHelper::assertOrderPayment($payment);
 
+            /** @var MerchantTransactionIdProvider $merchantTransactionIdProvider */
+            $merchantTransactionIdProvider = $this->merchantTransactionIdProviderFactory->create();
+
             $payment->setAdditionalInformation(
                 PaymentDataBuilder::MERCHANT_TRANSACTION_ID,
-                $quote->getOppMerchantTransactionId()
+                $merchantTransactionIdProvider->execute()
             );
 
             $preAuthorizeTransaction = false;

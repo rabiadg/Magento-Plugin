@@ -8,6 +8,7 @@ namespace TotalProcessing\Opp\Logger;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Monolog\DateTimeImmutable;
 use Monolog\Logger as BaseLogger;
 
 /**
@@ -75,10 +76,11 @@ class Logger extends BaseLogger
      * @param $level
      * @param $message
      * @param array $context
+     * @param DateTimeImmutable|null $datetime
      * @return bool
      * @throws NoSuchEntityException
      */
-    public function addRecord($level, $message, array $context = array()): bool
+    public function addRecord($level, $message, array $context = array(), DateTimeImmutable $datetime = null): bool
     {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->getBacktraceLimit());
 
@@ -91,7 +93,7 @@ class Logger extends BaseLogger
             return false;
         }
 
-        return parent::addRecord($level, $prefix . $message, $context);
+        return parent::addRecord($level, $prefix . $message, $context, $datetime);
     }
 
     /**

@@ -130,11 +130,43 @@ class InitializeCommand implements CommandInterface
 
     /**
      * @param array $commandSubject
+     * @param Order $order
      * @return void
      * @throws CommandException
      * @throws NotFoundException
      */
-    private function executeTransactionCheckCommand(array $commandSubject): void
+    private function executeCancelCommand(array $commandSubject, Order $order): void
+    {
+        if (!isset($commandSubject['amount'])) {
+            $commandSubject['amount'] = $order->getGrandTotal();
+        }
+        if (!isset($commandSubject['currencyCode'])) {
+            $commandSubject['currencyCode'] = $order->getOrderCurrency()->getCurrencyCode();
+        }
+
+        $this->logger->debug("Before execute cancel", $commandSubject);
+        try {
+            $command = $this->commandManager->get(ReversalCommand::COMMAND_CODE);
+            if (!$command instanceof CommandInterface) {
+                $this->logger->critical(__("Cancel command should be provided."), []);
+                throw new CommandException(__("Cancel command should be provided."));
+            }
+            $command->execute($commandSubject);
+        } catch (CommandException $e) {
+            $this->logger->critical(__($e->getMessage()), []);
+            throw new CommandException(__($e->getMessage()));
+        }
+        $this->logger->debug("After execute cancel", $commandSubject);
+    }
+
+    /**
+     * @param array $commandSubject
+     * @param Order $order
+     * @return void
+     * @throws CommandException
+     * @throws NotFoundException
+     */
+    private function executeTransactionCheckCommand(array $commandSubject, Order $order): void
     {
         $this->logger->debug("Before execute transaction check", $commandSubject);
         try {
@@ -145,6 +177,10 @@ class InitializeCommand implements CommandInterface
             }
             $command->execute($commandSubject);
         } catch (CommandException $e) {
+            // if the details of the transaction are not available or an error occurred during the request,
+            // the customer will receive an error in the storefront, the order in the Magento will not be created,
+            // but the transaction in the payment gateway already exist, so we need to cancel this payment
+            $this->executeCancelCommand($commandSubject, $order);
             $this->logger->critical(__($e->getMessage()), []);
             throw new CommandException(__($e->getMessage()));
         }
@@ -163,7 +199,7 @@ class InitializeCommand implements CommandInterface
      */
     private function processDebit(Order $order, Payment $payment, $stateObject, array $commandSubject): void
     {
-        $this->executeTransactionCheckCommand($commandSubject);
+        $this->executeTransactionCheckCommand($commandSubject, $order);
         $this->processCapture($order, $payment, $stateObject, 'debit');
     }
 

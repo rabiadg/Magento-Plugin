@@ -13,6 +13,8 @@ use Magento\Framework\HTTP\ZendClient;
 use Magento\Framework\Module\ResourceInterface;
 use TotalProcessing\Opp\Gateway\Config\Config;
 use TotalProcessing\Opp\Gateway\SubjectReader;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProvider;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProviderFactory;
 
 /**
  * Class TransactionCheckDataBuilder
@@ -28,21 +30,29 @@ class TransactionCheckDataBuilder extends BaseRequestDataBuilder
     protected $checkoutSession;
 
     /**
+     * @var MerchantTransactionIdProviderFactory
+     */
+    private $merchantTransactionIdProviderFactory;
+
+    /**
      * @param CheckoutSession $checkoutSession
      * @param Config $config
      * @param ResourceInterface $moduleResource
      * @param ProductMetadataInterface $productMetadata
      * @param SubjectReader $subjectReader
+     * @param MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
      */
     public function __construct(
         CheckoutSession $checkoutSession,
         Config $config,
         ResourceInterface $moduleResource,
         ProductMetadataInterface $productMetadata,
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
     ) {
         parent::__construct($config, $moduleResource, $productMetadata, $subjectReader);
         $this->checkoutSession = $checkoutSession;
+        $this->merchantTransactionIdProviderFactory = $merchantTransactionIdProviderFactory;
     }
 
     /**
@@ -50,14 +60,17 @@ class TransactionCheckDataBuilder extends BaseRequestDataBuilder
      */
     public function build(array $buildSubject): array
     {
-        $this->subjectReader->debug("buildSubject Data", $buildSubject);
+        $this->subjectReader->debug("Transaction Check buildSubject Data", $buildSubject);
 
         $quote = $this->checkoutSession->getQuote();
         $storeId = $quote->getStoreId();
 
+        /** @var MerchantTransactionIdProvider $merchantTransactionIdProvider */
+        $merchantTransactionIdProvider = $this->merchantTransactionIdProviderFactory->create();
+
         $result = [
             AuthenticationDataBuilder::ENTITY_ID => $this->config->getEntityId($storeId),
-            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $quote->getOppMerchantTransactionId(),
+            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $merchantTransactionIdProvider->execute(),
             self::REQUEST_DATA_NAMESPACE => [
                 self::REQUEST_DATA_METHOD => ZendClient::GET,
                 self::REQUEST_DATA_URL =>

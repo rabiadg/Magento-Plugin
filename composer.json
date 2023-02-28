@@ -6,10 +6,6 @@
     },
     "require": {
         "php": "~7.2.0||~7.3.0||~7.4.0||~8.0.0||~8.1.0",
-        "magento/module-checkout": "100.3.*",
-        "magento/module-payment": "100.3.*",
-        "magento/module-quote": "101.1.*",
-        "magento/module-sales": "102.0.*",
         "veriteworks/cookiefix": "2.4.*||3.0.*"
     },
     "type": "magento2-module",
@@ -25,5 +21,5 @@
             "TotalProcessing\\Opp\\": ""
         }
     },
-    "version": "2.0.1"
+    "version": "2.0.4"
 }

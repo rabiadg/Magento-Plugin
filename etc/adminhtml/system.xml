@@ -150,6 +150,12 @@
                         <source_model>TotalProcessing\Opp\Model\System\Config\PaymentAction</source_model>
                         <config_path>payment/totalprocessing_opp/payment_action</config_path>
                     </field>
+                    <field id="merchant_transaction_id_type" translate="label" type="select" sortOrder="30" showInDefault="1"
+                           showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Merchant Transaction ID Type</label>
+                        <source_model>TotalProcessing\Opp\Model\System\Config\MerchantTransactionIdType</source_model>
+                        <config_path>payment/totalprocessing_opp/merchant_transaction_id_type</config_path>
+                    </field>
                     <field id="default_locale" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Default Locale</label>
                         <can_be_empty>1</can_be_empty>
