@@ -55,6 +55,7 @@ class Config extends BaseConfig
     const KEY_PLAIN_STYLE_OPTIONS_CUSTOM_IFRAME_CSS = 'plain_style_options_custom_iframe_css';
     const KEY_STYLE_OPTIONS_CUSTOM_IFRAME_JS = 'style_options_custom_iframe_js';
     const KEY_STYLE_OPTIONS_DEFAULT_CSS = 'style_options_default_css';
+    const KEY_MERCHANT_TRANSACTION_ID_TYPE = 'merchant_transaction_id_type';
 
     /**
      * @var AssetRepository
@@ -431,6 +432,17 @@ class Config extends BaseConfig
     public function getPaymentBtnText($storeId = null): ?string
     {
         return $this->getValue(self::KEY_PAYMENT_BTN_TEXT, $storeId);
+    }
+
+    /**
+     * Returns merchant transaction ID (order ID or order increment ID)
+     *
+     * @param $storeId
+     * @return mixed|null
+     */
+    public function getMerchantTransactionIdType($storeId = null)
+    {
+        return $this->getValue(self::KEY_MERCHANT_TRANSACTION_ID_TYPE, $storeId);
     }
 
     /**

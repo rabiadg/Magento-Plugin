@@ -132,6 +132,15 @@
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
     </virtualType>
+    <virtualType name="TotalProcessingReversalCommand" type="TotalProcessing\Opp\Gateway\Command\ReversalCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingCancelRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="TotalProcessingApplePayAuthorizeCommand" type="TotalProcessing\Opp\Gateway\Command\ApplePay\AuthorizeCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">TotalProcessingApplePayAuthorizeRequest</argument>
@@ -249,6 +258,14 @@
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="payment_status_request_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\PaymentStatusRequestDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingCancelRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="cancel_request_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\CancelRequestDataBuilder</item>
+                <item name="cancel_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\CancelDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>
@@ -388,6 +405,7 @@
                 <item name="debit" xsi:type="string">TotalProcessingDebitCommand</item>
                 <item name="payment_status" xsi:type="string">TotalProcessingPaymentStatusCommand</item>
                 <item name="initialize" xsi:type="string">TotalProcessing\Opp\Gateway\Command\InitializeCommand</item>
+                <item name="reversal" xsi:type="string">TotalProcessingReversalCommand</item>
             </argument>
         </arguments>
     </virtualType>

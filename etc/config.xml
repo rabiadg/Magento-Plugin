@@ -86,6 +86,7 @@
                 <sandbox_payment_url><![CDATA[https://test.oppwa.com]]></sandbox_payment_url>
                 <payment_btn_text>Place Order</payment_btn_text>
                 <vault_enabled>0</vault_enabled>
+                <merchant_transaction_id_type><![CDATA[increment_id]]></merchant_transaction_id_type>
                 <sandbox_entity_id backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <sandbox_access_token backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <live_entity_id backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>

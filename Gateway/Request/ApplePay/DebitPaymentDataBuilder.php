@@ -13,6 +13,8 @@ use TotalProcessing\Opp\Gateway\Helper\QuoteHelper;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 use TotalProcessing\Opp\Model\System\Config\PaymentType;
 use TotalProcessing\Opp\Observer\DataAssignObserver;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProvider;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProviderFactory;
 
 /**
  * Class DebitPaymentDataBuilder
@@ -121,15 +123,23 @@ class DebitPaymentDataBuilder implements BuilderInterface
     private $subjectReader;
 
     /**
+     * @var MerchantTransactionIdProviderFactory
+     */
+    private $merchantTransactionIdProviderFactory;
+
+    /**
      * @param QuoteHelper $quoteHelper
      * @param SubjectReader $subjectReader
+     * @param MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
      */
     public function __construct(
         QuoteHelper $quoteHelper,
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
     ) {
         $this->quoteHelper = $quoteHelper;
         $this->subjectReader = $subjectReader;
+        $this->merchantTransactionIdProviderFactory = $merchantTransactionIdProviderFactory;
     }
 
     /**
@@ -144,13 +154,16 @@ class DebitPaymentDataBuilder implements BuilderInterface
         $order = $paymentDataObject->getOrder();
         $quote = $this->quoteHelper->getQuote($order, $payment);
 
+        /** @var MerchantTransactionIdProvider $merchantTransactionIdProvider */
+        $merchantTransactionIdProvider = $this->merchantTransactionIdProviderFactory->create();
+
         $params = [
             self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
             self::CURRENCY => $order->getCurrencyCode(),
             self::DESCRIPTOR => null,
             self::MERCHANT_INVOICE_ID => null,
             self::MERCHANT_MEMO => null,
-            self::MERCHANT_TRANSACTION_ID => $quote->getOppMerchantTransactionId(),
+            self::MERCHANT_TRANSACTION_ID => $merchantTransactionIdProvider->execute($quote),
             self::PAYMENT_BRAND => null,
             self::PAYMENT_TYPE => PaymentType::DEBIT,
             self::TAX_AMOUNT => null,
