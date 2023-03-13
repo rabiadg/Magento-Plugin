@@ -12,7 +12,6 @@ use TotalProcessing\Opp\Gateway\Request\BaseRequestDataBuilder as DataBuilder;
 
 /**
  * Class AuthDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request\ApplePay
  */
 class AuthDataBuilder extends AbstractDataBuilder
 {

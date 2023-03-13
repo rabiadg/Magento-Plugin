@@ -8,10 +8,8 @@ declare(strict_types=1);
 namespace TotalProcessing\Opp\Gateway\Helper\ApplePay;
 
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\HTTP\ZendClient;
 use Magento\Framework\HTTP\ZendClientFactory;
-use Magento\Payment\Gateway\Http\ConverterException;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use TotalProcessing\Opp\Gateway\Config\ApplePay\Config;
@@ -22,7 +20,6 @@ use TotalProcessing\Opp\Model\System\Config\Environment;
 
 /**
  * Class Merchant
- * @package TotalProcessing\Opp\Gateway\Helper\ApplePay
  */
 class Merchant
 {
@@ -56,10 +53,11 @@ class Merchant
     private $storeManager;
 
     /**
+     * Constructor
+     *
      * @param Config $config
      * @param ZendClientFactory $clientFactory
      * @param LoggerInterface $logger
-     * @param JsonConverter $jsonConverter
      * @param RequestInterface $request
      * @param StoreManagerInterface $storeManager
      */
@@ -79,17 +77,6 @@ class Merchant
         $this->storeManager = $storeManager;
     }
 
-
-    /**
-     * Registering the merchant with the payment gateway
-     *
-     * @param $environment
-     * @param $url
-     * @param array $data
-     * @return array|false[]
-     * @throws ConverterException
-     * @throws \Throwable
-     */
     public function registerMerchant($environment, $url, array $data)
     {
         try {
@@ -128,15 +115,6 @@ class Merchant
         }
     }
 
-    /**
-     * Completing the merchant validation process
-     *
-     * @param $validationUrl
-     * @return array
-     * @throws ConverterException
-     * @throws NoSuchEntityException
-     * @throws \Throwable
-     */
     public function completeValidation($validationUrl)
     {
         try {

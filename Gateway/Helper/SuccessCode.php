@@ -9,7 +9,6 @@ namespace TotalProcessing\Opp\Gateway\Helper;
 
 /**
  * Class SuccessCode
- * @package TotalProcessing\Opp\Gateway\Helper
  */
 class SuccessCode
 {
@@ -17,7 +16,6 @@ class SuccessCode
     const CHECKOUT_UPDATE = '000.200.101';
     const TRANSACTION_SUCCESSFUL = '000.000.000';
     const TRANSACTION_SUCCESSFUL_TEST = '000.100.110';
-    const TRANSACTION_CHECK_SUCCESS_CODE = '000.000.100';
 
     /**
      * Returns checkout create success codes
@@ -40,18 +38,6 @@ class SuccessCode
     {
         return [
             self::CHECKOUT_UPDATE,
-        ];
-    }
-
-    /**
-     * Returns transaction check success codes
-     *
-     * @return string[]
-     */
-    public static function getSuccessfulTransactionCheckCodes(): array
-    {
-        return [
-            self::TRANSACTION_CHECK_SUCCESS_CODE,
         ];
     }
 

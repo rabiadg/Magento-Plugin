@@ -12,7 +12,6 @@ use TotalProcessing\Opp\Gateway\Response\CommonHandler;
 
 /**
  * Class RefundRequestDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request
  */
 class RefundRequestDataBuilder extends BaseRequestDataBuilder
 {

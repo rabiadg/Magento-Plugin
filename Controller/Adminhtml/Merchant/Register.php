@@ -9,16 +9,9 @@ namespace TotalProcessing\Opp\Controller\Adminhtml\Merchant;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Store\Model\StoreManagerInterface;
 use TotalProcessing\Opp\Gateway\Helper\ApplePay\Merchant as MerchantHelper;
-use TotalProcessing\Opp\Gateway\Config\Config;
 
-/**
- * Class Register
- * @package TotalProcessing\Opp\Controller\Adminhtml\Merchant
- */
 class Register extends Action
 {
     /**
@@ -31,35 +24,14 @@ class Register extends Action
      */
     protected $resultJsonFactory;
 
-    /**
-     * @var Config
-     */
-    private $config;
-
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-
-    /**
-     * @param Context $context
-     * @param MerchantHelper $merchantHelper
-     * @param JsonFactory $resultJsonFactory
-     * @param Config $config
-     * @param StoreManagerInterface $storeManager
-     */
     public function __construct(
         Context $context,
         MerchantHelper $merchantHelper,
-        JsonFactory $resultJsonFactory,
-        Config $config,
-        StoreManagerInterface $storeManager
+        JsonFactory $resultJsonFactory
     ) {
         parent::__construct($context);
         $this->merchantHelper = $merchantHelper;
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->config = $config;
-        $this->storeManager = $storeManager;
     }
 
     /**
@@ -67,38 +39,20 @@ class Register extends Action
      */
     public function execute()
     {
-        /** @var Json $resultJson */
-        $resultJson = $this->resultJsonFactory->create();
+        $result = $this->resultJsonFactory->create();
 
         try {
             $url = $this->getRequest()->getPostValue('registerUrl');
             $environment = $this->getRequest()->getPostValue('environment');
             $data = $this->getRequest()->getPostValue();
-            $this->preparePostData($data);
+            unset($data['url'], $data['env']);
+
             $response = $this->merchantHelper->registerMerchant($environment, $url, $data);
         } catch (\Throwable $t) {
-            return $resultJson->setData(['success' => false]);
+            return $result->setData(['success' => false]);
         }
 
-        return $resultJson->setData($response);
-    }
-
-    /**
-     * @param array $data
-     * @return void
-     */
-    private function preparePostData(array &$data)
-    {
-        $storeId = $this->storeManager->getStore()->getId();
-        if (isset($data['entityId']) && $data['entityId'] == '******') {
-            // encrypt value
-            $data['entityId'] = $this->config->getEntityId($storeId);
-        }
-        if (isset($data['accessToken']) && $data['accessToken'] == '******') {
-            // encrypt value
-            $data['accessToken'] = $this->config->getAccessToken($storeId);
-        }
-        unset($data['url'], $data['env']);
+        return $result->setData($response);
     }
 
     /**

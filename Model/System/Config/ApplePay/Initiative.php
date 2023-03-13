@@ -11,7 +11,6 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class Initiative
- * @package TotalProcessing\Opp\Model\System\Config\ApplePay
  */
 class Initiative implements OptionSourceInterface
 {

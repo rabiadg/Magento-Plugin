@@ -10,8 +10,10 @@ namespace TotalProcessing\Opp\Model\System\Config;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Payment\Model\Config as PaymentConfig;
 
+
 /**
  * Class BrandType
+ *
  * @package TotalProcessing\Opp\Model\System\Config
  */
 class BrandType implements OptionSourceInterface
@@ -23,8 +25,15 @@ class BrandType implements OptionSourceInterface
      */
     protected $_allowedTypes = [
         "MASTER",
+        "MASTERDEBIT",
         "VISA",
-        "AMEX"
+        "VISADEBIT",
+        "VISAELECTRON",
+        "AMEX",
+        "DINERS",
+        "DISCOVER",
+        "JCB",
+        "MAESTRO",
     ];
 
     /**
@@ -71,6 +80,7 @@ class BrandType implements OptionSourceInterface
     {
         $allowed = $this->getAllowedTypes();
         $options = [];
+
         foreach ($this->getBrandTypeLabelMap() as $code => $name) {
             if (in_array($code, $allowed)) {
                 $options[] = ['value' => $code, 'label' => $name];

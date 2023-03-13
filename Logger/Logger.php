@@ -3,19 +3,13 @@
  * Copyright Total Processing. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace TotalProcessing\Opp\Logger;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Gateway\ConfigInterface;
-use Magento\Store\Model\StoreManagerInterface;
-use Monolog\DateTimeImmutable;
-use Monolog\Logger as BaseLogger;
+use Magento\Checkout\Model\Session as CheckoutSession;
 
-/**
- * Class Logger
- * @package TotalProcessing\Opp\Logger
- */
-class Logger extends BaseLogger
+class Logger extends \Monolog\Logger
 {
     /**
      * @var Config
@@ -23,85 +17,57 @@ class Logger extends BaseLogger
     private $config;
 
     /**
-     * @var StoreManagerInterface
+     * @var Session
      */
-    private $storeManager;
+    private $session;
 
     /**
      * backtrace limit in depth
      *
      * @var int
      */
-    public $backtraceLimit;
+    public $backtrace_limit;
 
-    /**
-     * @param string $name
-     * @param ConfigInterface $config
-     * @param StoreManagerInterface $storeManager
-     * @param array $handlers
-     * @param array $processors
-     */
-    public function __construct (
-        string $name,
+    public function __construct
+    (
+        $name,
+        array $handlers = array(),
+        array $processors = array(),
         ConfigInterface $config,
-        StoreManagerInterface $storeManager,
-        array $handlers = [],
-        array $processors = []
+        CheckoutSession $checkoutSession
     ) {
         $this->config = $config;
-        $this->storeManager = $storeManager;
-        $this->backtraceLimit = 4;
+        $this->session = $checkoutSession;
+        $this->backtrace_limit = 4;
         parent::__construct($name, $handlers, $processors);
     }
 
     /**
-     * @return int
+     * {@inheritdoc }
      */
-    public function getBacktraceLimit(): int
+    public function addRecord($level, $message, array $context = array()): bool
     {
-        return $this->backtraceLimit;
-    }
-
-    /**
-     * @param int $limit
-     * @return $this
-     */
-    public function setBacktraceLimit(int $limit): Logger
-    {
-        $this->backtraceLimit = $limit;
-        return $this;
-    }
-
-    /**
-     * @param $level
-     * @param $message
-     * @param array $context
-     * @param DateTimeImmutable|null $datetime
-     * @return bool
-     * @throws NoSuchEntityException
-     */
-    public function addRecord($level, $message, array $context = array(), DateTimeImmutable $datetime = null): bool
-    {
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->getBacktraceLimit());
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $this->backtrace_limit);
 
         $caller = array_pop($trace);
         $trace = array_pop($trace);
         $prefix = ($caller["class"]??"") . "->" . ($caller["function"]??"").
             " | " . ($trace["class"]??"") . "->" . ($trace["function"]??"") . ": ";
         // is debug mode enabled
-        if ($level == self::DEBUG && !$this->isDebugEnabled($this->storeManager->getStore()->getId())) {
+        if ($level == self::DEBUG && $this->isDebugEnabled() == false) {
             return false;
         }
 
-        return parent::addRecord($level, $prefix . $message, $context, $datetime);
+        return parent::addRecord($level, $prefix . $message, $context);
     }
 
     /**
-     * @param null $storeId
      * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function isDebugEnabled($storeId = null): bool
+    public function isDebugEnabled(): bool
     {
-        return $this->config->isDebugMode($storeId);
+        return $this->config->isDebugMode($this->session->getQuote()->getStoreId());
     }
 }

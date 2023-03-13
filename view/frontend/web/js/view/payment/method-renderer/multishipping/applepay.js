@@ -19,16 +19,10 @@ define(
                 template: 'TotalProcessing_Opp/payment/multishipping/applepay',
             },
 
-            /**
-             * Place order and setting the payment information.
-             */
             placeOrder: function () {
                 this.setPaymentInformation();
             },
 
-            /**
-             * Setting the payment information.
-             */
             setPaymentInformation: function () {
                 fullScreenLoader.startLoader();
 
@@ -42,24 +36,17 @@ define(
                     .fail(this.fail.bind(this));
             },
 
-            /**
-             * A function that is called when the payment fails
-             *
-             * @returns {*}
-             */
             fail: function () {
                 fullScreenLoader.stopLoader();
+
                 return this;
             },
 
-            /**
-             * A function that is called when the payment is successful.
-             *
-             * @returns {*}
-             */
             done: function () {
                 fullScreenLoader.stopLoader();
+
                 $('#multishipping-billing-form').submit();
+
                 return this;
             }
         });

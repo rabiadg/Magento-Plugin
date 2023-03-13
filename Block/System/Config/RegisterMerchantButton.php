@@ -19,7 +19,6 @@ use TotalProcessing\Opp\Model\Ui\ConfigProvider as BaseConfigProvider;
 
 /**
  * Class RegisterMerchantButton
- * @package TotalProcessing\Opp\Block\System\Config
  */
 class RegisterMerchantButton extends Field
 {

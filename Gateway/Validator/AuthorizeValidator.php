@@ -13,8 +13,7 @@ use TotalProcessing\Opp\Gateway\Response\CommonHandler;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
- * Class AuthorizeValidator
- * @package TotalProcessing\Opp\Gateway\Validator
+ * AuthorizeValidator
  */
 class AuthorizeValidator extends AbstractValidator
 {
@@ -24,6 +23,8 @@ class AuthorizeValidator extends AbstractValidator
     protected $subjectReader;
 
     /**
+     * Constructor
+     *
      * @param ResultInterfaceFactory $resultFactory
      * @param SubjectReader $subjectReader
      */

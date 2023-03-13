@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace TotalProcessing\Opp\Plugin;
 
-use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Gateway\CommandInterface;
@@ -15,26 +14,17 @@ use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Payment\Gateway\Command\CommandManagerInterface;
 use Psr\Log\LoggerInterface;
 use TotalProcessing\Opp\Gateway\Command\ScheduleCommand;
-use TotalProcessing\Opp\Gateway\Command\TransactionCheckCommand;
 use TotalProcessing\Opp\Gateway\Config\Config;
-use TotalProcessing\Opp\Gateway\Helper\SuccessCode;
-use TotalProcessing\Opp\Gateway\Response\TransactionCheckHandler;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 use TotalProcessing\Opp\Model\System\Config\ScheduleType;
 
 /**
  * Class AuthorizeCommand
- * @TODO Change CommandException message with common message
  *
- * @package TotalProcessing\Opp\Plugin
+ * @TODO Change CommandException message with common message
  */
 class AuthorizeCommand
 {
-    /**
-     * @var CheckoutSession
-     */
-    protected $checkoutSession;
-
     /**
      * @var Config
      */
@@ -63,22 +53,18 @@ class AuthorizeCommand
     /**
      * CaptureCommand constructor.
      *
-     * @param CheckoutSession $checkoutSession
      * @param Config $config
      * @param CommandManagerInterface $commandManager
      * @param LoggerInterface $logger
-     * @param ScheduleType $scheduleType
      * @param SubjectReader $subjectReader
      */
     public function __construct(
-        CheckoutSession $checkoutSession,
         Config $config,
         CommandManagerInterface $commandManager,
         LoggerInterface $logger,
         ScheduleType $scheduleType,
         SubjectReader $subjectReader
     ) {
-        $this->checkoutSession = $checkoutSession;
         $this->config = $config;
         $this->commandManager = $commandManager;
         $this->logger = $logger;
@@ -101,14 +87,7 @@ class AuthorizeCommand
         $this->logger->debug("Around execute authorize start", $commandSubject);
 
         try {
-            $isPreAuthorized = $this->isPreAuthorized($commandSubject);
-
-            if ($isPreAuthorized) {
-                $commandSubject[TransactionCheckHandler::IS_PRE_AUTHORIZED] = true;
-                return $proceed($commandSubject);
-            }
-
-            $result = $proceed($commandSubject);
+            $proceed($commandSubject);
 
             $skipErrors = false;
 
@@ -141,7 +120,7 @@ class AuthorizeCommand
 
         $this->logger->debug("Around execute authorize end");
 
-        return $result;
+        return ['commandSubject' => $commandSubject];
     }
 
     /**
@@ -191,40 +170,5 @@ class AuthorizeCommand
         }
 
         return $scheduleActions;
-    }
-
-    /**
-     * Returns if order payment already pre-authorized
-     *
-     * @param array $commandSubject
-     * @return bool
-     * @throws CommandException
-     * @throws LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\NotFoundException
-     * @throws \Throwable
-     */
-    private function isPreAuthorized(array $commandSubject): bool
-    {
-        try {
-            $command = $this->commandManager->get(TransactionCheckCommand::COMMAND_CODE);
-
-            if (!$command instanceof CommandInterface) {
-                $this->logger->critical(__("Transaction check command not found"), []);
-                throw new CommandException(__("Transaction check command not found"));
-            }
-            $command->execute($commandSubject);
-
-            $paymentDataObject = $this->subjectReader->readPayment($commandSubject);
-            $payment = $paymentDataObject->getPayment();
-
-            $preAuthData = $payment->getAdditionalInformation(TransactionCheckHandler::IS_PRE_AUTHORIZED);
-            if (is_array($preAuthData) && isset($preAuthData['result']['code'])) {
-                return in_array($preAuthData['result']['code'], SuccessCode::getSuccessfulTransactionCodes());
-            }
-            return (bool)$preAuthData;
-        } catch (\Throwable $t) {
-            throw $t;
-        }
     }
 }

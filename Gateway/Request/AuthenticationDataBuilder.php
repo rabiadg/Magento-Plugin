@@ -13,7 +13,6 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class AuthenticationDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request
  */
 class AuthenticationDataBuilder implements BuilderInterface
 {
@@ -33,8 +32,9 @@ class AuthenticationDataBuilder implements BuilderInterface
      * @var SubjectReader
      */
     private $subjectReader;
-
     /**
+     * Constructor
+     *
      * @param Config $config
      * @param SubjectReader $subjectReader
      */
@@ -49,7 +49,7 @@ class AuthenticationDataBuilder implements BuilderInterface
      */
     public function build(array $buildSubject): array
     {
-        $this->subjectReader->debug("AUTHENTICATION buildSubject", $buildSubject);
+        $this->subjectReader->debug("buildSubject data", $buildSubject);
 
         $paymentDataObject = $this->subjectReader->readPayment($buildSubject);
         $order = $paymentDataObject->getOrder();
@@ -58,7 +58,7 @@ class AuthenticationDataBuilder implements BuilderInterface
             self::ENTITY_ID => $this->config->getEntityId($order->getStoreId()),
         ];
 
-        $this->subjectReader->debug("AUTHENTICATION request", $result);
+        $this->subjectReader->debug("Result", $result);
 
         return $result;
     }

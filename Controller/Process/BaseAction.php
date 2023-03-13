@@ -13,14 +13,10 @@ use Magento\Framework\Session\SessionManagerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class BaseAction
- * @package TotalProcessing\Opp\Controller\Process
+ * Class Frame
  */
 abstract class BaseAction extends Action
 {
-    /**
-     * @var SessionManagerInterface
-     */
     protected $checkoutSession;
 
     /**
@@ -29,8 +25,10 @@ abstract class BaseAction extends Action
     protected $logger;
 
     /**
-     * @param Context $context
-     * @param LoggerInterface $logger
+     * BaseAction constructor.
+     *
+     * @param Context                 $context
+     * @param LoggerInterface         $logger
      * @param SessionManagerInterface $checkoutSession
      */
     public function __construct(

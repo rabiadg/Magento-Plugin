@@ -11,7 +11,6 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class RecurringType
- * @package TotalProcessing\Opp\Model\System\Config
  */
 class RecurringType implements OptionSourceInterface
 {

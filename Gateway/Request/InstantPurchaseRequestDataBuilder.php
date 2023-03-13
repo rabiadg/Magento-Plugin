@@ -19,16 +19,16 @@ use TotalProcessing\Opp\Gateway\Response\ThreeDSecureHandler;
 use TotalProcessing\Opp\Gateway\Helper\PaymentTokenProvider;
 use TotalProcessing\Opp\Gateway\Response\InstantPurchaseHandler;
 use TotalProcessing\Opp\Gateway\SubjectReader;
+use TotalProcessing\Opp\Gateway\Traits\RegistrationIdsTrait;
 
 /**
- * Class InstantPurchaseRequestDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request
+ * Class AuthorizeRequestDataBuilder
  */
 class InstantPurchaseRequestDataBuilder extends BaseRequestDataBuilder
 {
+
     const STATUS_PATH = '/v1/registrations/{registrationId}/payments';
     const PARAM_RECURRING_TYPE = "recurringType";
-
     /**
      * @var CheckoutSession
      */
@@ -40,12 +40,14 @@ class InstantPurchaseRequestDataBuilder extends BaseRequestDataBuilder
     protected $tokensProvider;
 
     /**
-     * @param CheckoutSession $checkoutSession
-     * @param Config $config
+     * InstantPurchaseRequestDataBuilder constructor.
+     *
+     * @param CheckoutSession          $checkoutSession
+     * @param Config                   $config
      * @param ProductMetadataInterface $productMetadata
-     * @param ResourceInterface $moduleResource
-     * @param SubjectReader $subjectReader
-     * @param PaymentTokenProvider $tokensProvider
+     * @param ResourceInterface        $moduleResource
+     * @param SubjectReader            $subjectReader
+     * @param PaymentTokenProvider     $tokensProvider
      */
     public function __construct(
         CheckoutSession $checkoutSession,
@@ -83,13 +85,7 @@ class InstantPurchaseRequestDataBuilder extends BaseRequestDataBuilder
             throw new CommandException(__("There is no stored cards from active Brand types!"));
         }
 
-        $this->subjectReader->debug(
-            "Gateway Token",
-            [
-                "PublicHash" => $gatewayToken->getPublicHash(),
-                "Details" => $gatewayToken->getTokenDetails()
-            ]
-        );
+        $this->subjectReader->debug("Gateway Token", ["PublicHash" => $gatewayToken->getPublicHash(), "Details" =>$gatewayToken->getTokenDetails()]);
 
         $url = rtrim($this->config->getApiUrl($storeId), '/')
             . str_replace('{registrationId}', $gatewayToken->getGatewayToken(), self::STATUS_PATH);

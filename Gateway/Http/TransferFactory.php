@@ -14,7 +14,6 @@ use TotalProcessing\Opp\Gateway\Request\BaseRequestDataBuilder;
 
 /**
  * Class TransferFactory
- * @package TotalProcessing\Opp\Gateway\Http
  */
 class TransferFactory implements TransferFactoryInterface
 {
@@ -22,6 +21,7 @@ class TransferFactory implements TransferFactoryInterface
      * @var TransferBuilder
      */
     protected $transferBuilder;
+
 
     /**
      * Constructor
@@ -41,10 +41,13 @@ class TransferFactory implements TransferFactoryInterface
     {
         if (isset($request[BaseRequestDataBuilder::REQUEST_DATA_NAMESPACE])) {
             $requestData = $request[BaseRequestDataBuilder::REQUEST_DATA_NAMESPACE];
+
             $method = $requestData[BaseRequestDataBuilder::REQUEST_DATA_METHOD] ?? ZendClient::GET;
             $url = $requestData[BaseRequestDataBuilder::REQUEST_DATA_URL] ?? '';
             $headers = $requestData[BaseRequestDataBuilder::REQUEST_DATA_HEADERS] ?? [];
             $encode = $requestData[BaseRequestDataBuilder::REQUEST_ENCODE] ?? false;
+
+
             unset($request[BaseRequestDataBuilder::REQUEST_DATA_NAMESPACE]);
         }
 

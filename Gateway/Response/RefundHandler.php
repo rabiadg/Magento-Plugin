@@ -11,7 +11,6 @@ use Magento\Sales\Model\Order\Payment;
 
 /**
  * Class RefundHandler
- * @package TotalProcessing\Opp\Gateway\Response
  */
 class RefundHandler extends VoidHandler
 {

@@ -13,8 +13,7 @@ use Magento\Sales\Model\Order\Payment;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
- * Class TransactionIdHandler
- * @package TotalProcessing\Opp\Gateway\Response
+ * Class CommonHandler
  */
 class TransactionIdHandler implements HandlerInterface
 {

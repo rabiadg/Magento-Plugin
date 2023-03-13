@@ -11,7 +11,6 @@ use Magento\Sales\Model\Order\Payment;
 
 /**
  * Class VoidHandler
- * @package TotalProcessing\Opp\Gateway\Response
  */
 class VoidHandler extends TransactionIdHandler
 {

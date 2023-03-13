@@ -12,7 +12,6 @@ use TotalProcessing\Opp\Gateway\Command\PreAuthorizeCommand as BasePreAuthorizeC
 
 /**
  * Class PreAuthorizeCommand
- * @package TotalProcessing\Opp\Gateway\Command\ApplePay
  */
 class PreAuthorizeCommand extends GatewayCommand
 {

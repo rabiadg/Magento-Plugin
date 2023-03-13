@@ -8,12 +8,7 @@
  * @var TotalProcessing\Opp\Block\Frame $block
  */
 ?>
-<?php
-/** @var \TotalProcessing\Opp\ViewModel\Checkout\Payment\FrameViewModel $viewModel */
-$viewModel = $block->getData('frameViewModel');
-$storeId = $block->getStoreId();
-?>
-<script src="<?= $viewModel->getPaymentWidgetsUrl($storeId); ?>"></script>
+<script src="<?php echo $block->getPaymentWidgetsUrl(); ?>"></script>
 <script>
     function postMessage(iframeDoc, iframeHeight, isPlaceOrderVisible) {
         let event;
@@ -54,34 +49,32 @@ $storeId = $block->getStoreId();
     }
 
     var wpwlOptions = {
-        onReady: function () {
+        onReady: function() {
             // inject custom script from admin panel
-            <?= $viewModel->getOnReadyCustomScript($storeId) ?>
+            <?php echo $block->getOnReadyCustomScript() ?>
 
             // inject custom css from admin panel
             $("head link[rel='stylesheet']").last().after(
-                "<style rel='stylesheet' type='text/css' media='all'>" +
-                "<?= $viewModel->getStyleOptionsCustomIframeCss($storeId) . ' ' . $viewModel->getStyleOptionsDefault($storeId) ?>" +
+                "<style rel='stylesheet' type='text/css' media='all'>"+
+                "<?php echo $block->getStyleOptionsCustomIframeCss().' '.$block->getStyleOptionsDefault() ?>" +
                 "<\/script>"
             );
             let __self = this;
 
-            <?php if ($viewModel->isVaultEnabled($storeId) && !$viewModel->isSchedulerActive()): ?>
+            <?php if ($block->isVaultEnabled() && !$block->isSchedulerActive()): ?>
             $('form.wpwl-form-card').find('.wpwl-button').before(
-                '<div class="customLabel"><?= __("Store payment details?")?></div>' +
+                '<div class="customLabel"><?php echo __("Store payment details?")?></div>' +
                 '<div class="customInput"><input type="checkbox" name="createRegistration" value="true" /></div>'
             );
             <?php endif; ?>
 
             $('button').on("click.wpwlEvent", function () {
-                setTimeout(function () {
-                    postMessage(__self.document, getHeight(), false);
-                }, 100);
+                setTimeout(function () { postMessage(__self.document, getHeight(), false); }, 100);
             });
 
             $('.wpwl-container-card, .wpwl-container-registration')
                 .find('.wpwl-button-pay')
-                .html('<?= $viewModel->getPaymentBtnText($storeId);?>');
+                .html('<?php echo $block->getPaymentBtnText();?>');
 
             postMessage(this.document, 0, false);
         },
@@ -97,16 +90,16 @@ $storeId = $block->getStoreId();
         },
         brandDetection: true,
         brandDetectionType: "binlist",
-        brandDetectionPriority: [<?= $viewModel->getBrandsDetectionString($storeId) ?>],
+        brandDetectionPriority: [<?php echo $block->getBrandsDetectionString() ?> ],
         disableSubmitOnEnter: true,
-        locale: "<?= $viewModel->getLocale($storeId); ?>",
+        locale: "<?php echo $block->getLocale(); ?>",
         paymentTarget: "totalprocessing_opp_iframe",
         shopperResultTarget: "totalprocessing_opp_iframe",
-        style: "<?= $viewModel->getStyleOption($storeId); ?>"
+        style: "<?php echo $block->getStyleOption(); ?>"
     }
 </script>
 <form
     class="paymentWidgets"
-    action="<?= $viewModel->getRedirectUrl(); ?>"
-    data-brands="<?= $viewModel->getBrands($storeId); ?>">
+    action="<?php echo $block->getRedirectUrl();?>"
+    data-brands="<?php echo $block->getBrands(); ?>">
 </form>
