@@ -15,6 +15,7 @@ use TotalProcessing\Opp\Model\Ui\ConfigProvider;
 
 /**
  * Class CardRenderer
+ * @package TotalProcessing\Opp\Block\Customer
  */
 class CardRenderer extends AbstractCardRenderer
 {
@@ -24,8 +25,6 @@ class CardRenderer extends AbstractCardRenderer
     private $iconsProvider;
 
     /**
-     * Constructor
-     *
      * @param Template\Context $context
      * @param CcConfigProvider $iconsProvider
      * @param ConfigProvider $configProvider

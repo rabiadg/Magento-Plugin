@@ -12,11 +12,13 @@ use Magento\Payment\Model\MethodInterface;
 
 /**
  * Class PaymentAction
+ * @package TotalProcessing\Opp\Model\System\Config
  */
 class PaymentAction implements OptionSourceInterface
 {
     const AUTHORIZE = MethodInterface::ACTION_AUTHORIZE;
     const AUTHORIZE_CAPTURE = MethodInterface::ACTION_AUTHORIZE_CAPTURE;
+    const DEBIT = 'debit';
 
     /**
      * {@inheritdoc}
@@ -31,7 +33,11 @@ class PaymentAction implements OptionSourceInterface
             [
                 'value' => self::AUTHORIZE_CAPTURE,
                 'label' => __('Authorize and Capture')
-            ]
+            ],
+            [
+                'value' => self::DEBIT,
+                'label' => __('Debit'),
+            ],
         ];
     }
 }

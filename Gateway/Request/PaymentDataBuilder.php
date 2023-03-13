@@ -9,12 +9,16 @@ namespace TotalProcessing\Opp\Gateway\Request;
 
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Helper\Formatter;
+use TotalProcessing\Opp\Gateway\Helper\QuoteHelper;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 use TotalProcessing\Opp\Model\System\Config\PaymentType;
 use TotalProcessing\Opp\Observer\DataAssignObserver;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProvider;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProviderFactory;
 
 /**
  * Class PaymentDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class PaymentDataBuilder implements BuilderInterface
 {
@@ -102,9 +106,16 @@ class PaymentDataBuilder implements BuilderInterface
     const TRANSACTION_CATEGORY = 'transactionCategory';
 
     /**
-     *
+     * The payment method nonce
+     * <br/>
+     * <strong>OPTIONAL</strong>
      */
     const PAYMENT_METHOD_NONCE = 'paymentMethodNonce';
+
+    /**
+     * @var QuoteHelper
+     */
+    private $quoteHelper;
 
     /**
      * @var SubjectReader
@@ -112,13 +123,23 @@ class PaymentDataBuilder implements BuilderInterface
     private $subjectReader;
 
     /**
-     * BasicDataBuilder constructor.
-     *
-     * @param SubjectReader $subjectReader
+     * @var MerchantTransactionIdProviderFactory
      */
-    public function __construct(SubjectReader $subjectReader)
-    {
+    private $merchantTransactionIdProviderFactory;
+
+    /**
+     * @param QuoteHelper $quoteHelper
+     * @param SubjectReader $subjectReader
+     * @param MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
+     */
+    public function __construct(
+        QuoteHelper $quoteHelper,
+        SubjectReader $subjectReader,
+        MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
+    ) {
+        $this->quoteHelper = $quoteHelper;
         $this->subjectReader = $subjectReader;
+        $this->merchantTransactionIdProviderFactory = $merchantTransactionIdProviderFactory;
     }
 
     /**
@@ -131,6 +152,10 @@ class PaymentDataBuilder implements BuilderInterface
 
         $payment = $paymentDataObject->getPayment();
         $order = $paymentDataObject->getOrder();
+        $quote = $this->quoteHelper->getQuote($order, $payment);
+
+        /** @var MerchantTransactionIdProvider $merchantTransactionIdProvider */
+        $merchantTransactionIdProvider = $this->merchantTransactionIdProviderFactory->create();
 
         $params = [
             self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
@@ -138,7 +163,7 @@ class PaymentDataBuilder implements BuilderInterface
             self::DESCRIPTOR => null,
             self::MERCHANT_INVOICE_ID => null,
             self::MERCHANT_MEMO => null,
-            self::MERCHANT_TRANSACTION_ID => $order->getOrderIncrementId(),
+            self::MERCHANT_TRANSACTION_ID => $merchantTransactionIdProvider->execute($quote),
             self::PAYMENT_BRAND => null,
             self::PAYMENT_TYPE => PaymentType::PRE_AUTHORIZATION,
             self::TAX_AMOUNT => null,

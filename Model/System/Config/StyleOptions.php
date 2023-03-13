@@ -11,6 +11,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class StyleOptions
+ * @package TotalProcessing\Opp\Model\System\Config
  */
 class StyleOptions implements OptionSourceInterface
 {

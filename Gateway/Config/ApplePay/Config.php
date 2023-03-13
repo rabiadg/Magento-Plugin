@@ -17,11 +17,16 @@ use Magento\Payment\Gateway\Config\Config as BaseConfig;
 use Psr\Log\LoggerInterface;
 use TotalProcessing\Opp\Gateway\Config\Config as GatewayBaseConfig;
 
+/**
+ * Class Config
+ * @package TotalProcessing\Opp\Gateway\Config\ApplePay
+ */
 class Config extends BaseConfig
 {
     const KEY_ACTIVE = 'active';
     const KEY_API_URL = 'api_url';
     const KEY_BRAND_TYPES = 'allowed_brand_types';
+    const KEY_PAYMENT_ACTION = 'payment_action';
     const KEY_DISPLAY_NAME = 'display_name';
     const KEY_DOMAIN_NAMES = 'domain_names';
     const KEY_ENVIRONMENT = 'environment';
@@ -57,15 +62,14 @@ class Config extends BaseConfig
     private $urlBuilder;
 
     /**
-     * Constructor
-     *
      * @param AssetRepository $assetRepository
      * @param GatewayBaseConfig $config
      * @param LoggerInterface $logger
+     * @param RequestInterface $request
      * @param ScopeConfigInterface $scopeConfig
      * @param UrlInterface $urlBuilder
-     * @param null $methodCode
-     * @param string $pathPattern
+     * @param string|null $methodCode
+     * @param $pathPattern
      */
     public function __construct(
         AssetRepository $assetRepository,
@@ -141,6 +145,15 @@ class Config extends BaseConfig
         $brandTypes = $this->getValue(self::KEY_BRAND_TYPES, $storeId);
 
         return !empty($brandTypes) ? explode(',', $brandTypes) : [];
+    }
+
+    /**
+     * @param $storeId
+     * @return mixed|null
+     */
+    public function getPaymentAction($storeId = null)
+    {
+        return $this->getValue(self::KEY_PAYMENT_ACTION, $storeId);
     }
 
     /**

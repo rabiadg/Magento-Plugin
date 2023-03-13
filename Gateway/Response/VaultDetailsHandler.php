@@ -22,6 +22,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class VaultDetailsHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class VaultDetailsHandler implements HandlerInterface
 {
@@ -58,14 +59,12 @@ class VaultDetailsHandler implements HandlerInterface
     private $customerTokenManagement;
 
     /**
-     * Constructor
-     *
-     * @param Config                                $config
-     * @param CustomerTokenManagement               $customerTokenManagement
+     * @param Config $config
+     * @param CustomerTokenManagement $customerTokenManagement
      * @param OrderPaymentExtensionInterfaceFactory $paymentExtensionFactory
-     * @param PaymentTokenFactoryInterface          $paymentTokenFactory
-     * @param Serializer                            $serializer
-     * @param SubjectReader                         $subjectReader
+     * @param PaymentTokenFactoryInterface $paymentTokenFactory
+     * @param Serializer $serializer
+     * @param SubjectReader $subjectReader
      */
     public function __construct(
         Config $config,
@@ -115,15 +114,16 @@ class VaultDetailsHandler implements HandlerInterface
     protected function getVaultPaymentToken(array $response)
     {
         $registrationId = $this->subjectReader->readResponse($response, self::REGISTRATION_ID) ?? '';
-
         if (empty($registrationId) || $this->isTokenExists($registrationId)) {
             return null;
         }
 
         $cardDetails = $this->subjectReader->readResponse($response, CardDetailsHandler::CARD_NAMESPACE) ?? [];
-        // If have no 3d secure verification ID it is not 3d secure
-
-        $data3DSecure = $this->subjectReader->readResponse($response, ThreeDSecureHandler::THREE_D_SECURE_NAMESPACE);
+        // If we have no 3d secure verification ID it is not 3d secure
+        $data3DSecure = $this->subjectReader->readResponse(
+            $response,
+            ThreeDSecureHandler::THREE_D_SECURE_NAMESPACE
+        );
         $is3DSecure = isset($data3DSecure[ThreeDSecureHandler::THREE_D_SECURE_VERIFICATION_ID]);
 
         $paymentToken = $this->paymentTokenFactory->create(PaymentTokenFactoryInterface::TOKEN_TYPE_CREDIT_CARD);
@@ -133,7 +133,9 @@ class VaultDetailsHandler implements HandlerInterface
             ->setExpiresAt($this->getExpirationDate($cardDetails));
 
         $jsonDetails = $this->convertDetailsToJSON([
-            'type' => $this->subjectReader->readResponse($response, PaymentDetailsHandler::BASIC_PAYMENT_BRAND) ?? '',
+            'type' => $this->subjectReader->readResponse(
+                $response, PaymentDetailsHandler::BASIC_PAYMENT_BRAND
+                ) ?? '',
             'maskedCC' => $cardDetails[CardDetailsHandler::CARD_LAST4_DIGITS],
             'expirationDate' => ($cardDetails[CardDetailsHandler::CARD_EXP_MONTH] ?? '')
                 . "/" . ($cardDetails[CardDetailsHandler::CARD_EXP_YEAR] ?? ''),
@@ -207,7 +209,6 @@ class VaultDetailsHandler implements HandlerInterface
     private function getExtensionAttributes(InfoInterface $payment)
     {
         $extensionAttributes = $payment->getExtensionAttributes();
-
         if ($extensionAttributes === null) {
             $extensionAttributes = $this->paymentExtensionFactory->create();
             $payment->setExtensionAttributes($extensionAttributes);

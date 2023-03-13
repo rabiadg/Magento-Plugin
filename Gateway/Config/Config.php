@@ -24,6 +24,7 @@ use TotalProcessing\Opp\Model\System\Config\StyleOptions;
 
 /**
  * Class Config
+ * @package TotalProcessing\Opp\Gateway\Config
  */
 class Config extends BaseConfig
 {
@@ -32,6 +33,7 @@ class Config extends BaseConfig
     const KEY_ACTIVE = 'active';
     const KEY_API_URL = 'api_url';
     const KEY_BRAND_TYPES = 'allowed_brand_types';
+    const KEY_PAYMENT_ACTION = 'payment_action';
     const KEY_CHECKOUT_ID = 'checkout_id';
     const KEY_COUNTRY_CREDIT_CARD = 'countrycreditcard';
     const KEY_COUNTRIES = 'specificcountry';
@@ -49,9 +51,11 @@ class Config extends BaseConfig
     const KEY_SCHEDULER_SKU_TARGET = 'scheduler_sku_target';
     const KEY_SENDER_ID = 'sender_id';
     const KEY_STYLE_OPTIONS = 'style_options';
-    const KEY_STYLE_OPTIONS_CUSTOM_IFRAME_CSS = 'style_options_custom_iframe_css';
+    const KEY_CARD_STYLE_OPTIONS_CUSTOM_IFRAME_CSS = 'card_style_options_custom_iframe_css';
+    const KEY_PLAIN_STYLE_OPTIONS_CUSTOM_IFRAME_CSS = 'plain_style_options_custom_iframe_css';
     const KEY_STYLE_OPTIONS_CUSTOM_IFRAME_JS = 'style_options_custom_iframe_js';
     const KEY_STYLE_OPTIONS_DEFAULT_CSS = 'style_options_default_css';
+    const KEY_MERCHANT_TRANSACTION_ID_TYPE = 'merchant_transaction_id_type';
 
     /**
      * @var AssetRepository
@@ -98,7 +102,6 @@ class Config extends BaseConfig
     protected $logger;
 
     /**
-     * Config constructor.
      * @param ScopeConfigInterface $scopeConfig
      * @param AssetRepository $assetRepository
      * @param RequestInterface $request
@@ -108,8 +111,8 @@ class Config extends BaseConfig
      * @param BrandType $brandType
      * @param Locale $locale
      * @param LoggerInterface $logger
-     * @param null $methodCode
-     * @param string $pathPattern
+     * @param string|null $methodCode
+     * @param $pathPattern
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -226,6 +229,15 @@ class Config extends BaseConfig
         $brandTypes = $this->getValue(self::KEY_BRAND_TYPES, $storeId);
 
         return !empty($brandTypes) ? explode(',', $brandTypes) : [];
+    }
+
+    /**
+     * @param $storeId
+     * @return mixed|null
+     */
+    public function getPaymentAction($storeId = null)
+    {
+        return $this->getValue(self::KEY_PAYMENT_ACTION, $storeId);
     }
 
     /**
@@ -375,7 +387,12 @@ class Config extends BaseConfig
      */
     public function getStyleOptionsCustomIframeCss($storeId = null):string
     {
-            return $this->getValue(self::KEY_STYLE_OPTIONS_CUSTOM_IFRAME_CSS, $storeId) ?? '';
+        $value = $this->getValue(self::KEY_PLAIN_STYLE_OPTIONS_CUSTOM_IFRAME_CSS, $storeId) ?? '';
+        if ($this->getStyleOptions($storeId) == StyleOptions::STYLE_OPTIONS_CARD) {
+            $value = $this->getValue(self::KEY_CARD_STYLE_OPTIONS_CUSTOM_IFRAME_CSS, $storeId) ?? '';
+        }
+
+        return preg_replace('/\s+/', ' ', trim($value));
     }
 
     /**
@@ -415,6 +432,17 @@ class Config extends BaseConfig
     public function getPaymentBtnText($storeId = null): ?string
     {
         return $this->getValue(self::KEY_PAYMENT_BTN_TEXT, $storeId);
+    }
+
+    /**
+     * Returns merchant transaction ID (order ID or order increment ID)
+     *
+     * @param $storeId
+     * @return mixed|null
+     */
+    public function getMerchantTransactionIdType($storeId = null)
+    {
+        return $this->getValue(self::KEY_MERCHANT_TRANSACTION_ID_TYPE, $storeId);
     }
 
     /**

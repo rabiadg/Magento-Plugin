@@ -7,11 +7,13 @@ declare(strict_types=1);
 
 namespace TotalProcessing\Opp\Gateway\Request;
 
+use Magento\Checkout\Model\Session;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CustomerDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class CustomerDataBuilder implements BuilderInterface
 {
@@ -54,13 +56,20 @@ class CustomerDataBuilder implements BuilderInterface
     private $subjectReader;
 
     /**
+     * @var Session
+     */
+    private $checkoutSession;
+
+    /**
      * CustomerDataBuilder Constructor
      *
      * @param SubjectReader $subjectReader
+     * @param Session $checkoutSession
      */
-    public function __construct(SubjectReader $subjectReader)
+    public function __construct(SubjectReader $subjectReader, Session $checkoutSession)
     {
         $this->subjectReader = $subjectReader;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -68,18 +77,20 @@ class CustomerDataBuilder implements BuilderInterface
      */
     public function build(array $buildSubject): array
     {
-        $this->subjectReader->debug("buildSubject data", $buildSubject);
-        $paymentDataObject = $this->subjectReader->readPayment($buildSubject);
+        $this->subjectReader->debug("customer data", $buildSubject);
 
-        $order = $paymentDataObject->getOrder();
-
-        $billingAddress = $order->getBillingAddress();
+        $quote = $this->checkoutSession->getQuote();
+        $billingAddress = $quote->getBillingAddress();
 
         $params = [
             self::GIVEN_NAME => $billingAddress->getFirstname(),
             self::SURNAME => $billingAddress->getLastname(),
             self::PHONE => $billingAddress->getTelephone(),
             self::EMAIL => $billingAddress->getEmail(),
+            'billing.city' => $billingAddress->getCity(),
+            'billing.country' => $billingAddress->getCountryId(),
+            'billing.street1' => $billingAddress->getStreetLine(1),
+            'billing.postcode' => $billingAddress->getPostCode()
         ];
 
         $this->subjectReader->debug("Result", $params);

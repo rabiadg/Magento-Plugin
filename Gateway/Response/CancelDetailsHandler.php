@@ -13,6 +13,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CancelDetailsHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class CancelDetailsHandler implements HandlerInterface
 {
@@ -35,9 +36,7 @@ class CancelDetailsHandler implements HandlerInterface
     public function handle(array $handlingSubject, array $response)
     {
         $paymentDataObject = $this->subjectReader->readPayment($handlingSubject);
-
         $payment = $paymentDataObject->getPayment();
-
         $payment->setIsTransactionClosed(true);
         $payment->setShouldCloseParentTransaction(true);
     }

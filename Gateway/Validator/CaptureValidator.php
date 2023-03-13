@@ -14,6 +14,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CaptureValidator
+ * @package TotalProcessing\Opp\Gateway\Validator
  */
 class CaptureValidator extends AbstractValidator
 {
@@ -23,8 +24,6 @@ class CaptureValidator extends AbstractValidator
     protected $subjectReader;
 
     /**
-     * Constructor
-     *
      * @param ResultInterfaceFactory $resultFactory
      * @param SubjectReader $subjectReader
      */

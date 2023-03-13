@@ -21,10 +21,22 @@ define(
             }
         };
 
+        /**
+         * Extending the base config with the config passed in.
+         *
+         * @param config
+         */
         base.configure = function (config) {
             this.config = _.extend(this.config, config);
         };
 
+
+        /**
+         * Setting the `process` function to the `base` object.
+         *
+         * @param data
+         * @param component
+         */
         base.process = function (data, component) {
             let paymentRequest = _.extend(base.config, data);
             let session = new ApplePaySession(6, paymentRequest);

@@ -12,6 +12,7 @@ use TotalProcessing\Opp\Gateway\Response\CommonHandler;
 
 /**
  * Class VoidRequestDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class VoidRequestDataBuilder extends BaseRequestDataBuilder
 {

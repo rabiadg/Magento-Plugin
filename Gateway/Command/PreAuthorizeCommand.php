@@ -11,6 +11,7 @@ use Magento\Payment\Gateway\Command\GatewayCommand;
 
 /**
  * Class PreAuthorizeCommand
+ * @package TotalProcessing\Opp\Gateway\Command
  */
 class PreAuthorizeCommand extends GatewayCommand
 {

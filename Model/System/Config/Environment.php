@@ -11,7 +11,6 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class Environment
- *
  * @package TotalProcessing\Opp\Model\System\Config
  */
 class Environment implements OptionSourceInterface

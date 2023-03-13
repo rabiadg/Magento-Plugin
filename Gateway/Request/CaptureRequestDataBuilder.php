@@ -14,6 +14,7 @@ use TotalProcessing\Opp\Model\System\Config\PaymentType;
 
 /**
  * Class CaptureRequestDataBuilder
+ * @package TotalProcessing\Opp\Gateway\Request
  */
 class CaptureRequestDataBuilder extends BaseRequestDataBuilder
 {
@@ -45,7 +46,8 @@ class CaptureRequestDataBuilder extends BaseRequestDataBuilder
             PaymentDataBuilder::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
             PaymentDataBuilder::CURRENCY => $order->getCurrencyCode(),
             PaymentDataBuilder::PAYMENT_TYPE => PaymentType::CAPTURE,
-            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $order->getOrderIncrementId(),
+            PaymentDataBuilder::MERCHANT_TRANSACTION_ID =>
+                $payment->getAdditionalInformation(PaymentDataBuilder::MERCHANT_TRANSACTION_ID),
             self::REQUEST_DATA_NAMESPACE => [
                 self::REQUEST_DATA_METHOD => ZendClient::POST,
                 self::REQUEST_DATA_URL => $url,

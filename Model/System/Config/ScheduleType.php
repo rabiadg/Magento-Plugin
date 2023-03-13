@@ -11,6 +11,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class ScheduleType
+ * @package TotalProcessing\Opp\Model\System\Config
  */
 class ScheduleType implements OptionSourceInterface
 {
@@ -26,6 +27,9 @@ class ScheduleType implements OptionSourceInterface
     const ACTION_START_DATE = 'startDate';
     const ACTION_TYPE = 'type';
 
+    /**
+     * @var int
+     */
     private static $collectionDay;
 
     /**

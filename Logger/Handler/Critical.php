@@ -5,14 +5,20 @@
  */
 namespace TotalProcessing\Opp\Logger\Handler;
 
-use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Filesystem\DriverInterface;
+use Magento\Framework\Logger\Handler\Base;
 use Monolog\Logger;
 use TotalProcessing\Opp\Logger\Config;
+use Magento\Store\Model\StoreManagerInterface;
 
-class Critical extends \Magento\Framework\Logger\Handler\Base
+/**
+ * Class Critical
+ * @package TotalProcessing\Opp\Logger\Handler
+ */
+class Critical extends Base
 {
-
     /**
      * Logging level.
      *
@@ -28,24 +34,21 @@ class Critical extends \Magento\Framework\Logger\Handler\Base
     protected $fileName;
 
     /**
-     * Debug constructor.
-     *
      * @param DriverInterface $filesystem
-     * @param null            $filePath
-     * @param null            $fileName
-     * @param Config          $config
-     * @param CheckoutSession $checkoutSession
-     * @throws \Exception
+     * @param Config $config
+     * @param StoreManagerInterface $storeManager
+     * @param $filePath
+     * @param $fileName
+     * @throws NoSuchEntityException
      */
     public function __construct(
         DriverInterface $filesystem,
-        $filePath = null,
-        $fileName = null,
         Config $config,
-        CheckoutSession $checkoutSession
-    )
-    {
-        $this->fileName = $config->getErrorLogFileName($checkoutSession->getQuote()->getStoreId());
+        StoreManagerInterface $storeManager,
+        $filePath = null,
+        $fileName = null
+    ) {
+        $this->fileName = $config->getErrorLogFileName($storeManager->getStore()->getId());
         parent::__construct($filesystem, $filePath, $this->fileName);
     }
 }

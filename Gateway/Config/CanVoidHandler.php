@@ -13,6 +13,7 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CanVoidHandler
+ * @package TotalProcessing\Opp\Gateway\Config
  */
 class CanVoidHandler implements ValueHandlerInterface
 {
@@ -38,7 +39,7 @@ class CanVoidHandler implements ValueHandlerInterface
      * @param array $subject
      * @param int|null $storeId
      *
-     * @return mixed
+     * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function handle(array $subject, $storeId = null)

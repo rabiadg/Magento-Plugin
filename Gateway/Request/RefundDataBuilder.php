@@ -11,7 +11,7 @@ use Magento\Payment\Helper\Formatter;
 use TotalProcessing\Opp\Model\System\Config\PaymentType;
 
 /**
- * Class ReversalDataBuilder
+ * Class RefundDataBuilder
  */
 class RefundDataBuilder extends BaseRequestDataBuilder
 {
@@ -61,7 +61,8 @@ class RefundDataBuilder extends BaseRequestDataBuilder
             self::AMOUNT => $this->formatPrice($this->subjectReader->readAmount($buildSubject)),
             self::CURRENCY => $order->getCurrencyCode(),
             self::PAYMENT_TYPE => PaymentType::REFUND,
-            PaymentDataBuilder::MERCHANT_TRANSACTION_ID => $order->getOrderIncrementId(),
+            PaymentDataBuilder::MERCHANT_TRANSACTION_ID =>
+                $payment->getAdditionalInformation(PaymentDataBuilder::MERCHANT_TRANSACTION_ID),
             "customParameters[" . CustomParameterDataBuilder::ORDER_ID . "]" => $order->getId(),
             "customParameters[" . CustomParameterDataBuilder::ORDER_INCREMENT_ID . "]" => $order->getOrderIncrementId(),
             "customParameters[" . CustomParameterDataBuilder::PLUGIN . "]" => $this->getVersion(),
@@ -69,7 +70,7 @@ class RefundDataBuilder extends BaseRequestDataBuilder
             "customParameters[" . CustomParameterDataBuilder::RETURN_URL . "]" => $returnUrl,
         ];
 
-        $this->subjectReader->debug("Reversal Data", $params);
+        $this->subjectReader->debug("Refund data", $params);
 
         return $params;
     }

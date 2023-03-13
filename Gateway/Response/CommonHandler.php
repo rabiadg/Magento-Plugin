@@ -10,22 +10,36 @@ namespace TotalProcessing\Opp\Gateway\Response;
 use Magento\Framework\Serialize\Serializer\Json as Serializer;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
+use TotalProcessing\Opp\Gateway\Helper\QuoteHelper;
+use TotalProcessing\Opp\Gateway\Request\PaymentDataBuilder;
 use TotalProcessing\Opp\Gateway\SubjectReader;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProvider;
+use TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProviderFactory;
 
 /**
  * Class CommonHandler
+ * @package TotalProcessing\Opp\Gateway\Response
  */
 class CommonHandler implements HandlerInterface
 {
     const BUILD_NUMBER = 'buildNumber';
     const ID = 'id';
     const NDC = 'ndc';
+    const DESCRIPTOR = 'descriptor';
     const RESULT_NAMESPACE = 'result';
     const RESULT_CODE = 'code';
     const RESULT_DESCRIPTION = 'description';
     const TIMESTAMP = 'timestamp';
     const RESPONSE = 'response';
 
+    /**
+     * @var QuoteHelper
+     */
+    protected $quoteHelper;
+
+    /**
+     * @var Serializer
+     */
     private $serializer;
 
     /**
@@ -34,15 +48,26 @@ class CommonHandler implements HandlerInterface
     private $subjectReader;
 
     /**
-     * Constructor
-     *
-     * @param Serializer $serializer
-     * @param SubjectReader $subjectReader
+     * @var MerchantTransactionIdProviderFactory
      */
-    public function __construct(SubjectReader $subjectReader, Serializer $serializer)
-    {
+    private $merchantTransactionIdProviderFactory;
+
+    /**
+     * @param QuoteHelper $quoteHelper
+     * @param SubjectReader $subjectReader
+     * @param Serializer $serializer
+     * @param MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
+     */
+    public function __construct(
+        QuoteHelper $quoteHelper,
+        SubjectReader $subjectReader,
+        Serializer $serializer,
+        MerchantTransactionIdProviderFactory $merchantTransactionIdProviderFactory
+    ) {
+        $this->quoteHelper = $quoteHelper;
         $this->serializer = $serializer;
         $this->subjectReader = $subjectReader;
+        $this->merchantTransactionIdProviderFactory = $merchantTransactionIdProviderFactory;
     }
 
     /**
@@ -54,6 +79,19 @@ class CommonHandler implements HandlerInterface
 
         $payment = $paymentDataObject->getPayment();
         ContextHelper::assertOrderPayment($payment);
+
+        $order = $paymentDataObject->getOrder();
+        $quote = $this->quoteHelper->getQuote($order, $payment);
+
+        if (!$payment->hasAdditionalInformation(PaymentDataBuilder::MERCHANT_TRANSACTION_ID)) {
+            /** @var MerchantTransactionIdProvider $merchantTransactionIdProvider */
+            $merchantTransactionIdProvider = $this->merchantTransactionIdProviderFactory->create();
+
+            $payment->setAdditionalInformation(
+                PaymentDataBuilder::MERCHANT_TRANSACTION_ID,
+                $merchantTransactionIdProvider->execute($quote)
+            );
+        }
 
         $payment->setAdditionalInformation(
             self::RESPONSE,

@@ -1,6 +1,19 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Copyright Total Processing. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <referenceContainer name="root">
-        <block class="TotalProcessing\Opp\Block\Frame" name="opp_process_frame" template="TotalProcessing_Opp::process/frame.phtml" cacheable="false"/>
+        <block class="TotalProcessing\Opp\Block\Frame"
+               name="opp_process_frame"
+               template="TotalProcessing_Opp::process/frame.phtml"
+               cacheable="false">
+            <arguments>
+                <argument name="frameViewModel" xsi:type="object">TotalProcessing\Opp\ViewModel\Checkout\Payment\FrameViewModel</argument>
+            </arguments>
+        </block>
     </referenceContainer>
 </layout>

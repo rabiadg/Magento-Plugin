@@ -13,6 +13,7 @@ use TotalProcessing\Opp\Model\System\Config\ScheduleType;
 
 /**
  * Class SubjectReader
+ * @package TotalProcessing\Opp\Gateway
  */
 class SubjectReader
 {
@@ -29,7 +30,7 @@ class SubjectReader
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
-        $this->logger->backtrace_limit = 5;
+        $this->logger->setBacktraceLimit(5);
     }
 
     /**
@@ -48,6 +49,24 @@ class SubjectReader
 
         $this->debug("Amount", ['amount' => $subject['amount']]);
         return $subject['amount'];
+    }
+
+    /**
+     * Reads currency from subject
+     *
+     * @param array $subject
+     * @return string
+     */
+    public function readCurrency(array $subject): string
+    {
+        if (!isset($subject['currencyCode']) || !is_string($subject['currencyCode'])) {
+            $msg = 'Currency code should be provided.';
+            $this->logger->critical($msg, $subject);
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->debug("Currency", ['currencyCode' => $subject['currencyCode']]);
+        return $subject['currencyCode'];
     }
 
     /**

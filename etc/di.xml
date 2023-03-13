@@ -5,8 +5,19 @@
  * See COPYING.txt for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- START: gateway commands -->
+    <virtualType name="TotalProcessingTransactionCheckCommand" type="TotalProcessing\Opp\Gateway\Command\TransactionCheckCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingTransactionCheckRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="handler" xsi:type="object">TotalProcessingTransactionCheckHandler</argument>
+            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\TransactionCheckValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="TotalProcessingPreAuthorizeCommand" type="TotalProcessing\Opp\Gateway\Command\PreAuthorizeCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">TotalProcessingPreAuthorizeRequest</argument>
@@ -67,6 +78,69 @@
             <argument name="handler" xsi:type="object">TotalProcessing\Opp\Gateway\Response\CancelDetailsHandler</argument>
         </arguments>
     </virtualType>
+    <virtualType name="TotalProcessingRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingRefundRequestBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="handler" xsi:type="object">TotalProcessing\Opp\Gateway\Response\RefundHandler</argument>
+            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\VoidResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingVaultInstantCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingVaultInstantRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="handler" xsi:type="object">TotalProcessingVaultInstantHandler</argument>
+            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\AuthorizeValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingVaultInstantSaleCommand" type="TotalProcessing\Opp\Gateway\Command\VaultSaleCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingCaptureRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="handler" xsi:type="object">TotalProcessingCaptureHandler</argument>
+            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\CaptureValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingDebitCommand" type="TotalProcessing\Opp\Gateway\Command\DebitCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingDebitRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="handler" xsi:type="object">TotalProcessingDebitHandler</argument>
+            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\DebitValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingPaymentStatusCommand" type="TotalProcessing\Opp\Gateway\Command\PaymentStatusCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingPaymentStatusRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="handler" xsi:type="object">TotalProcessingPaymentStatusHandler</argument>
+            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\PaymentStatusValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingReversalCommand" type="TotalProcessing\Opp\Gateway\Command\ReversalCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingCancelRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="TotalProcessingApplePayAuthorizeCommand" type="TotalProcessing\Opp\Gateway\Command\ApplePay\AuthorizeCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">TotalProcessingApplePayAuthorizeRequest</argument>
@@ -89,12 +163,34 @@
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
     </virtualType>
+    <virtualType name="TotalProcessingApplePayDebitCommand" type="TotalProcessing\Opp\Gateway\Command\ApplePay\DebitCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">TotalProcessingApplePayDebitRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
+            <argument name="handler" xsi:type="object">TotalProcessingApplePayAuthorizeHandler</argument>
+            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\ApplePay\AuthorizeValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
+    <!-- END: gateway commands -->
+
+    <!-- START: gateway request builders -->
+    <virtualType name="TotalProcessingTransactionCheckRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction_check_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\TransactionCheckDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <virtualType name="TotalProcessingPreAuthorizeRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="pre_authorize_request_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\PreAuthorizeRequestDataBuilder</item>
                 <item name="pre_authorize" xsi:type="string">TotalProcessing\Opp\Gateway\Request\PreAuthorizeDataBuilder</item>
                 <item name="pre_authorize_scheduler" xsi:type="string">TotalProcessing\Opp\Gateway\Request\PreAuthorizeSchedulerDataBuilder</item>
+                <item name="customer" xsi:type="string">TotalProcessing\Opp\Gateway\Request\CustomerDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>
@@ -131,6 +227,48 @@
             </argument>
         </arguments>
     </virtualType>
+    <virtualType name="TotalProcessingRefundRequestBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="capture_request_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\RefundRequestDataBuilder</item>
+                <item name="authentication" xsi:type="string">TotalProcessing\Opp\Gateway\Request\AuthenticationDataBuilder</item>
+                <item name="refund" xsi:type="string">TotalProcessing\Opp\Gateway\Request\RefundDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingVaultInstantRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="instant_purchase_request_builder" xsi:type="string">TotalProcessing\Opp\Gateway\Request\InstantPurchaseRequestDataBuilder</item>
+                <item name="authentication" xsi:type="string">TotalProcessing\Opp\Gateway\Request\AuthenticationDataBuilder</item>
+                <item name="payment" xsi:type="string">TotalProcessing\Opp\Gateway\Request\PaymentDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingDebitRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="debit_request_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\DebitRequestDataBuilder</item>
+                <item name="debit_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\DebitDataBuilder</item>
+                <item name="customer" xsi:type="string">TotalProcessing\Opp\Gateway\Request\CustomerDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingPaymentStatusRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="payment_status_request_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\PaymentStatusRequestDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingCancelRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="cancel_request_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\CancelRequestDataBuilder</item>
+                <item name="cancel_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\CancelDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <virtualType name="TotalProcessingApplePayAuthorizeRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
@@ -139,6 +277,19 @@
             </argument>
         </arguments>
     </virtualType>
+    <virtualType name="TotalProcessingApplePayDebitRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="authorize_auth" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\DebitAuthDataBuilder</item>
+                <item name="payment" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\DebitPaymentDataBuilder</item>
+                <item name="customer" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\CustomerDataBuilder</item>
+                <item name="card" xsi:type="string">TotalProcessing\Opp\Gateway\Request\ApplePay\CardDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- END: gateway request builders -->
+
+    <!-- START: gateway response handlers -->
     <virtualType name="TotalProcessingPreAuthorizeHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
@@ -160,6 +311,20 @@
             </argument>
         </arguments>
     </virtualType>
+    <virtualType name="TotalProcessingCaptureHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="txn_id" xsi:type="string">TotalProcessing\Opp\Gateway\Response\TransactionIdHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingTransactionCheckHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="transaction_check_handler" xsi:type="string">TotalProcessing\Opp\Gateway\Response\TransactionCheckHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <virtualType name="TotalProcessingScheduleHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
@@ -167,10 +332,28 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="TotalProcessingCaptureHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="TotalProcessingVaultInstantHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
+                <item name="common_details" xsi:type="string">TotalProcessing\Opp\Gateway\Response\CommonHandler</item>
+                <item name="instant_purchase" xsi:type="string">TotalProcessing\Opp\Gateway\Response\InstantPurchaseHandler</item>
+                <item name="payment_details" xsi:type="string">TotalProcessing\Opp\Gateway\Response\PaymentDetailsHandler</item>
                 <item name="txn_id" xsi:type="string">TotalProcessing\Opp\Gateway\Response\TransactionIdHandler</item>
+                <item name="risk_data" xsi:type="string">TotalProcessing\Opp\Gateway\Response\RiskDataHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingDebitHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="common" xsi:type="string">TotalProcessing\Opp\Gateway\Response\DebitHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingPaymentStatusHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="common" xsi:type="string">TotalProcessing\Opp\Gateway\Response\PaymentStatusCommonHandler</item>
             </argument>
         </arguments>
     </virtualType>
@@ -188,9 +371,27 @@
             </argument>
         </arguments>
     </virtualType>
+    <!-- END: gateway response handlers -->
+
+    <!-- START: payment validators -->
+    <virtualType name="TotalProcessingCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">TotalProcessing\Opp\Gateway\Config\Config</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">TotalProcessingCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- END payment validators -->
+
     <virtualType name="TotalProcessingCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
+                <item name="transaction_check" xsi:type="string">TotalProcessingTransactionCheckCommand</item>
                 <item name="pre_authorize" xsi:type="string">TotalProcessingPreAuthorizeCommand</item>
                 <item name="authorize" xsi:type="string">TotalProcessingAuthorizeCommand</item>
                 <item name="schedule" xsi:type="string">TotalProcessingScheduleCommand</item>
@@ -201,18 +402,25 @@
                 <item name="refund" xsi:type="string">TotalProcessingRefundCommand</item>
                 <item name="vault_authorize" xsi:type="string">TotalProcessingVaultInstantCommand</item>
                 <item name="vault_sale" xsi:type="string">TotalProcessingVaultInstantSaleCommand</item>
+                <item name="debit" xsi:type="string">TotalProcessingDebitCommand</item>
+                <item name="payment_status" xsi:type="string">TotalProcessingPaymentStatusCommand</item>
+                <item name="initialize" xsi:type="string">TotalProcessing\Opp\Gateway\Command\InitializeCommand</item>
+                <item name="reversal" xsi:type="string">TotalProcessingReversalCommand</item>
             </argument>
         </arguments>
     </virtualType>
     <virtualType name="TotalProcessingApplePayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
+                <item name="transaction_check" xsi:type="string">TotalProcessingTransactionCheckCommand</item>
                 <item name="authorize" xsi:type="string">TotalProcessingApplePayAuthorizeCommand</item>
                 <item name="capture" xsi:type="string">TotalProcessingApplePayCaptureCommand</item>
                 <item name="void" xsi:type="string">TotalProcessingVoidCommand</item>
                 <item name="cancel" xsi:type="string">TotalProcessingCancelCommand</item>
                 <item name="deny_payment" xsi:type="string">TotalProcessingCancelCommand</item>
                 <item name="refund" xsi:type="string">TotalProcessingRefundCommand</item>
+                <item name="debit" xsi:type="string">TotalProcessingApplePayDebitCommand</item>
+                <item name="initialize" xsi:type="string">TotalProcessing\Opp\Gateway\Command\ApplePay\InitializeCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -234,6 +442,36 @@
             </argument>
         </arguments>
     </type>
+    <virtualType name="TotalProcessingFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">TotalProcessing\Opp\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">TotalProcessing\Opp\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">TotalProcessing\Opp\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">TotalProcessingValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">TotalProcessingValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">TotalProcessingCommandPool</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingVaultFacade" type="Magento\Vault\Model\Method\Vault">
+        <arguments>
+            <argument name="code" xsi:type="const">TotalProcessing\Opp\Model\Ui\ConfigProvider::VAULT_CODE</argument>
+            <argument name="config" xsi:type="object">TotalProcessingVaultPaymentConfig</argument>
+            <argument name="valueHandlerPool" xsi:type="object">TotalProcessingVaultPaymentValueHandlerPool</argument>
+            <argument name="vaultProvider" xsi:type="object">TotalProcessingFacade</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TotalProcessingApplePayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">TotalProcessing\Opp\Model\Ui\ApplePay\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">TotalProcessing\Opp\Block\ApplePay\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">TotalProcessing\Opp\Block\ApplePay\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">TotalProcessingApplePayValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">TotalProcessingValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">TotalProcessingApplePayCommandPool</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="TotalProcessingClient" type="Magento\Payment\Gateway\Http\Client\Zend">
         <arguments>
             <argument name="converter" xsi:type="object">TotalProcessing\Opp\Gateway\Http\Converter\JsonConverter</argument>
@@ -270,36 +508,6 @@
     <virtualType name="TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper" type="Magento\Payment\Gateway\ErrorMapper\ErrorMessageMapper">
         <arguments>
             <argument name="messageMapping" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualMappingData</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="TotalProcessingFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">TotalProcessing\Opp\Model\Ui\ConfigProvider::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">TotalProcessing\Opp\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">TotalProcessing\Opp\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">TotalProcessingValueHandlerPool</argument>
-<!--            <argument name="validatorPool" xsi:type="object">TotalProcessingValidatorPool</argument>-->
-            <argument name="commandPool" xsi:type="object">TotalProcessingCommandPool</argument>
-            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="TotalProcessingVaultFacade" type="Magento\Vault\Model\Method\Vault">
-        <arguments>
-            <argument name="code" xsi:type="const">TotalProcessing\Opp\Model\Ui\ConfigProvider::VAULT_CODE</argument>
-            <argument name="config" xsi:type="object">TotalProcessingVaultPaymentConfig</argument>
-            <argument name="valueHandlerPool" xsi:type="object">TotalProcessingVaultPaymentValueHandlerPool</argument>
-            <argument name="vaultProvider" xsi:type="object">TotalProcessingFacade</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="TotalProcessingApplePayFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">TotalProcessing\Opp\Model\Ui\ApplePay\ConfigProvider::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">TotalProcessing\Opp\Block\ApplePay\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">TotalProcessing\Opp\Block\ApplePay\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">TotalProcessingApplePayValueHandlerPool</argument>
-            <!--            <argument name="validatorPool" xsi:type="object">TotalProcessingValidatorPool</argument>-->
-            <argument name="commandPool" xsi:type="object">TotalProcessingApplePayCommandPool</argument>
-            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
     </virtualType>
     <virtualType name="TotalProcessingValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
@@ -429,6 +637,14 @@
     <type name="TotalProcessing\Opp\Gateway\Command\ApplePay\CaptureCommand">
         <plugin name="TotalProcessingCaptureApplePayCommandPlugin" type="TotalProcessing\Opp\Plugin\ApplePay\CaptureCommand" />
     </type>
+    <type name="Magento\Quote\Api\CartManagementInterface">
+        <plugin name="TotalProcessingOrderCancellation" type="TotalProcessing\Opp\Plugin\OrderCancellation"/>
+    </type>
+    <virtualType name="TotalProcessing\Opp\Plugin\OrderCancellation">
+        <arguments>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="TotalProcessing\Opp\Plugin\ApplePay\CaptureCommand">
         <arguments>
             <argument name="commandManager" xsi:type="object">TotalProcessingApplePayCommandManager</argument>
@@ -443,7 +659,6 @@
                 <item name="debug" xsi:type="object">TotalProcessing\Opp\Logger\Handler\Debug</item>
             </argument>
             <argument name="config" xsi:type="object">TotalProcessing\Opp\Logger\Config</argument>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session</argument>
         </arguments>
     </type>
     <virtualType name="TotalProcessing\Opp\Logger\SubjectLogger" type="TotalProcessing\Opp\Logger\Logger">
@@ -458,81 +673,64 @@
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
     </type>
-    <type name="TotalProcessing\Opp\Controller\Process\BaseAction" >
+    <type name="TotalProcessing\Opp\Controller\Process\BaseAction">
         <arguments>
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session</argument>
         </arguments>
     </type>
-
-    <!-- Refund Command -->
-    <virtualType name="TotalProcessingRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <type name="TotalProcessing\Opp\Controller\AbstractAction">
         <arguments>
-            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
-            <argument name="requestBuilder" xsi:type="object">TotalProcessingRefundRequestBuilder</argument>
-            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
-            <argument name="handler" xsi:type="object">TotalProcessing\Opp\Gateway\Response\RefundHandler</argument>
-            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\VoidResponseValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session</argument>
+        </arguments>
+    </type>
+    <type name="TotalProcessing\Opp\Gateway\Helper\PaymentStatusResolver">
+        <arguments>
+            <argument name="commandManager" xsi:type="object">TotalProcessingCommandManager</argument>
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
-    </virtualType>
-    <virtualType name="TotalProcessingRefundRequestBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+    </type>
+    <type name="TotalProcessing\Opp\Gateway\Command\InitializeCommand">
         <arguments>
-            <argument name="builders" xsi:type="array">
-                <item name="capture_request_data" xsi:type="string">TotalProcessing\Opp\Gateway\Request\RefundRequestDataBuilder</item>
-                <item name="authentication" xsi:type="string">TotalProcessing\Opp\Gateway\Request\AuthenticationDataBuilder</item>
-                <item name="refund" xsi:type="string">TotalProcessing\Opp\Gateway\Request\RefundDataBuilder</item>
-            </argument>
+            <argument name="commandManager" xsi:type="object">TotalProcessingCommandManager</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
-    </virtualType>
-<!--    Authorize Instant Purchase -->
-    <virtualType name="TotalProcessingVaultInstantCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    </type>
+    <type name="TotalProcessing\Opp\Gateway\Command\ApplePay\InitializeCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">TotalProcessingVaultInstantRequest</argument>
-            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
-            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
-            <argument name="handler" xsi:type="object">TotalProcessingVaultInstantHandler</argument>
-            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\AuthorizeValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+            <argument name="commandManager" xsi:type="object">TotalProcessingApplePayCommandManager</argument>
+            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
-    </virtualType>
-    <virtualType name="TotalProcessingVaultInstantRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
-        <arguments>
-            <argument name="builders" xsi:type="array">
-                <item name="instant_purchase_request_builder" xsi:type="string">TotalProcessing\Opp\Gateway\Request\InstantPurchaseRequestDataBuilder</item>
-                <item name="authentication" xsi:type="string">TotalProcessing\Opp\Gateway\Request\AuthenticationDataBuilder</item>
-                <item name="payment" xsi:type="string">TotalProcessing\Opp\Gateway\Request\PaymentDataBuilder</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="TotalProcessingVaultInstantHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
-        <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="common_details" xsi:type="string">TotalProcessing\Opp\Gateway\Response\CommonHandler</item>
-                <item name="instant_purchase" xsi:type="string">TotalProcessing\Opp\Gateway\Response\InstantPurchaseHandler</item>
-                <item name="payment_details" xsi:type="string">TotalProcessing\Opp\Gateway\Response\PaymentDetailsHandler</item>
-                <item name="txn_id" xsi:type="string">TotalProcessing\Opp\Gateway\Response\TransactionIdHandler</item>
-                <item name="risk_data" xsi:type="string">TotalProcessing\Opp\Gateway\Response\RiskDataHandler</item>
-            </argument>
-        </arguments>
-    </virtualType>
+    </type>
     <type name="TotalProcessing\Opp\Gateway\Helper\PaymentTokenProvider">
         <arguments>
             <argument name="config" xsi:type="object">TotalProcessing\Opp\Gateway\Config\Config</argument>
             <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
         </arguments>
     </type>
-<!--    Sale Instant Purchase -->
-    <virtualType name="TotalProcessingVaultInstantSaleCommand" type="TotalProcessing\Opp\Gateway\Command\VaultSaleCommand">
+
+    <!-- START: Fix for: payment method for specific countries is not working for logged customer -->
+    <type name="Magento\Payment\Model\Checks\CanUseForCountry\CountryProvider">
+        <plugin name="total_processing_opp_country_provider"
+                type="TotalProcessing\Opp\Plugin\Payment\Model\Checks\CanUseForCountry\CountryProvider"/>
+    </type>
+    <!-- END: Fix for: payment method for specific countries is not working for logged customer -->
+
+    <!-- START: Fix intended to preserve session cookie after submitting POST form from payment gateway to Magento controller. -->
+    <type name="Magento\Framework\Session\SessionStartChecker">
+        <plugin name="totalprocessing_payment_session_checker" type="TotalProcessing\Opp\Plugin\PaymentSessionChecker"/>
+    </type>
+    <type name="TotalProcessing\Opp\Plugin\PaymentSessionChecker">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">TotalProcessingCaptureRequest</argument>
-            <argument name="transferFactory" xsi:type="object">TotalProcessing\Opp\Gateway\Http\TransferFactory</argument>
-            <argument name="client" xsi:type="object">TotalProcessingClient</argument>
-            <argument name="handler" xsi:type="object">TotalProcessingCaptureHandler</argument>
-            <argument name="validator" xsi:type="object">TotalProcessing\Opp\Gateway\Validator\CaptureValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">TotalProcessing\Opp\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
-            <argument name="logger" xsi:type="object">TotalProcessing\Opp\Logger\Logger</argument>
+            <argument name="disableSessionUrls" xsi:type="array">
+                <item name="status" xsi:type="string">opp/process/status</item>
+                <item name="checkouts" xsi:type="string">v1/checkouts</item>
+                <item name="redirect" xsi:type="string">v1/redirect</item>
+                <item name="payments" xsi:type="string">v1/payments</item>
+                <item name="query" xsi:type="string">v1/query</item>
+            </argument>
         </arguments>
-    </virtualType>
+    </type>
+    <!-- END: Fix intended to preserve session cookie after submitting POST form from payment gateway to Magento controller. -->
 </config>
