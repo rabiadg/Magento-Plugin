@@ -19,9 +19,8 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class VaultSaleCommand
- * @TODO Change CommandException message with common message
  *
- * @package TotalProcessing\Opp\Plugin
+ * @TODO Change CommandException message with common message
  */
 class VaultSaleCommand
 {
@@ -57,12 +56,6 @@ class VaultSaleCommand
         $this->subjectReader = $subjectReader;
     }
 
-    /**
-     * @param \TotalProcessing\Opp\Gateway\Command\VaultSaleCommand $subject
-     * @param array $commandSubject
-     * @return array[]
-     * @throws CouldNotSaveException
-     */
     public function beforeExecute(
         \TotalProcessing\Opp\Gateway\Command\VaultSaleCommand   $subject,
         array $commandSubject

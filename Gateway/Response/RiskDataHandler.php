@@ -15,11 +15,11 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class RiskDataHandler
- * @package TotalProcessing\Opp\Gateway\Response
  */
 class RiskDataHandler implements HandlerInterface
 {
     const RISK_NAMESPACE = 'risk';
+
     const RISK_SCORE = 'score';
 
     /**
@@ -54,6 +54,11 @@ class RiskDataHandler implements HandlerInterface
                 self::RISK_NAMESPACE . "_" . self::RISK_SCORE,
                 $riskData[self::RISK_SCORE]
             );
+
+//            if ($riskData[self::RISK_SCORE] < 0) {
+//                $payment->setIsFraudDetected(true);
+//            }
+
             $this->subjectReader->debug("Risk Data: ", $riskData);
         } else {
             $this->subjectReader->debug("Risk Data is missing");

@@ -15,7 +15,6 @@ use TotalProcessing\Opp\Gateway\Config\ApplePay\Config;
 
 /**
  * Class ConfigProvider
- * @package TotalProcessing\Opp\Model\Ui\ApplePay
  */
 class ConfigProvider implements ConfigProviderInterface
 {
@@ -42,6 +41,8 @@ class ConfigProvider implements ConfigProviderInterface
     private $session;
 
     /**
+     * Constructor
+     *
      * @param Config $config
      * @param SessionManagerInterface $session
      * @param AssetSource $assetSource
@@ -62,6 +63,7 @@ class ConfigProvider implements ConfigProviderInterface
     public function getConfig(): array
     {
         $storeId = $this->session->getStoreId();
+        $isActive = $this->config->isActive($storeId);
 
         return [
             'payment' => [
@@ -70,7 +72,7 @@ class ConfigProvider implements ConfigProviderInterface
                     'completeMerchantValidationUrl' => $this->config->getCompleteMerchantValidationUrl(),
                     'displayName' => $this->config->getDisplayName($storeId),
                     'icon' => $this->getIcon(),
-                    'isActive' => $this->config->isActive($storeId),
+                    'isActive' => $isActive,
                     'merchantId' => $this->config->getPartnerInternalMerchantIdentifier($storeId),
                     'paymentBtnText' => $this->config->getPaymentBtnText($storeId),
                 ],
@@ -90,14 +92,10 @@ class ConfigProvider implements ConfigProviderInterface
             return $this->icon;
         }
 
-        $asset = $this->config->createAsset('TotalProcessing_Opp::images/other/apple-pay.png');
+        $asset = $this->config->createAsset('TotalProcessing_Opp::images/other/applepay.png');
         $placeholder = $this->assetSource->findSource($asset);
         if ($placeholder) {
-            try {
-                list($width, $height) = getimagesize($asset->getSourceFile());
-            } catch (\Exception $e) {
-                $width = $height = '60';
-            }
+            list($width, $height) = getimagesize($asset->getSourceFile());
 
             $this->icon = [
                 'url' => $asset->getUrl(),

@@ -24,7 +24,6 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class ScheduleCommand
- * @package TotalProcessing\Opp\Gateway\Command
  */
 class ScheduleCommand implements CommandInterface
 {
@@ -82,8 +81,8 @@ class ScheduleCommand implements CommandInterface
      * @param LoggerInterface $logger
      * @param JsonConverter $converter
      * @param SubjectReader $subjectReader
-     * @param HandlerInterface|null $handler
-     * @param ValidatorInterface|null $validator
+     * @param HandlerInterface $handler
+     * @param ValidatorInterface $validator
      * @param ErrorMessageMapperInterface|null $errorMessageMapper
      */
     public function __construct(

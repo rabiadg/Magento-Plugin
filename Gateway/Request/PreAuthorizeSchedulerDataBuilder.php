@@ -19,7 +19,6 @@ use TotalProcessing\Opp\Model\System\Config\RecurringType;
 
 /**
  * Class PreAuthorizeSchedulerDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request
  */
 class PreAuthorizeSchedulerDataBuilder extends BaseRequestDataBuilder
 {
@@ -48,6 +47,8 @@ class PreAuthorizeSchedulerDataBuilder extends BaseRequestDataBuilder
     protected $serializer;
 
     /**
+     * PreAuthorizeSchedulerDataBuilder constructor.
+     *
      * @param CheckoutSession $checkoutSession
      * @param Config $config
      * @param ResourceInterface $moduleResource

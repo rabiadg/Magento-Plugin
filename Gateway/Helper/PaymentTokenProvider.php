@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace TotalProcessing\Opp\Gateway\Helper;
 
+
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Serialize\Serializer\Json as Serializer;
 use Magento\Vault\Api\Data\PaymentTokenInterface;
@@ -16,11 +17,6 @@ use TotalProcessing\Opp\Gateway\Config\Config;
 use TotalProcessing\Opp\Gateway\Response\ThreeDSecureHandler;
 use TotalProcessing\Opp\Model\Ui\ConfigProvider;
 use Magento\Payment\Gateway\ConfigInterface;
-
-/**
- * Class PaymentTokenProvider
- * @package TotalProcessing\Opp\Gateway\Helper
- */
 class PaymentTokenProvider
 {
     /**
@@ -49,11 +45,13 @@ class PaymentTokenProvider
     private $serializer;
 
     /**
-     * @param CheckoutSession $checkoutSession
-     * @param ConfigInterface $config
+     * PaymentTokenProvider constructor.
+     *
+     * @param CheckoutSession         $checkoutSession
+     * @param ConfigInterface         $config
      * @param CustomerTokenManagement $customerTokenManagement
-     * @param Serializer $serializer
-     * @param LoggerInterface $logger
+     * @param Serializer              $serializer
+     * @param LoggerInterface         $logger
      */
     public function __construct(
         CheckoutSession $checkoutSession,
@@ -61,7 +59,8 @@ class PaymentTokenProvider
         CustomerTokenManagement $customerTokenManagement,
         Serializer $serializer,
         LoggerInterface $logger
-    ) {
+    )
+    {
         $this->checkoutSession = $checkoutSession;
         /** @var Config config */
         $this->config = $config;
@@ -128,6 +127,7 @@ class PaymentTokenProvider
                 ));
                 $logger->debug("Result Status" , [$status] );
                 return $status;
+
             })
         );
     }

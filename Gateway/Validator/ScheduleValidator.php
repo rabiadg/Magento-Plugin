@@ -14,8 +14,7 @@ use TotalProcessing\Opp\Gateway\Response\ScheduleHandler;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
- * Class ScheduleValidator
- * @package TotalProcessing\Opp\Gateway\Validator
+ * ScheduleValidator
  */
 class ScheduleValidator extends AbstractValidator
 {
@@ -25,6 +24,8 @@ class ScheduleValidator extends AbstractValidator
     protected $subjectReader;
 
     /**
+     * Constructor
+     *
      * @param ResultInterfaceFactory $resultFactory
      * @param SubjectReader $subjectReader
      */

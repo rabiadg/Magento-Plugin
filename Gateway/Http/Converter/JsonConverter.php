@@ -13,7 +13,6 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class JsonConverter
- * @package TotalProcessing\Opp\Gateway\Http\Converter
  */
 class JsonConverter implements ConverterInterface
 {
@@ -52,6 +51,7 @@ class JsonConverter implements ConverterInterface
         }
         $error = json_last_error();
         if ($error !== JSON_ERROR_NONE) {
+
             $this->logger->debug("JsonError. " . $msg, [$response, $error] );
             throw new ConverterException(__($msg));
         }

@@ -12,7 +12,6 @@ use Magento\Payment\Block\ConfigurableInfo;
 
 /**
  * Class Info
- * @package TotalProcessing\Opp\Block
  */
 class Info extends ConfigurableInfo
 {

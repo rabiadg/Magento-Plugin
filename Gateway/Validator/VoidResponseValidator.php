@@ -14,7 +14,6 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class VoidResponseValidator
- * @package TotalProcessing\Opp\Gateway\Validator
  */
 class VoidResponseValidator extends AbstractValidator
 {
@@ -24,6 +23,8 @@ class VoidResponseValidator extends AbstractValidator
     protected $subjectReader;
 
     /**
+     * Constructor
+     *
      * @param ResultInterfaceFactory $resultFactory
      * @param SubjectReader $subjectReader
      */

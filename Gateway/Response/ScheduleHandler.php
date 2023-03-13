@@ -14,7 +14,6 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class ScheduleHandler
- * @package TotalProcessing\Opp\Gateway\Response
  */
 class ScheduleHandler implements HandlerInterface
 {
@@ -32,6 +31,8 @@ class ScheduleHandler implements HandlerInterface
     private $subjectReader;
 
     /**
+     * Constructor
+     *
      * @param Serializer $serializer
      * @param SubjectReader $subjectReader
      */

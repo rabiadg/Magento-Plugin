@@ -11,7 +11,6 @@ use Magento\Payment\Gateway\Command\GatewayCommand;
 
 /**
  * Class AuthorizeCommand
- * @package TotalProcessing\Opp\Gateway\Command\ApplePay
  */
 class AuthorizeCommand extends GatewayCommand
 {

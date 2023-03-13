@@ -13,13 +13,11 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Route\ConfigInterface;
 use Magento\Framework\App\Router\ActionList;
 use Magento\Framework\App\RouterInterface;
-use ReflectionException;
 
 /**
- * Matches application action in case when .well-known/apple-developer-merchantid-domain-association file was requested
- *
  * Class Router
- * @package TotalProcessing\Opp\Controller
+ *
+ * Matches application action in case when .well-known/apple-developer-merchantid-domain-association file was requested
  */
 class Router implements RouterInterface
 {
@@ -59,7 +57,6 @@ class Router implements RouterInterface
      *
      * @param RequestInterface $request
      * @return ActionInterface|null
-     * @throws ReflectionException
      */
     public function match(RequestInterface $request)
     {
@@ -74,6 +71,7 @@ class Router implements RouterInterface
         }
 
         $actionClassName = $this->actionList->get($modules[0], null, 'applepay', 'merchant');
-        return $this->actionFactory->create($actionClassName);
+        $actionInstance = $this->actionFactory->create($actionClassName);
+        return $actionInstance;
     }
 }

@@ -25,9 +25,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="TotalProcessing\Opp\Gateway\Helper\MerchantTransactionIdProvider">
-        <arguments>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
 </config>

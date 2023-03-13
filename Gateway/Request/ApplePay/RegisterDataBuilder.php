@@ -9,7 +9,6 @@ namespace TotalProcessing\Opp\Gateway\Request\ApplePay;
 
 /**
  * Class RegisterDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request\ApplePay
  */
 class RegisterDataBuilder extends AbstractDataBuilder
 {

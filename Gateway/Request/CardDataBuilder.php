@@ -11,7 +11,6 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 
 /**
  * Class CardDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request
  */
 class CardDataBuilder implements BuilderInterface
 {
@@ -55,6 +54,12 @@ class CardDataBuilder implements BuilderInterface
      */
     public function build(array $buildSubject): array
     {
-        return [];
+        $this->subjectReader->debug("buildSubject data", $buildSubject);
+
+        $params = [];
+
+        $this->subjectReader->debug("Result", $params);
+
+        return $params;
     }
 }

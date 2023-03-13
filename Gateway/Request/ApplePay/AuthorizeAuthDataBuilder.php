@@ -19,7 +19,6 @@ use TotalProcessing\Opp\Observer\DataAssignObserver;
 
 /**
  * Class AuthorizeAuthDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request\ApplePay
  */
 class AuthorizeAuthDataBuilder extends AuthDataBuilder
 {
@@ -28,9 +27,6 @@ class AuthorizeAuthDataBuilder extends AuthDataBuilder
     const SESSION_DECRYPT_PATH = '/decrypt';
     const SHOPPER_ENDPOINT = 'customParameters[SHOPPER_endpoint]';
 
-    /**
-     * @var CheckoutSession
-     */
     protected $checkoutSession;
 
     /**
@@ -49,6 +45,8 @@ class AuthorizeAuthDataBuilder extends AuthDataBuilder
     protected $serializer;
 
     /**
+     * Constructor
+     *
      * @param CheckoutSession $checkoutSession
      * @param Config $config
      * @param ResourceInterface $moduleResource

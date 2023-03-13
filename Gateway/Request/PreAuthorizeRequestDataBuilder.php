@@ -16,7 +16,6 @@ use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class PreAuthorizeRequestDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request
  */
 class PreAuthorizeRequestDataBuilder extends BaseRequestDataBuilder
 {
@@ -28,6 +27,8 @@ class PreAuthorizeRequestDataBuilder extends BaseRequestDataBuilder
     protected $checkoutSession;
 
     /**
+     * Constructor
+     *
      * @param CheckoutSession $checkoutSession
      * @param Config $config
      * @param ResourceInterface $moduleResource

@@ -13,7 +13,6 @@ use Magento\Quote\Api\Data\PaymentInterface;
 
 /**
  * Class DataAssignObserver
- * @package TotalProcessing\Opp\Observer
  */
 class DataAssignObserver extends AbstractDataAssignObserver
 {

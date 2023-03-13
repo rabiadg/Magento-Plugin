@@ -11,8 +11,8 @@ use Magento\Payment\Block\Form\Cc;
 
 /**
  * Class Form
- * @package TotalProcessing\Opp\Block\ApplePay
  */
 class Form extends Cc
 {
+
 }

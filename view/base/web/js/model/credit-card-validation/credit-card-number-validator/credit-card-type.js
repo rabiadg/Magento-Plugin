@@ -22,6 +22,17 @@ define([
                 size: 3
             }
         },
+        // {
+        //     title: 'Visa Debit',
+        //     type: 'VISADEBIT',
+        //     pattern: '^4\\d*$',
+        //     gaps: [4, 8, 12],
+        //     lengths: [16],
+        //     code: {
+        //         name: 'CVV',
+        //         size: 3
+        //     }
+        // },
         {
             title: 'MasterCard',
             type: 'MASTER',
@@ -33,6 +44,17 @@ define([
                 size: 3
             }
         },
+        // {
+        //     title: 'MasterCard Debit',
+        //     type: 'MASTERDEBIT',
+        //     pattern: '^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$',
+        //     gaps: [4, 8, 12],
+        //     lengths: [16],
+        //     code: {
+        //         name: 'CVC',
+        //         size: 3
+        //     }
+        // },
         {
             title: 'American Express',
             type: 'AMEX',

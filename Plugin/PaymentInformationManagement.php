@@ -10,6 +10,8 @@ namespace TotalProcessing\Opp\Plugin;
 use Closure;
 use Magento\Checkout\Model\PaymentInformationManagement as CheckoutPaymentInformationManagement;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Quote\Api\CartManagementInterface;
 use Magento\Quote\Api\Data\AddressInterface;
 use Magento\Quote\Api\Data\PaymentInterface;
@@ -18,7 +20,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Class PaymentInformationManagement
  *
- * @package TotalProcessing\Opp\Plugin
+ * @TODO Change CommandException message with common message
  */
 class PaymentInformationManagement
 {
@@ -33,6 +35,8 @@ class PaymentInformationManagement
     private $logger;
 
     /**
+     * Constructor
+     *
      * @param CartManagementInterface $cartManagement
      * @param LoggerInterface $logger
      */
@@ -65,11 +69,19 @@ class PaymentInformationManagement
 
         try {
             $this->logger->debug("Place Order", ["cartId" => $cartId]);
+
             $orderId = $this->cartManagement->placeOrder($cartId);
+
             $this->logger->debug("orderId", ["orderId" => $orderId]);
-        } catch (CouldNotSaveException $e) {
+        } catch (CommandException $e) {
             $this->logger->critical($e->getMessage(), ["cartId" => $cartId]);
             throw new CouldNotSaveException(__($e->getMessage()), $e);
+//            throw new CouldNotSaveException(
+//                __('An error occurred on the server. Please try to place the order again.')
+//            );
+        } catch (LocalizedException $e) {
+            $this->logger->critical($e->getMessage(), ["cartId" => $cartId]);
+            throw new CouldNotSaveException(__($e->getMessage()));
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage(), ["cartId" => $cartId]);
             throw new CouldNotSaveException(

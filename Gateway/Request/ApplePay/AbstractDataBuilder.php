@@ -11,10 +11,6 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 use TotalProcessing\Opp\Gateway\Config\ApplePay\Config;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
-/**
- * Class AbstractDataBuilder
- * @package TotalProcessing\Opp\Gateway\Request\ApplePay
- */
 abstract class AbstractDataBuilder implements BuilderInterface
 {
     /**
@@ -28,6 +24,8 @@ abstract class AbstractDataBuilder implements BuilderInterface
     protected $subjectReader;
 
     /**
+     * Constructor
+     *
      * @param Config $config
      * @param SubjectReader $subjectReader
      */

@@ -12,9 +12,9 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 use Psr\Log\LoggerInterface;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
+
 /**
  * Class PreAuthorizeHandler
- * @package TotalProcessing\Opp\Gateway\Response
  */
 class PreAuthorizeHandler implements HandlerInterface
 {
@@ -40,6 +40,8 @@ class PreAuthorizeHandler implements HandlerInterface
     protected $logger;
 
     /**
+     * Constructor
+     *
      * @param SubjectReader $subjectReader
      * @param CheckoutSession $checkoutSession
      * @param LoggerInterface $logger
@@ -60,9 +62,6 @@ class PreAuthorizeHandler implements HandlerInterface
     public function handle(array $handlingSubject, array $response)
     {
         $checkoutId = $this->subjectReader->readResponse($response, self::CHECKOUT_ID);
-        if (!$checkoutId) {
-            throw new \InvalidArgumentException('Checkout can\'t be initialized.');
-        }
-        $this->checkoutSession->setCheckoutId($checkoutId);
+        $this->checkoutSession->setCheckoutId($checkoutId ?? '');
     }
 }

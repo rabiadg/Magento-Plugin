@@ -15,15 +15,12 @@ use Magento\Payment\Gateway\Command\CommandManagerInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
 use Magento\Payment\Model\MethodInterface;
 use Psr\Log\LoggerInterface;
-use TotalProcessing\Opp\Gateway\Response\TransactionCheckHandler;
-use TotalProcessing\Opp\Gateway\Response\TransactionIdHandler;
 use TotalProcessing\Opp\Gateway\SubjectReader;
 
 /**
  * Class CaptureCommand
- * @TODO Change CommandException message with common message
  *
- * @package TotalProcessing\Opp\Plugin
+ * @TODO Change CommandException message with common message
  */
 class CaptureCommand
 {
@@ -43,45 +40,33 @@ class CaptureCommand
     private $subjectReader;
 
     /**
-     * @var TransactionIdHandler
-     */
-    private $transactionHandler;
-
-    /**
      * CaptureCommand constructor.
      *
      * @param CommandManagerInterface $commandManager
      * @param LoggerInterface $logger
      * @param SubjectReader $subjectReader
-     * @param TransactionIdHandler $transactionHandler
      */
     public function __construct(
         CommandManagerInterface $commandManager,
         LoggerInterface $logger,
-        SubjectReader $subjectReader,
-        TransactionIdHandler $transactionHandler
+        SubjectReader $subjectReader
     ) {
         $this->commandManager = $commandManager;
         $this->logger = $logger;
         $this->subjectReader = $subjectReader;
-        $this->transactionHandler = $transactionHandler;
     }
 
     /**
      * @param \TotalProcessing\Opp\Gateway\Command\CaptureCommand $subject
      * @param array $commandSubject
-     * @param \Closure $proceed
      * @return array[]
      * @throws CouldNotSaveException
      */
-    public function aroundExecute(
+    public function beforeExecute(
         \TotalProcessing\Opp\Gateway\Command\CaptureCommand $subject,
-        \Closure $proceed,
         array $commandSubject
     ) {
-        $this->logger->debug("Around execute capture start", $commandSubject);
-
-        $result = null;
+        $this->logger->debug("Before execute capture start", $commandSubject);
 
         try {
             $paymentDataObject = $this->subjectReader->readPayment($commandSubject);
@@ -99,10 +84,6 @@ class CaptureCommand
 
                 $command->execute($commandSubject);
             }
-
-            if (!$this->isPaid($commandSubject)) {
-                $result = $proceed($commandSubject);
-            }
         } catch (LocalizedException $e) {
             $this->logger->critical($e->getMessage());
             throw new CouldNotSaveException(__($e->getMessage()));
@@ -114,34 +95,8 @@ class CaptureCommand
             );
         }
 
-        $this->logger->debug("Around execute capture end");
+        $this->logger->debug("Before execute capture end");
 
-        return $result;
-    }
-
-    /**
-     * Returns if order payment already captured
-     *
-     * @param array $commandSubject
-     * @return bool
-     * @throws \Throwable
-     */
-    private function isPaid(array $commandSubject): bool
-    {
-        try {
-            $paymentDataObject = $this->subjectReader->readPayment($commandSubject);
-            $payment = $paymentDataObject->getPayment();
-
-            $captureData = $payment->getAdditionalInformation(TransactionCheckHandler::IS_CAPTURED);
-
-            if ($captureData) {
-                $this->transactionHandler->handle($commandSubject, $captureData);
-                return true;
-            }
-        } catch (\Throwable $t) {
-            throw $t;
-        }
-
-        return false;
+        return [$commandSubject];
     }
 }

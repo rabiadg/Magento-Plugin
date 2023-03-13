@@ -18,21 +18,21 @@
             $
         ) {
             $(document).ready(function () {
-                $("input[id$='_<?= $block->getMerchantIdentifierId(); ?>']").attr('readonly', true);
+                $("input[id$='_<?php echo $block->getMerchantIdentifierId();?>']").attr('readonly', true);
             });
 
-            $("#<?= $block->getButtonId(); ?>").click(function (e) {
+            $("#<?php echo $block->getButtonId();?>").click(function (e) {
                 e.preventDefault();
 
                 $('body').trigger('processStart');
 
-                let env = $("select[id$='<?= $block->getEnvironmentId(); ?>']").val(),
-                    registerUrl = $("input[id$='" + env + "_" + env + "_<?= $block->getRegisterUrlId(); ?>']").val(),
-                    entityId = $("input[id$='" + env + "_" + env + "_<?= $block->getEntityId(); ?>']").val(),
-                    accessToken = $("input[id$='" + env + "_" + env + "_<?= $block->getAccessTokenId(); ?>']").val(),
-                    domainNames = $("input[id$='" + env + "_" + env + "_<?= $block->getDomainNamesId(); ?>']").val(),
-                    displayName = $("input[id$='" + env + "_" + env + "_<?= $block->getDisplayNamesId(); ?>']").val(),
-                    merchantIdentifier = $("input[id$='" + env + "_" + env + "_<?= $block->getMerchantIdentifierId(); ?>']");
+                let env = $("select[id$='<?php echo $block->getEnvironmentId();?>']").val(),
+                    registerUrl = $("input[id$='" + env + "_" + env + "_<?php echo $block->getRegisterUrlId();?>']").val(),
+                    entityId = $("input[id$='" + env + "_" + env + "_<?php echo $block->getEntityId();?>']").val(),
+                    accessToken = $("input[id$='" + env + "_" + env + "_<?php echo $block->getAccessTokenId();?>']").val(),
+                    domainNames = $("input[id$='" + env + "_" + env + "_<?php echo $block->getDomainNamesId();?>']").val(),
+                    displayName = $("input[id$='" + env + "_" + env + "_<?php echo $block->getDisplayNamesId();?>']").val(),
+                    merchantIdentifier = $("input[id$='" + env + "_" + env + "_<?php echo $block->getMerchantIdentifierId();?>']");
 
 
                 let data = {
@@ -50,36 +50,28 @@
                 let html = merchantIdentifier.parent().html();
 
                 $.ajax({
-                    url: "<?= $block->getAjaxUrl(); ?>",
+                    url: "<?php echo $block->getAjaxUrl();?>",
                     method: "POST",
                     data: data,
                     dataType: "json",
-
-                    /** @inheritdoc */
                     success: function (result) {
                         if (result.status) {
                             merchantIdentifier.val(result.merchantIdentifier);
                         } else {
                             html += '<label for="' + merchantIdentifier.attr('id') +'" generated="true" ' +
                                 'class="mage-error" id="' + merchantIdentifier.attr('id') + '-error" style="display: ' +
-                                'block;"><?= /* @noEscape */ __("Merchant registration error"); ?></label>';
+                                'block;"><?php echo __("Merchant registration error");?></label>';
                             merchantIdentifier.parent().html(html);
                         }
+
                         $('body').trigger('processStop');
                     },
-
-                    /** @inheritdoc */
                     error: function (jqXHR) {
                         html += '<label for="' + merchantIdentifier.attr('id') +'" generated="true" ' +
                             'class="mage-error" id="' + merchantIdentifier.attr('id') + '-error" style="display: ' +
-                            'block;"><?= /* @noEscape */ __("Merchant registration error");?></label>';
+                            'block;"><?php echo __("Merchant registration error");?></label>';
                         merchantIdentifier.parent().html(html);
 
-                        $('body').trigger('processStop');
-                    },
-
-                    /** @inheritdoc */
-                    complete: function () {
                         $('body').trigger('processStop');
                     }
                 });
@@ -87,4 +79,7 @@
         }
     );
 </script>
-<?= /* @noEscape */ $block->getButtonHtml(); ?>
+
+<?php
+echo $block->getButtonHtml();
+?>
